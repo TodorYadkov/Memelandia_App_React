@@ -8,6 +8,7 @@ const {
     getThreeTopRatedMemes,
     getMemeBySearch,
     getMemeById,
+    getMemeByIdWithIncrementView,
     addMeme,
     updateMeme,
     deleteMeme,
@@ -32,7 +33,7 @@ router.get('/', async (req, res, next) => {
             getAllMemes(page, limit),
         ]);
 
-        const totalPages = Mth.ceil(countMemesDocuments / limit); // Calculate total number of pages
+        const totalPages = Math.ceil(countMemesDocuments / limit); // Calculate total number of pages
         const payload = { allMemes, page, totalPages }; // On front-end receive object with array of memes, current page, and total pages with data
 
         res.status(200).json(payload);
@@ -42,7 +43,7 @@ router.get('/', async (req, res, next) => {
 });
 
 // Get three top rated memes - Not logged
-router.get('/last-three-added', async (req, res, next) => {
+router.get('/three-top-rated', async (req, res, next) => {
     try {
 
         const threeTopRatedMemes = await getThreeTopRatedMemes();
@@ -57,11 +58,13 @@ router.get('/last-three-added', async (req, res, next) => {
 router.get('/search', async (req, res, next) => {
     try {
         // Search by name and category
+        const { name, category } = req.query;
         // Get pagination options
-        const { name, category, page, limit } = req.query;
+        const page = parseInt(req.query.page) || 1;    // Get current page
+        const limit = parseInt(req.query.limit) || 20; // Number of memes per page
         const foundMemes = await getMemeBySearch(name, category, page, limit); // foundMemes is object with array of found memes and total count of found document (total pages)
 
-        const totalPages = Mth.ceil(foundMemes.totalDocuments / limit); // Calculate total number of pages
+        const totalPages = Math.ceil(foundMemes.totalDocuments / limit); // Calculate total number of pages
         const payload = { foundMemes: foundMemes.foundMemes, page, totalPages }; // On front-end receive object with array of searched memes, current page, and total pages with data
 
         res.status(200).json(payload);
@@ -71,11 +74,11 @@ router.get('/search', async (req, res, next) => {
 });
 
 // Get meme by ID - Not logged
-router.get('/:memeId', async (req, res, next) => {
+router.get('/get-one/:memeId', async (req, res, next) => {
     try {
 
         const memeId = req.params.memeId;
-        const meme = await getMemeById(memeId);
+        const meme = await getMemeByIdWithIncrementView(memeId);
 
         res.status(200).json(meme);
     } catch (error) {
@@ -86,7 +89,6 @@ router.get('/:memeId', async (req, res, next) => {
 // Create meme - Logged
 router.post('/create', isAuth, async (req, res, next) => {
     try {
-
         const memeData = req.body;
         // Validate user input
         await validateMemeSchema.validateAsync(memeData);
@@ -108,7 +110,7 @@ router.put('/edit/:memeId', isAuth, preload(getMemeById), isOwner, async (req, r
         // Validate user input
         await validateMemeSchema.validateAsync(memeData);
 
-        const memeId = req.user._id;
+        const memeId = req.params.memeId;
         const updatedMeme = await updateMeme(memeId, memeData);
 
         res.status(200).json(updatedMeme);
@@ -121,7 +123,7 @@ router.put('/edit/:memeId', isAuth, preload(getMemeById), isOwner, async (req, r
 router.delete('/delete/:memeId', isAuth, preload(getMemeById), isOwner, async (req, res, next) => {
     try {
 
-        const memeId = req.user._id;
+        const memeId = req.params.memeId;
         const deletedMeme = await deleteMeme(memeId);
 
         res.status(200).json({ message: 'Meme is successfully deleted.', deletedMeme });
@@ -135,6 +137,7 @@ router.get('/like/:memeId', isAuth, preload(getMemeById), isNotOwner, async (req
     try {
 
         const userId = req.user._id;
+        const memeId = req.params.memeId;
         const result = await addRemoveLike(memeId, userId); // Return an object with the current meme and a message which action is enabled
 
         res.status(200).json(result);
@@ -148,6 +151,7 @@ router.get('/dislike/:memeId', isAuth, preload(getMemeById), isNotOwner, async (
     try {
 
         const userId = req.user._id;
+        const memeId = req.params.memeId;
         const result = await addRemoveDislike(memeId, userId); // Return an object with the current meme and a message which action is enabled
 
         res.status(200).json(result);
@@ -170,7 +174,7 @@ router.get('/comments/:memeId', isAuth, async (req, res, next) => {
 });
 
 // Get comment by Id - Logged and Owner
-router.get('/comments/:commentId', isAuth, preload(getCommentById, 'commentId'), isOwner, async (req, res, next) => {
+router.get('/comments/get-one/:commentId', isAuth, preload(getCommentById, 'commentId'), isOwner, async (req, res, next) => {
     try {
 
         const commentId = req.params.commentId;
@@ -211,7 +215,7 @@ router.put('/comments/edit/:commentId', isAuth, preload(getCommentById, 'comment
         const commentId = req.params.commentId;
         const updatedComment = await updateComment(commentData, commentId);
 
-        res.status(200).json(updateComment);
+        res.status(200).json(updatedComment);
     } catch (error) {
         next(error)
     }
