@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 
+const { category } = require('../environments/constants');
+
 const memeSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -10,18 +12,13 @@ const memeSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: [true, 'Image is required'],
-        match: [/^https?:\/\/[^ ]+$/gi, 'Image URL must start with http:// or https://'],
+        match: [/^https?:\/\/[^ ]+$/, 'Image URL must start with http:// or https://'],
     },
     category: {
         type: String,
         required: [true, 'Category is required.'],
         enum: {
-            values: ['Funny', 'Sports', 'Politics', 'Science',
-                'Technology', 'Food', 'Travel', 'Music', 'Movies',
-                'Gaming', 'Literature', 'Nature', 'Art', 'History',
-                'Fashion', 'Fitness', 'Animals', 'Celebrities',
-                'Hobbies', 'Educational', 'Inspirational',
-                'Relationships', 'Humor', 'Other'],
+            values: [...category],
             message: '{VALUE} is not supported'
         }
     },
@@ -37,6 +34,19 @@ const memeSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: [true, 'Meme author is required.']
+    },
+    likes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    dislikes: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    rating: {
+        type: Number,
+        required: [true, 'Rating is required.'],
+        default: 0,
     }
 },
     // Enable the timestamps option createdAt, updatedAt
