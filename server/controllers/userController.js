@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const { userRegister, userLogin, userLogout, getUserById, updateUserById } = require('../services/userService');
 const { onlyForGuest, isAuth } = require('../middlewares/guards');
-const { validateRegistrationSchema, validateLoginSchema, validateUpdateUserSchema } = require('../util/validationSchemes');
+const { validateUserRegistrationSchema, validateUserLoginSchema, validateUserUpdateUserSchema } = require('../util/validationSchemes');
 
 // User register - Not logged in
 router.post('/register', onlyForGuest, async (req, res, next) => {
     try {
         // Validate user input
-        await validateRegistrationSchema.validateAsync(req.body);
+        await validateUserRegistrationSchema.validateAsync(req.body);
 
         const userData = req.body;
         const userInfo = await userRegister(userData);
@@ -22,7 +22,7 @@ router.post('/register', onlyForGuest, async (req, res, next) => {
 router.post('/login', onlyForGuest, async (req, res, next) => {
     try {
         // Validate user input
-        await validateLoginSchema.validateAsync(req.body);
+        await validateUserLoginSchema.validateAsync(req.body);
 
         const userData = req.body;
         const userInfo = await userLogin(userData);
@@ -62,7 +62,7 @@ router.put('/profile/edit/:userId', isAuth, async (req, res, next) => {
     try {
 
         // Validate user input
-        await validateUpdateUserSchema.validateAsync(req.body);
+        await validateUserUpdateUserSchema.validateAsync(req.body);
 
         const userData = req.body;
         const userId = req.params.userId;
