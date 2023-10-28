@@ -41,6 +41,7 @@ async function userRegister(userData) {
             email: user.email,
             name: user.name,
             age: user.age,
+            rating: user.rating,
             createdUser: user.createdAt,
             updatedUser: user.updatedAt
         }
@@ -74,6 +75,7 @@ async function userLogin(userData) {
             email: user.email,
             name: user.name,
             age: user.age,
+            rating: user.rating,
             createdUser: user.createdAt,
             updatedUser: user.updatedAt
         }
