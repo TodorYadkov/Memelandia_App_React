@@ -12,7 +12,7 @@ const memeSchema = new mongoose.Schema({
     imageUrl: {
         type: String,
         required: [true, 'Image is required'],
-        match: [/^https?:\/\/[^ ]+$/, 'Image URL must start with http:// or https://'],
+        match: [/^https?:\/\/.+/, 'Image URL must start with http:// or https://'],
     },
     category: {
         type: String,
