@@ -1,12 +1,14 @@
 const displayReq = require('../middlewares/displayReq');
 const userController = require('../controllers/userController');
+const memeController = require('../controllers/memeController');
 
 module.exports = (app) => {
     // Display each request
     app.use(displayReq());
 
     // Main routes
-    app.use('/users/', userController)
+    app.use('/memes/', memeController);
+    app.use('/users/', userController);
 
     // Use 404 no content
     app.all('*', (req, res, next) => {
