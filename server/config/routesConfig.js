@@ -7,8 +7,8 @@ module.exports = (app) => {
     app.use(displayReq());
 
     // Main routes
-    app.use('/memes/', memeController);
-    app.use('/users/', userController);
+    app.use('/memes', memeController);
+    app.use('/users', userController);
 
     // Use 404 no content
     app.all('*', (req, res, next) => {
