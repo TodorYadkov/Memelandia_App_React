@@ -17,9 +17,9 @@ module.exports = (err, req, res, next) => {
 
         } else {
             // Other Mongoose errors
-            return res.status(500).json({ message: 'Internal server error', error: err, statusCode: 500 });
+            return res.status(400).json({ message: 'Mongoose error: ' + err.message, statusCode: 400 });
         }
-
+        
     } else if (err.isJoi) {
         // Joi library validation error
         return res.status(statusCode).json({ message: err.details.map(error => error.message).join(', '), statusCode });
@@ -35,5 +35,5 @@ module.exports = (err, req, res, next) => {
 
 
     // General Express errors
-    return res.status(500).json({ message: 'Internal server error', error: err, statusCode: 500 });
+    res.status(500).json({ message: 'Internal server error', error: err, statusCode: 500 });
 };
