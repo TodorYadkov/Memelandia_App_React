@@ -1,20 +1,22 @@
 const joi = require('joi');
-// Registration
-const registrationSchema = joi.object({
-    username: joi.string().min(2).max(15).required().trim().messages({
+const { category } = require('../environments/constants');
+
+// Validate input on register
+const validateRegistrationSchema = joi.object({
+    username: joi.string().trim().min(2).max(15).required().messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
         'string.max': 'Username must not exceed fifteen characters',
         'any.required': 'Username is required',
     }),
 
-    email: joi.string().email().required().lowercase().trim().messages({
+    email: joi.string().trim().email().required().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
         'any.required': 'Email is required',
     }),
 
-    name: joi.string().min(2).max(30).required().trim().messages({
+    name: joi.string().trim().min(2).max(30).required().messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
         'string.max': 'Name must not exceed thirty characters',
@@ -29,46 +31,46 @@ const registrationSchema = joi.object({
         'any.required': 'Age is required',
     }),
 
-    password: joi.string().required().messages({
+    password: joi.string().trim().required().messages({
         'string.base': 'Password must be a string',
         'any.required': 'Password is required',
     })
 });
 
-// Login
-const loginSchema = joi.object({
-    username: joi.string().max(15).trim().messages({
+// Validate input on login
+const validateLoginSchema = joi.object({
+    username: joi.string().trim().max(15).messages({
         'string.base': 'Username must be a string',
         'string.max': 'Username must not exceed fifteen characters',
     }),
 
-    email: joi.string().email().lowercase().trim().messages({
+    email: joi.string().trim().email().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
     }),
 
-    password: joi.string().required().messages({
+    password: joi.string().trim().required().messages({
         'string.base': 'Password must be a string',
         'any.required': 'Password is required',
     })
 });
 
-// Edit user details
-const updateUserSchema = joi.object({
-    username: joi.string().min(2).max(15).required().trim().messages({
+// Validate input on edit user details
+const validateUpdateUserSchema = joi.object({
+    username: joi.string().trim().min(2).max(15).required().messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
         'string.max': 'Username must not exceed fifteen characters',
         'any.required': 'Username is required',
     }),
 
-    email: joi.string().email().required().lowercase().trim().messages({
+    email: joi.string().trim().email().required().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
         'any.required': 'Email is required',
     }),
 
-    name: joi.string().min(2).max(30).required().trim().messages({
+    name: joi.string().trim().min(2).max(30).required().messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
         'string.max': 'Name must not exceed thirty characters',
@@ -83,9 +85,45 @@ const updateUserSchema = joi.object({
         'any.required': 'Age is required',
     }),
 
-    password: joi.string().messages({
+    password: joi.string().trim().messages({
         'string.base': 'Password must be a string',
     })
 });
 
-module.exports = { registrationSchema, loginSchema, updateUserSchema };
+// Validate input on create, update meme
+const validateCreateSchema = joi.object({
+    name: joi.string().trim().min(2).max(30).required().messages({
+        'string.base': 'Name must be a string',
+        'string.min': 'Name must be at least two characters long',
+        'string.max': 'Name must not exceed fifty characters',
+        'any.required': 'Name is required'
+    }),
+
+    imageUrl: joi.string().trim().regex(/^https?:\/\/[^ ]+$/).messages({
+        'string.base': 'Image URL must be a string',
+        'string.regex.base': 'Image URL must start with http:// or https://'
+    }),
+
+    category: joi.string().valid(...category).messages({
+        'string.base': 'Category must be a string',
+        'any.required': 'Category is required',
+        'any.only': '{#label} is not supported. Supported values are: ' + category.join(', ')
+    })
+
+});
+
+const validateCommentSchema = joi.object({
+    comment: joi.string().trim().required().max(300).messages({
+        'string.base': 'Comment must be a string',
+        'any.required': 'Comment is required',
+        'string.max': 'Comment must be be a maximum of three hundred characters long'
+    })
+});
+
+module.exports = {
+    validateRegistrationSchema,
+    validateLoginSchema,
+    validateUpdateUserSchema,
+    validateCreateSchema,
+    validateCommentSchema,
+};
