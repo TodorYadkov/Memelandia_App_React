@@ -5,16 +5,24 @@ const { Comment } = require("../models/Comment");
 const { ratingValue } = require("../environments/constants");
 
 // Meme
-const getAllMemes = (page, limit) => Meme.find({}).skip((page - 1) * limit).limit(limit).populate('author', 'username');
+const getAllMemes = (page = 1, limit = 20) => Meme.find({}).skip((page - 1) * limit).limit(limit).populate('author', 'username');
 
 const getThreeTopRatedMemes = () => Meme.find().sort({ rating: -1 }).limit(3).populate('author', 'username');
 
-const getMemeBySearch = (nameValue = '', categoryValue = '') => Meme.find(
-    {
+const getMemeBySearch = async (nameValue = '', categoryValue = '', page = 1, limit = 20) => {
+    // Create object with search criteria
+    const searchCriteria = {
         name: { $regex: new RegExp(nameValue, 'gi') },
         category: { $regex: new RegExp(categoryValue, 'gi') }
-    }
-).populate('author', 'username');
+    };
+    // Calculate skip step
+    const skipCount = (page - 1) * limit;
+    // Count the total number founded documents
+    const totalDocuments = await Meme.countDocuments(searchCriteria);
+    const foundMemes = await Meme.find(searchCriteria).skip(skipCount).limit(limit).populate('author', 'username');
+
+    return { foundMemes, totalDocuments };
+};
 
 const getMemeById = async (memeId) => {
     const currentMeme = await Meme.findById(memeId).populate('author', 'username');
@@ -36,12 +44,15 @@ const deleteMeme = async (memeId) => {
     return deletedMeme;
 };
 
+const getMemeCountDocuments = () => Meme.countDocuments();
+
 // Meme like, dislike
 const addRemoveLike = async (memeId, userId) => {
     // Get current meme to like
     const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
     // Get author of the current meme
     const memeAuthor = await User.findById(currentMeme.author._id);
+    const result = {};
 
     // Check if the author is already liked
     if (currentMeme.likes.includes(userId)) {
@@ -51,6 +62,8 @@ const addRemoveLike = async (memeId, userId) => {
         currentMeme.rating -= ratingValue.decrement;
         // Decrement rating values on author
         memeAuthor.rating -= ratingValue.decrement;
+        // Add message
+        result.message = 'Successfully removed like.'
 
     } else {
         // Add new user in likes array
@@ -59,12 +72,51 @@ const addRemoveLike = async (memeId, userId) => {
         currentMeme.rating += ratingValue.increment;
         // Increment rating values on author
         memeAuthor.rating += ratingValue.increment;
+        // Add message
+        result.message = 'Successfully added new like.'
     }
 
     // Save documents
     await Promise.all([currentMeme.save(), memeAuthor.save()]);
 
-    return currentMeme;
+    result.currentMeme = currentMeme;
+    return result;
+};
+
+const addRemoveDislike = async (memeId, userId) => {
+    // Get current meme to dislike
+    const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
+    // Get author of the current meme
+    const memeAuthor = await User.findById(currentMeme.author._id);
+    const result = {};
+
+    // Check if the author is already disliked
+    if (currentMeme.dislikes.includes(userId)) {
+        // Remove user from dislikes array
+        currentMeme.dislikes.splice(currentMeme.dislikes.indexOf(userId), 1);
+        // Increment rating values on meme
+        currentMeme.rating += ratingValue.decrement;
+        // Increment rating values on author
+        memeAuthor.rating += ratingValue.decrement;
+        // Add message
+        result.message = 'Successfully removed dislike.'
+
+    } else {
+        // Add new user in dislikes array
+        currentMeme.dislikes.push(userId);
+        // Decrement rating values on meme
+        currentMeme.rating -= ratingValue.decrement;
+        // Decrement rating values on author
+        memeAuthor.rating -= ratingValue.decrement;
+        // Add message
+        result.message = 'Successfully added new dislike.'
+    }
+
+    // Save documents
+    await Promise.all([currentMeme.save(), memeAuthor.save()]);
+
+    result.currentMeme = currentMeme;
+    return result;
 };
 
 // Meme comments
@@ -73,15 +125,16 @@ const addComment = (commentData, memeId, userId) => {
     return Comment.create({ comment, memeId, userId });
 };
 
-const getCommentById = (commentId) => Comment.findById(commentId).populate('userId', ['username', 'rating']);
-
 const getAllComments = (memeId) => Comment.find({ memeId }).populate('userId', ['username', 'rating']);
+
+const getCommentById = (commentId) => Comment.findById(commentId).populate('userId', ['username', 'rating']);
 
 const updateComment = (commentData, commentId) => {
     const { comment } = commentData;
     return Comment.findByIdAndUpdate(commentId, { comment }, { runValidators: true, new: true });
 };
 
+const deleteComment = (commentId) => Comment.findByIdAndDelete(commentId, { returnDocument: true });
 
 module.exports = {
     getAllMemes,
@@ -91,9 +144,12 @@ module.exports = {
     addMeme,
     updateMeme,
     deleteMeme,
+    getMemeCountDocuments,
     addRemoveLike,
+    addRemoveDislike,
     addComment,
-    getCommentById,
     getAllComments,
+    getCommentById,
     updateComment,
+    deleteComment,
 }
