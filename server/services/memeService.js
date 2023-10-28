@@ -24,7 +24,9 @@ const getMemeBySearch = async (nameValue = '', categoryValue = '', page = 1, lim
     return { foundMemes, totalDocuments };
 };
 
-const getMemeById = async (memeId) => {
+const getMemeById = async (memeId) => Meme.findById(memeId).populate('author', 'username'); // This is only used for server side checks
+
+const getMemeByIdWithIncrementView = async (memeId) => {
     const currentMeme = await Meme.findById(memeId).populate('author', 'username');
     // Increase views
     currentMeme.views += 1;
@@ -33,7 +35,7 @@ const getMemeById = async (memeId) => {
     return currentMeme;
 };
 
-const addMeme = (userId, memeData) => Meme.create({ ...memeData, author: userId }).populate('author', 'username');
+const addMeme = (userId, memeData) => Meme.create({ ...memeData, author: userId });
 
 const updateMeme = (memeId, memeData) => Meme.findByIdAndUpdate(memeId, memeData, { runValidators: true, new: true }).populate('author', 'username');
 
@@ -59,9 +61,9 @@ const addRemoveLike = async (memeId, userId) => {
         // Remove user from likes array
         currentMeme.likes.splice(currentMeme.likes.indexOf(userId), 1);
         // Decrement rating values on meme
-        currentMeme.rating -= ratingValue.decrement;
+        currentMeme.rating -= ratingValue.increment;
         // Decrement rating values on author
-        memeAuthor.rating -= ratingValue.decrement;
+        memeAuthor.rating -= ratingValue.increment;
         // Add message
         result.message = 'Successfully removed like.'
 
@@ -141,6 +143,7 @@ module.exports = {
     getThreeTopRatedMemes,
     getMemeBySearch,
     getMemeById,
+    getMemeByIdWithIncrementView,
     addMeme,
     updateMeme,
     deleteMeme,
