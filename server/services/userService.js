@@ -10,24 +10,18 @@ const ROUNDS_BCRYPT = Number(process.env.ROUNDS_BCRYPT);
 const JWT_SECRET = process.env.JWT_SECRET;
 
 async function userRegister(userData) {
-    const { username, email, name, age, password } = userData;
+
     // Check if the username or email is already taken
-    const isExisting = await User.findOne({ $or: [{ email }, { username }] });
+    const isExisting = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
     if (isExisting) {
         throw new Error('Username or email is already used!');
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(password, ROUNDS_BCRYPT);
+    const hashedPassword = await bcrypt.hash(userData.password, ROUNDS_BCRYPT);
 
-    // Create and save new user
-    const user = await User.create({
-        username,
-        email,
-        name,
-        age,
-        password: hashedPassword
-    });
+    // Create new user
+    const user = await User.create({ ...userData, password: hashedPassword });
 
     // Create token
     const userToken = await generateToken(user);
@@ -81,11 +75,70 @@ async function userLogin(userData) {
         }
     };
 }
+// TODO: This could be optimized with a return email confirmation service
+// This is for training purposes only, this check is not sufficient to accurately confirm a user's forgotten password
+// Forgotten password
+async function forgottenPassword(userData) {
 
+    // Check if the user exist
+    const user = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
+    if (!user) {
+        throw new Error('Invalid username or email!');
+    }
+
+    const result = { canChangePassword: true };
+    if (!userData?.password || userData?.password === 0) {
+        result.message = 'Please enter a new password.';
+        return result;
+    }
+
+    user.password = userData.password;
+    await user.save();
+
+    // Create token
+    const userToken = await generateToken(user);
+
+    // Return user info
+    return {
+        accessToken: userToken,
+        userDetails: {
+            _id: user._id,
+            username: user.username,
+            email: user.email,
+            name: user.name,
+            age: user.age,
+            rating: user.rating,
+            createdUser: user.createdAt,
+            updatedUser: user.updatedAt
+        }
+    };
+}
+
+async function userLogout(userToken) {
+    // Only add token in black list
+    tokenBlackList.add(userToken);
+}
+
+async function getUserById(userId) {
+    // Select all without password (-password)
+    return User.findById(userId).select('-password');
+}
+
+
+async function updateUserById(userData, userId) {
+    // Update user details and run validators
+    return User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true })
+}
+
+// JWT generate
 async function generateToken(user) {
     try {
         const token = await new Promise((resolve, reject) => {
-            jwt.sign({ username: user.username },
+            jwt.sign(
+                {
+                    _id: user._id,
+                    username: user.username,
+                },
                 JWT_SECRET,
                 { expiresIn: '1d' },
                 (err, signedToken) => {
@@ -104,21 +157,11 @@ async function generateToken(user) {
     }
 }
 
-async function userLogout(userToken) {
-    tokenBlackList.add(userToken);
-}
-
-const getUserById = (userId) => User.findById(userId).select('-password'); // Select all without password (-password)
-
-const updateUserById = (userData, userId) => {
-    const { username, email, name, age } = userData;
-    return User.findByIdAndUpdate(userId, { username, email, name, age }, { runValidators: true, new: true })
-}
-
 module.exports = {
     userRegister,
     userLogin,
     userLogout,
     getUserById,
     updateUserById,
+    forgottenPassword,
 };
