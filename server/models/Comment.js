@@ -16,7 +16,10 @@ const commentSchema = new mongoose.Schema({
         required: [true, 'Comment is required'],
         maxlength: [300, 'Comment must be be a maximum of three hundred characters long']
     }
-});
+},
+    // Enable the timestamps option createdAt, updatedAt
+    { timestamps: true }
+);
 
 const Comment = mongoose.model('Comment', commentSchema);
 
