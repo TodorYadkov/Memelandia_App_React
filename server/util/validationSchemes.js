@@ -98,9 +98,9 @@ const validateMemeSchema = joi.object({
         'any.required': 'Name is required'
     }),
 
-    imageUrl: joi.string().trim().regex(/^https?:\/\/[^ ]+$/).messages({
+    imageUrl: joi.string().trim().regex(/^https?:\/\/.+/).messages({
         'string.base': 'Image URL must be a string',
-        'string.regex.base': 'Image URL must start with http:// or https://'
+        'string.pattern.base': 'Image URL must start with http:// or https://',
     }),
 
     category: joi.string().valid(...category).messages({
