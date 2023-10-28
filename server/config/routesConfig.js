@@ -11,7 +11,7 @@ module.exports = (app) => {
     // Use 404 no content
     app.all('*', (req, res, next) => {
         try {
-            throw new Error(`No content - path ${req.path} of method ${req.method} not found`);
+            throw new Error(`No content - path ${req.path} is not found.`);
 
         } catch (error) {
 
