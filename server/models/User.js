@@ -36,6 +36,11 @@ const userSchema = new mongoose.Schema({
             message: 'Age must be between 16 and 120.'
         },
     },
+    rating: {
+        type: Number,
+        required: [true, 'Rating is required.'],
+        default: 0,
+    },
     password: {
         type: String,
         required: [true, 'Password is required'],
