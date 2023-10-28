@@ -2,7 +2,7 @@ const joi = require('joi');
 const { category } = require('../environments/constants');
 
 // Validate input on register
-const validateRegistrationSchema = joi.object({
+const validateUserRegistrationSchema = joi.object({
     username: joi.string().trim().min(2).max(15).required().messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
@@ -38,7 +38,7 @@ const validateRegistrationSchema = joi.object({
 });
 
 // Validate input on login
-const validateLoginSchema = joi.object({
+const validateUserLoginSchema = joi.object({
     username: joi.string().trim().max(15).messages({
         'string.base': 'Username must be a string',
         'string.max': 'Username must not exceed fifteen characters',
@@ -56,7 +56,7 @@ const validateLoginSchema = joi.object({
 });
 
 // Validate input on edit user details
-const validateUpdateUserSchema = joi.object({
+const validateUserUpdateUserSchema = joi.object({
     username: joi.string().trim().min(2).max(15).required().messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
@@ -91,7 +91,7 @@ const validateUpdateUserSchema = joi.object({
 });
 
 // Validate input on create, update meme
-const validateCreateSchema = joi.object({
+const validateMemeSchema = joi.object({
     name: joi.string().trim().min(2).max(30).required().messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
@@ -121,9 +121,9 @@ const validateCommentSchema = joi.object({
 });
 
 module.exports = {
-    validateRegistrationSchema,
-    validateLoginSchema,
-    validateUpdateUserSchema,
-    validateCreateSchema,
+    validateUserRegistrationSchema,
+    validateUserLoginSchema,
+    validateUserUpdateUserSchema,
+    validateMemeSchema,
     validateCommentSchema,
 };
