@@ -6,7 +6,7 @@ function isAuth(req, res, next) {
     }
 }
 
-function onlyForGuest(req, res, next) {
+function isGuest(req, res, next) {
     if (req.user) {
         return res.status(401).json({ message: 'Unauthorized', statusCode: 401 });
     } else {
@@ -25,8 +25,8 @@ function isOwner(req, res, next) {
         next();
 
     } else if (req.user._id == res.locals.preload?.userId?._id) {
-        // Check Comment Like, Dislike models
-        // Check if the current user is the owner of the current comment, like or dislike
+        // Check Comment Like
+        // Check if the current user is the owner of the current comment
         next();
 
     } else {
@@ -51,7 +51,7 @@ function isNotOwner(req, res, next) {
 
 module.exports = {
     isAuth,
-    onlyForGuest,
+    isGuest,
     isOwner,
     isNotOwner,
 };
