@@ -31,9 +31,10 @@ const validateUserRegistrationSchema = joi.object({
         'any.required': 'Age is required',
     }),
 
-    password: joi.string().trim().required().messages({
+    password: joi.string().trim().min(6).max(20).messages({
         'string.base': 'Password must be a string',
-        'any.required': 'Password is required',
+        'string.min': 'Password must be at least six characters long',
+        'string.max': 'Password must not exceed twenty characters',
     })
 });
 
@@ -57,36 +58,34 @@ const validateUserLoginSchema = joi.object({
 
 // Validate input on edit user details
 const validateUserUpdateUserSchema = joi.object({
-    username: joi.string().trim().min(2).max(15).required().messages({
+    username: joi.string().trim().min(2).max(15).messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
         'string.max': 'Username must not exceed fifteen characters',
-        'any.required': 'Username is required',
     }),
 
-    email: joi.string().trim().email().required().lowercase().messages({
+    email: joi.string().trim().email().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
-        'any.required': 'Email is required',
     }),
 
-    name: joi.string().trim().min(2).max(30).required().messages({
+    name: joi.string().trim().min(2).max(30).messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
         'string.max': 'Name must not exceed thirty characters',
-        'any.required': 'Name is required',
     }),
 
-    age: joi.number().integer().min(16).max(120).required().messages({
+    age: joi.number().integer().min(16).max(120).messages({
         'number.base': 'Age must be a number',
         'number.integer': 'Age must be an integer number',
         'number.min': 'Age must be at least 16 years old',
-        'number.max': 'Age must not exceed 120  years old',
-        'any.required': 'Age is required',
+        'number.max': 'Age must not exceed 120 years old',
     }),
 
-    password: joi.string().trim().messages({
+    password: joi.string().trim().min(6).max(20).messages({
         'string.base': 'Password must be a string',
+        'string.min': 'Password must be at least six characters long',
+        'string.max': 'Password must not exceed twenty characters',
     })
 });
 
