@@ -3,7 +3,9 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const { User } = require('../models/User.js');
+const { Meme } = require('../models/Meme.js');
 const { tokenBlackList } = require('../util/tokenBlackList.js');
+const { ratingValue } = require('../environments/constants.js');
 
 // Get environment variable
 const ROUNDS_BCRYPT = Number(process.env.ROUNDS_BCRYPT);
@@ -92,7 +94,9 @@ async function forgottenPassword(userData) {
         return result;
     }
 
-    user.password = userData.password;
+    // Hash password
+    const hashedPassword = await bcrypt.hash(userData.password, ROUNDS_BCRYPT);
+    user.password = hashedPassword;
     await user.save();
 
     // Create token
@@ -130,6 +134,43 @@ async function updateUserById(userData, userId) {
     return User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true })
 }
 
+const addRemoveFavorite = async (memeId, userId) => {
+    // Get current meme to add in favorite
+    const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
+    // Get author of the current meme
+    const memeAuthor = await User.findById(currentMeme.author._id);
+    // Get current user details
+    const currentUser = await User.findById(userId);
+    const result = {};
+
+    // Check if the meme is already added in favorite
+    if (currentUser.favorite.includes(memeId)) {
+        // Remove meme from favorite array
+        currentUser.favorite.splice(currentUser.favorite.indexOf(userId), 1);
+        // Decrement rating values on meme
+        currentMeme.rating -= ratingValue.increment;
+        // Decrement rating values on author
+        memeAuthor.rating -= ratingValue.increment;
+        // Add message
+        result.message = 'Successfully removed favorite meme.'
+
+    } else {
+        // Add new user in likes array
+        currentUser.favorite.push(memeId);
+        // Increment rating values on meme
+        currentMeme.rating += ratingValue.increment;
+        // Increment rating values on author
+        memeAuthor.rating += ratingValue.increment;
+        // Add message
+        result.message = 'Successfully added new favorite meme.'
+    }
+
+    // Save documents
+    await Promise.all([currentMeme.save(), memeAuthor.save(), currentUser.save()]);
+
+    return result;
+};
+
 // JWT generate
 async function generateToken(user) {
     try {
@@ -164,4 +205,5 @@ module.exports = {
     getUserById,
     updateUserById,
     forgottenPassword,
+    addRemoveFavorite,
 };
