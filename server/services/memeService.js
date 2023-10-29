@@ -56,7 +56,7 @@ const addRemoveLike = async (memeId, userId) => {
     const memeAuthor = await User.findById(currentMeme.author._id);
     const result = {};
 
-    // Check if the author is already liked
+    // Check if the user is already liked
     if (currentMeme.likes.includes(userId)) {
         // Remove user from likes array
         currentMeme.likes.splice(currentMeme.likes.indexOf(userId), 1);
@@ -92,7 +92,7 @@ const addRemoveDislike = async (memeId, userId) => {
     const memeAuthor = await User.findById(currentMeme.author._id);
     const result = {};
 
-    // Check if the author is already disliked
+    // Check if the user is already disliked
     if (currentMeme.dislikes.includes(userId)) {
         // Remove user from dislikes array
         currentMeme.dislikes.splice(currentMeme.dislikes.indexOf(userId), 1);
