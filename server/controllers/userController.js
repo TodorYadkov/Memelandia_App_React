@@ -1,7 +1,11 @@
 const router = require('express').Router();
-const { userRegister, userLogin, userLogout, getUserById, updateUserById, forgottenPassword } = require('../services/userService');
-const { isGuest, isAuth } = require('../middlewares/guards');
+
 const { validateUserRegistrationSchema, validateUserLoginSchema, validateUserUpdateUserSchema } = require('../util/validationSchemes');
+const { userRegister, userLogin, userLogout, getUserById, updateUserById, forgottenPassword, addRemoveFavorite } = require('../services/userService');
+const { getMemeById } = require('../services/memeService');
+
+const { isGuest, isAuth, isNotOwner } = require('../middlewares/guards');
+const { preload } = require('../middlewares/preload');
 
 // User register - Not logged in
 router.post('/register', isGuest, async (req, res, next) => {
@@ -87,6 +91,20 @@ router.put('/forgotten-password', isGuest, async (req, res, next) => {
         res.status(200).json(result);
     } catch (error) {
         next(error);
+    }
+});
+
+// Add - remove favorite meme from user - Logged and Not Owner
+router.get('/favorite/:memeId', isAuth, preload(getMemeById), isNotOwner, async (req, res, next) => {
+    try {
+
+        const userId = req.user._id;
+        const memeId = req.params.memeId;
+        const result = await addRemoveFavorite(memeId, userId); // Return an object with message which action is enabled
+
+        res.status(200).json(result);
+    } catch (error) {
+        next(error)
     }
 });
 
