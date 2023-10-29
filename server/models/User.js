@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
             message: 'Age must be between 16 and 120.'
         },
     },
+    favorite:  [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Meme'
+    }],
     rating: {
         type: Number,
         required: [true, 'Rating is required.'],
