@@ -23,10 +23,10 @@ const validateUserRegistrationSchema = joi.object({
         'any.required': 'Name is required',
     }),
 
-    age: joi.number().integer().min(16).max(120).required().messages({
+    age: joi.number().integer().min(12).max(120).required().messages({
         'number.base': 'Age must be a number',
         'number.integer': 'Age must be an integer number',
-        'number.min': 'Age must be at least 16 years old',
+        'number.min': 'Age must be at least 12 years old',
         'number.max': 'Age must not exceed 120  years old',
         'any.required': 'Age is required',
     }),
@@ -75,10 +75,10 @@ const validateUserUpdateUserSchema = joi.object({
         'string.max': 'Name must not exceed thirty characters',
     }),
 
-    age: joi.number().integer().min(16).max(120).messages({
+    age: joi.number().integer().min(12).max(120).messages({
         'number.base': 'Age must be a number',
         'number.integer': 'Age must be an integer number',
-        'number.min': 'Age must be at least 16 years old',
+        'number.min': 'Age must be at least 12 years old',
         'number.max': 'Age must not exceed 120 years old',
     }),
 

@@ -32,11 +32,11 @@ const userSchema = new mongoose.Schema({
             message: 'Age must be an integer number.',
         },
         validate: {
-            validator: (v) => v >= 16 && v <= 120,
-            message: 'Age must be between 16 and 120.'
+            validator: (v) => v >= 12 && v <= 120,
+            message: 'Age must be between 12 and 120.'
         },
     },
-    favorite:  [{
+    favorite: [{
         type: mongoose.Types.ObjectId,
         ref: 'Meme'
     }],
