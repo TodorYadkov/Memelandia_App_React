@@ -1,0 +1,18 @@
+:root {
+    --color-body: #cbc9c9df;
+    --color-hover: #a39e62;
+    --color-link: #afcbf6;
+    --color-gradient-header: linear-gradient(180deg, rgba(165, 206, 234, 1) 0%, rgba(183, 215, 235, 0.5998774509803921) 100%);
+    --color-header-footer: #000422df;
+    --color-text: #1a1d38;
+    --color-star: #ffd700;
+    --color-input-active: #edf2f3df;
+    --color-light-orange: #ffe4c4;
+    --color-light-gray: #dbdfe0df;
+    --color-sky-blue: #3498db;
+    --color-dark-purple: #450baa;
+    --color-white: #ffffff;
+    --color-pink: #e60d64;
+    --color-green: #008000;
+    --color-red: #ff0000;
+}
