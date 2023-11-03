@@ -1,0 +1,7 @@
+@import url('../styles/global/reset.css');
+@import url('../styles/global/typography.css');
+@import url('../styles/global/colors.css');
+@import url('../styles/global/buttons.css');
+@import url('../styles/global/modal.css');
+
+@import url('../styles/layout/general.css');
