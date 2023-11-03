@@ -1,0 +1,133 @@
+.login {
+    display: flex;
+    color: var(--color-text);
+    background-color: var(--color-light-gray);
+    box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
+    border-radius: 1em;
+    overflow: hidden;
+    border: 1px solid var(--color-sky-blue);
+}
+
+/* Left part */
+.login-left {
+    flex: 55%;
+    height: auto;
+    position: relative;
+}
+
+.login-left img {
+    width: 100%;
+    height: 100%;
+}
+
+/* If there is no image, it shows this */
+.login-left::after {
+    content: "";
+    display: block;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+}
+
+@media (max-width: 600px) {
+    .login-left {
+        display: none;
+    }
+
+    .login-right {
+        flex: 100%;
+    }
+}
+
+/* Right part */
+.login-right {
+    flex: 45%;
+    height: auto;
+    padding: 1.5em;
+}
+
+.login-right>h1 {
+    text-align: center;
+    font-weight: bold;
+    margin: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+    text-decoration-thickness: 2px;
+    text-decoration-style: wavy;
+}
+
+.form,
+.form-buttons,
+.control-username,
+.control-password {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+}
+
+.label {
+    visibility: hidden;
+}
+
+.input {
+    width: 80%;
+    margin: 0 auto;
+    border: unset;
+    border-bottom: 1px solid var(--color-sky-blue);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 4px 2px rgb(0, 0, 0, 0.3);
+    padding: 0.25em 0.5em;
+    background-color: var(--color-light-gray);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.input:focus {
+    background-color: var(--color-input-active);
+    box-shadow: inset 0 0 0 1px var(--color-sky-blue);
+}
+
+.input.valid,
+.input.valid:focus {
+    border: 2px solid var(--color-green);
+}
+
+.input.invalid,
+.input.invalid:focus {
+    border: 2px solid var(--color-red);
+}
+
+.input::placeholder {
+    color: var(--color-text);
+    font-size: 0.8em;
+}
+
+.form-buttons {
+    align-items: center;
+    display: flex;
+
+    margin-top: 2em;
+}
+
+.btn.btn-login {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-header-footer);
+    padding: 0.5em 2em;
+    border-radius: 0.5em;
+    transition: transform 0.3s ease-in-out;
+    margin-bottom: 1em;
+}
+
+.btn.btn-link {
+    color: var(--color-text);
+    font-size: 0.8em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn.btn-link:hover,
+.btn.btn-login:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}

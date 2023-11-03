@@ -1,0 +1,330 @@
+.profile,
+.profile-details,
+.profile-memes,
+.profile-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile {
+    gap: 4em;
+    color: var(--color-text);
+}
+
+.profile-details {
+    gap: 1em;
+    border: 1px solid var(--color-sky-blue);
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
+    background-color: var(--color-input-active);
+    transition: box-shadow 1s ease-in-out;
+}
+
+.profile-details:hover {
+    box-shadow: 0 4px 12px 4px rgb(52, 152, 219, 0.5);
+}
+
+.profile-heading,
+.profile-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 1em;
+    background-color: var(--color-sky-blue);
+}
+
+.profile-heading>h1 {
+    font-size: 2em;
+    margin: 0.25em;
+    text-align: center;
+    transition: color 1s;
+}
+
+.profile-heading>h1:hover {
+    color: var(--color-white);
+    cursor: default;
+}
+
+.profile-heading>h1 span,
+.profile-heading>h1 i {
+    transition: transform 0.6s ease-in-out, color 0.8s;
+}
+
+.profile-heading>h1 span:hover,
+.profile-heading>h1 i:hover {
+    transform: scale(1.3);
+    color: var(--color-hover);
+}
+
+.profile-header {
+    align-items: center;
+    padding-inline: 1em;
+}
+
+.profile-header p {
+    font-size: 1.75em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1.1;
+}
+
+.profile-name {
+    display: block;
+    transition: transform 0.6s ease-in-out, text-shadow 0.6s;
+}
+
+.profile-username,
+.profile-age {
+    display: block;
+    font-size: 0.8em;
+    font-weight: normal;
+    transition: transform 0.6s ease-in-out, text-shadow 0.6s;
+}
+
+.profile-age {
+    font-size: 0.5em;
+}
+
+.profile-name:hover,
+.profile-username:hover,
+.profile-age:hover {
+    transform: scale(1.1);
+    cursor: default;
+}
+
+.profile-name:hover {
+    text-shadow: 3px 3px 1px rgb(0, 0, 0, 0.3);
+}
+
+.profile-age:hover,
+.profile-username:hover {
+    text-shadow: 2px 2px 2px rgb(0, 0, 0, 0.3);
+}
+
+.profile-footer {
+    padding: 1em;
+    color: var(--color-light-gray);
+}
+
+.profile-stat {
+    padding: 1em;
+}
+
+/* Statistic */
+.profile-stat-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+    overflow: hidden;
+}
+
+.box {
+    position: relative;
+    flex: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em;
+    border-radius: 1em;
+    overflow: hidden;
+    transition: transform 1s ease-in-out;
+}
+
+.box:hover {
+    transform: scale(0.9);
+    cursor: default;
+}
+
+.box::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    right: -1px;
+    width: 20px;
+    height: 100%;
+    color: var(--color-sky-blue);
+    filter: blur(1px);
+    z-index: 1;
+}
+
+.box .shadow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: var(--color-sky-blue);
+}
+
+.box .shadow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(100% + 5px);
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(rgba(0, 0, 0, 0.075), transparent);
+    transform: skewX(45deg);
+}
+
+.box .shadow::after {
+    content: '';
+    position: absolute;
+    bottom: -200%;
+    left: calc(100% + 15px);
+    width: 100%;
+    height: 200%;
+    background: linear-gradient(rgba(0, 0, 0, 0.075), transparent);
+    transform: skewX(45deg);
+}
+
+.box .content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.box .content .percent {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+
+.box .content .percent::before {
+    content: attr(data-text);
+    position: absolute;
+    inset: 20px;
+    background: var(--color-text);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+    font-size: 1.25rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+}
+
+.box .content .percent svg {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    transform: rotate(270deg);
+}
+
+.box .content .percent svg circle {
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+    stroke-width: 3;
+    stroke: rgba(0, 0, 0, 0.05);
+    transform: translate(5px, 5px);
+}
+
+.box .content .percent svg circle:nth-child(2) {
+    stroke: var(--color-text);
+    stroke-dasharray: 440;
+    stroke-dashoffset: calc(440 - (440 * var(--num)) / 100);
+    opacity: 0;
+    animation: fadeIn 1s linear forwards;
+    animation-delay: 2.5s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.box .content .percent .dot {
+    position: absolute;
+    inset: 5px;
+    z-index: 10;
+    animation: animateDot 2s linear forwards;
+}
+
+@keyframes animateDot {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(calc(3.6deg * var(--num)));
+    }
+}
+
+.box .content .percent .dot::before {
+    content: '';
+    position: absolute;
+    top: -7px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 14px;
+    background: var(--color-text);
+    border-radius: 50%;
+}
+
+.box .content .number {
+    position: relative;
+    inset: 0;
+    opacity: 0;
+    animation: fadeIn 1s linear forwards;
+    animation-delay: 2.5s;
+}
+
+.box .content .number h2 {
+    font-size: 2.5rem;
+    color: var(--color-text);
+}
+
+.box .content .number h2 span {
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+/* End Statistic */
+.profile-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    padding: 2em 1em 1em 1em;
+}
+
+.btn.btn-favorite,
+.btn.btn-user {
+    font-size: 1.2em;
+    background-color: var(--color-sky-blue);
+    color: var(--color-text);
+    padding: 0.25em 0.5em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    transition: transform 0.8s ease-in-out, color 1s;
+}
+
+.btn.btn-favorite:hover,
+.btn.btn-user:hover {
+    transform: scale(1.2);
+    color: var(--color-white);
+}
+
+.profile-memes {
+    gap: 1em;
+}
+
+.profile-memes-heading {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 0.05em;
+    text-decoration-style: wavy;
+}

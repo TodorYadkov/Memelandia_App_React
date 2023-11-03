@@ -1,0 +1,58 @@
+import styles from './Header.module.css';
+import Navigation from './navigation/Navigation';
+
+export default function Header() {
+    return (
+        <header className={styles['site-header']}>
+
+            <div className={styles['wave']}>
+
+                <img className={styles['pirate-img']} src="/assets/pirate-ship.svg" alt="Header pirate ship" />
+
+                <div className={styles['emoji-wrapper']}>
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-wow.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>Wow</p>
+                    </div>
+
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-cool.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>Cool</p>
+                    </div>
+
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-wtf.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>WTF</p>
+                    </div>
+
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-love.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>Love</p>
+                    </div>
+
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-lol.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>Lol</p>
+                    </div>
+
+                    <div className={styles['emoji-group']}>
+                        <img className={styles['emoji']} src="/assets/emoji-omg.svg" alt="Emoji" />
+                        <p className={styles['emoji-text']}>OMG</p>
+                    </div>
+                </div>
+
+                <img className={styles['wave-img-pink']} src="/assets/header-wave-pink.svg" alt="Header wave pink" />
+                <img className={styles['wave-img']} src="/assets/header-wave-small.svg" alt="Header wave" />
+            </div>
+
+            <div className={styles['header-nav-background']}>
+                <div className={`${styles['header-nav-wrapper']} container`}>
+                    <h2 className={styles['site-logo']}><a href="#">Meme<span>Landia</span><span>world of memes</span></a></h2>
+
+                    <Navigation />
+
+                </div>
+            </div>
+        </header>
+    );
+}

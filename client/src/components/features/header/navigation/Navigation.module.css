@@ -1,0 +1,100 @@
+/* Hide the main navigation by default */
+.main-nav {
+    display: none;
+}
+
+.main-nav ul {
+    padding: 0;
+}
+
+.main-nav li {
+    display: block;
+}
+
+.main-nav a {
+    display: block;
+    text-decoration: none;
+    color: var(--color-white);
+    padding: 0.5em 1em;
+}
+
+.main-nav li,
+.main-nav li a {
+    transition: transform 0.3s ease-in;
+}
+
+.main-nav li:hover,
+.main-nav li a:hover {
+    color: var(--color-hover);
+    transform: scale(1.1);
+}
+
+/* Hide checkbox - used for toggling the navigation */
+.nav-toggle {
+    /* Remove checkbox */
+    appearance: none;
+    pointer-events: none;
+}
+
+/* For large screen */
+@media (min-width: 601px) {
+
+    .label {
+        display: none;
+    }
+
+    .main-nav {
+        display: block;
+    }
+
+    .main-nav ul {
+        display: flex;
+    }
+}
+
+/* For small screen */
+@media (max-width: 600px) {
+
+    .label {
+        color: var(--color-white);
+        font-size: 2.5em;
+    }
+
+    /* Hide close */
+    .label .nav-toggle-close {
+        display: none;
+    }
+
+    /* Position and style the navigation when the checkbox is checked */
+    .nav-toggle:checked+.main-nav {
+        display: block;
+        position: absolute;
+        top: 9.4em;
+        right: 0.25em;
+        background: var(--color-white);
+        padding: 1em;
+        box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.4);
+        border-radius: 0.3em;
+        z-index: 1000;
+    }
+
+    .nav-toggle:checked+.main-nav li+li {
+        margin-top: 0.5em;
+    }
+
+    /* Style the navigation links when the checkbox is checked */
+    .nav-toggle:checked+.main-nav a {
+        background: var(--color-sky-blue);
+        border-radius: 0.3em;
+    }
+
+    /* Show close */
+    .nav-toggle:checked+.main-nav+.label .nav-toggle-close {
+        display: inline;
+    }
+
+    /* Hide open */
+    .nav-toggle:checked+.main-nav+.label .nav-toggle-open {
+        display: none;
+    }
+}

@@ -1,0 +1,112 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.welcome {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 2em;
+}
+
+.welcome-text {
+    flex: 60%;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-text);
+    text-decoration: underline;
+}
+
+.welcome-text>span:first-child {
+    text-decoration: underline;
+    color: var(--color-sky-blue);
+}
+
+.welcome-text>span:last-child {
+    text-decoration: underline;
+    font-weight: 400;
+    color: var(--color-pink);
+}
+
+.welcome-text,
+.welcome-text>span:first-child,
+.welcome-text>span:last-child {
+    text-underline-offset: 0.15em;
+    text-decoration-thickness: 2px;
+}
+
+.welcome-image-default,
+.welcome-image-on-hover {
+    flex: 40%;
+}
+
+.welcome-image-on-hover {
+    display: none;
+}
+
+.welcome-img-wrapper:hover .welcome-image-default {
+    display: none;
+}
+
+.welcome-img-wrapper:hover .welcome-image-on-hover {
+    display: block;
+}
+
+.top-rated-memes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.jokes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    color: var(--color-text);
+    background-color: var(--color-light-gray);
+    border: 2px solid var(--color-sky-blue);
+    box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
+    overflow: hidden;
+    border-radius: 1em;
+}
+
+.jokes-wrapper-heading {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    background-color: var(--color-sky-blue);
+}
+
+.jokes-wrapper-heading h3 {
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 0.1em;
+}
+
+.jokes-wrapper-heading img {
+    width: 5%;
+    height: auto;
+    transition: transform 0.3s ease-in-out;
+}
+
+.jokes-wrapper-heading img:hover {
+    transform: scale(1.2);
+}
+
+.jokes-wrapper-text {
+    padding: 1em 2em;
+    font-size: 1.2em;
+}
+
+.jokes-text>sup {
+    margin-right: 0.25em;
+}
+
+.jokes>p {
+    align-self: flex-end;
+    margin-right: 1em;
+}

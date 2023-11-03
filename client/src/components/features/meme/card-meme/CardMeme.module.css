@@ -1,0 +1,69 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--color-text);
+    overflow: hidden;
+    border-radius: 1em;
+    box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
+    margin-bottom: 2em;
+}
+
+.card a {
+    color: var(--color-text);
+    text-decoration: none;
+}
+
+.card a:hover {
+    color: var(--color-hover);
+}
+
+.card-header {
+    background: var(--color-sky-blue);
+    padding: 0.25em 1em 0.25em 1em;
+}
+
+.card-header>h4 {
+    margin: 0;
+}
+
+.card-header>h4>a {
+    font-weight: bold;
+}
+
+.card-meme-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-img-wrapper {
+    max-width: 100%;
+    height: 70vh;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background: var(--color-sky-blue);
+    padding: 0.25em 1em 0.25em 1em;
+}
+
+.like>i {
+    color: var(--color-light-orange);
+}
+
+.dislike>i {
+    color: var(--color-dark-purple);
+}
+
+.favorite>i {
+    color: var(--color-pink);
+}

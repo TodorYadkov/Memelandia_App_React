@@ -1,0 +1,131 @@
+.wave {
+    background: var(--color-gradient-header);
+    max-width: 100%;
+    height: auto;
+}
+
+.wave {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+}
+
+.wave img {
+    width: 100%;
+    height: 100%;
+}
+
+.wave .pirate-img {
+    position: absolute;
+    top: 5%;
+    left: -20%;
+    width: 60%;
+    height: 80%;
+}
+
+.wave .wave-img-pink {
+    position: absolute;
+    bottom: -20%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.emoji-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    position: absolute;
+    width: 30%;
+    bottom: 0%;
+    left: 45%;
+    transform: translate(-45%);
+    z-index: 1;
+}
+
+.emoji-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.emoji-group .emoji {
+    width: 50%;
+    height: 50%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.emoji-group .emoji:hover {
+    transform: scale(1.2);
+}
+
+.emoji-group .emoji-text {
+    font-size: 0.8em;
+    color: var(--color-white);
+    transition: transform 0.2s ease-in-out;
+}
+
+.emoji-group .emoji-text:hover {
+    transform: scale(1.3);
+    font-weight: bold;
+    cursor: default;
+}
+
+.header-nav-background {
+    background-color: var(--color-header-footer);
+    padding-block: 0.25em;
+}
+
+.header-nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-logo {
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+.site-logo a {
+    text-decoration: none;
+    color: var(--color-sky-blue);
+    transition: color 2s;
+}
+
+.site-logo a>span:first-child {
+    font-weight: 300;
+    color: var(--color-pink);
+}
+
+.site-logo a>span:last-child {
+    display: block;
+    line-height: 0;
+    font-size: 0.5em;
+    font-weight: 100;
+    letter-spacing: 0.34em;
+    color: var(--color-white);
+}
+
+.site-logo a:hover,
+.header-nav-background .site-logo:hover,
+.header-nav-background .site-logo span:hover {
+    color: var(--color-hover);
+    cursor: pointer;
+}
+
+@media (max-width: 800px) {
+
+    .site-header .emoji-wrapper {
+        bottom: 5%;
+    }
+
+    .site-header .emoji-group .emoji {
+        width: 65%;
+        height: 65%;
+    }
+
+    .site-header .emoji-text {
+        display: none;
+    }
+}
