@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 import styles from './Header.module.css';
 import Navigation from './navigation/Navigation';
 
@@ -47,7 +49,9 @@ export default function Header() {
 
             <div className={styles['header-nav-background']}>
                 <div className={`${styles['header-nav-wrapper']} container`}>
-                    <h2 className={styles['site-logo']}><a href="#">Meme<span>Landia</span><span>world of memes</span></a></h2>
+                    <h2 className={styles['site-logo']}>
+                        <NavLink to="/">Meme<span>Landia</span><span>world of memes</span></NavLink>
+                    </h2>
 
                     <Navigation />
 
