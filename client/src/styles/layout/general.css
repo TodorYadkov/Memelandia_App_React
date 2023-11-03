@@ -1,0 +1,29 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--color-body);
+}
+
+.container {
+    max-width: 1260px;
+    margin: 0 auto;
+    padding-inline: 1em;
+}
+
+.max-width {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.site-main-background-wrapper {
+    padding: 4em 6em;
+    background-color: var(--color-light-gray);
+}
+
+@media (max-width: 600px) {
+    .site-main-background-wrapper {
+        padding: 4em 0em;
+        background-color: initial;
+    }
+}
