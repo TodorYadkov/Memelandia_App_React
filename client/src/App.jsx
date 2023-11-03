@@ -1,3 +1,5 @@
+import { Routes, Route, Outlet } from 'react-router-dom';
+
 import About from './components/features/about/About';
 import Footer from './components/features/footer/Footer';
 import Header from './components/features/header/Header';
@@ -16,13 +18,22 @@ function App() {
             <Header />
             <main className="site-main container">
                 <div className="site-main-background-wrapper">
-                    {/* <Home /> */}
-                    {/* <Login /> */}
-                    {/* <Register /> */}
-                    {/* <ListMemes /> */}
-                    {/* <DetailsMeme /> */}
-                    {/* <About /> */}
-                    {/* <Profile /> */}
+                    <Routes>
+                        <Route path='/' element={<Home />} />
+
+                        <Route path='/login' element={<Login />} />
+                        <Route path='/register' element={<Register />} />
+                        <Route path='/profile' element={<Profile />} />
+
+                        <Route path='/memes/' element={<Outlet />}>
+                            <Route path='catalog' element={<ListMemes />} />
+                            <Route path='details/:memeId' element={<DetailsMeme />} />
+                            {/* <Route path='edit/:memeId' element={< />} />
+                            <Route path='delete/:memeId' element={< />} /> */}
+                        </Route>
+
+                        <Route path='/about' element={<About />} />
+                    </Routes>
                 </div >
             </main >
             <Footer />
