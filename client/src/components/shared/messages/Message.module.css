@@ -1,0 +1,94 @@
+.alert {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+    width: 90%;
+    color: var(--color-text);
+    margin: 0.5em auto;
+    padding: 0 1em;
+    border-radius: 0.5em;
+    box-shadow: 0 2px 12px 2px var(--color-light-gray);
+}
+
+.close {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 0.75em;
+    height: 0.75em;
+    opacity: 0.5;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 1.6em;
+    cursor: pointer;
+    transition: transform 0.6s ease-in-out, background-color 0.6s;
+}
+
+.alert .close:hover {
+    transform: scale(1.2);
+    background-color: var(--color-hover);
+    color: var(--color-white);
+}
+
+.simple-alert {
+    background-color: #ebebeb;
+    border-left: 5px solid #6c6c6c;
+}
+
+.simple-alert .close {
+    border-color: #6c6c6c;
+    color: #6c6c6c;
+}
+
+.success-alert {
+    background-color: #a8f0c6;
+    border-left: 5px solid #178344;
+}
+
+.success-alert .close {
+    border-color: #178344;
+    color: #178344;
+}
+
+.danger-alert {
+    background-color: #f7a7a3;
+    border-left: 5px solid #8f130c;
+}
+
+.danger-alert .close {
+    border-color: #8f130c;
+    color: #8f130c;
+}
+
+.warning-alert {
+    background-color: #ffd48a;
+    border-left: 5px solid #8a5700;
+}
+
+.warning-alert .close {
+    border-color: #8a5700;
+    color: #8a5700;
+}
+
+/* Auto clear error message */
+.clear-error {
+    -moz-animation: cssAnimation 0s ease-in 30s forwards;
+    /* Firefox */
+    -webkit-animation: cssAnimation 0s ease-in 30s forwards;
+    /* Safari and Chrome */
+    -o-animation: cssAnimation 0s ease-in 30s forwards;
+    /* Opera */
+    animation: cssAnimation 0s ease-in 30s forwards;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+    to {
+        display: none;
+    }
+}
