@@ -1,6 +1,12 @@
+import { useEffect, useState } from 'react';
 import styles from './Footer.module.css';
 
 export default function Footer() {
+    const [currentYear, setCurrentYear] = useState(null);
+    useEffect(() => {
+        setCurrentYear(state => state = new Date().getFullYear());
+    }, []);
+
     return (
         <footer className={styles['site-footer']}>
             <div className={`${styles['footer-content']} container`}>
@@ -33,7 +39,7 @@ export default function Footer() {
                 </section>
             </div>
             <div className={styles['footer-copyright']}>
-                <p>© Todor Yadkov - Course Project &quot;Memelandia&quot; - 2023 - &quot;Dynamic property&quot;</p>
+                <p>© Todor Yadkov - Course Project &quot;Memelandia&quot; - 2023 - {currentYear && currentYear}</p>
             </div>
         </footer >
     );
