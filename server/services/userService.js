@@ -85,7 +85,11 @@ async function forgottenPassword(userData) {
     // Check if the user exist
     const user = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
     if (!user) {
-        throw new Error('Invalid username or email!');
+        throw new Error('Invalid credentials!');
+    }
+
+    if (user?.securityQuestion !== userData?.securityQuestion) {
+        throw new Error('Invalid credentials!');
     }
 
     const result = { canChangePassword: true };
