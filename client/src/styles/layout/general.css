@@ -3,6 +3,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--color-body);
+    background: url('/assets/background.svg') no-repeat;
+    background-size: cover;
 }
 
 .container {
@@ -18,7 +20,7 @@ body {
 
 .site-main-background-wrapper {
     padding: 4em 6em;
-    background-color: var(--color-light-gray);
+    background-color: rgb(255, 255, 255,0.3);   
 }
 
 @media (max-width: 600px) {
