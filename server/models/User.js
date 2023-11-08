@@ -47,7 +47,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [true, 'Password is required'],
+        required: [true, 'Password is required.'],
+    },
+    securityQuestion: {
+        type: String,
+        required: [true, 'A security question is required to reset your password if you forget it.'],
+        minlength: [6, 'Security question must be at least six characters long.'],
+        maxlength: [20, 'Security question must be at least twenty characters long.']
     }
 },
     // Enable the timestamps option createdAt, updatedAt
