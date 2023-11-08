@@ -1,9 +1,5 @@
-.modal-toggle {
-    display: none;
-}
-
 .modal {
-    display: none;
+    display: flex;
     position: fixed;
     justify-content: center;
     align-items: center;
@@ -34,11 +30,6 @@
     margin: 0.5em 0;
 }
 
-.modal-toggle:checked+.modal {
-    display: flex;
-}
-
-
 .modal-content {
     background: var(--color-white);
     padding: 1em;
@@ -53,6 +44,8 @@
 }
 
 .modal-close {
+    all: unset;
+    display: block;
     cursor: pointer;
     color: var(--color-text);
     font-size: 1.75em;
