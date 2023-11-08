@@ -1,8 +1,31 @@
-import NoContentMessage from '../../shared/no-content/NoContentMessage';
-import CardMeme from '../meme/card-meme/CardMeme';
+import { useEffect, useState } from 'react';
+
 import styles from './Home.module.css';
+import { useApi } from '../../core/hooks/useApi';
+import { endpoint } from '../../core/environments/constants';
+
+import CardMeme from '../meme/card-meme/CardMeme';
+import Jokes from '../jokes/Jokes';
+import Loading from '../../shared/loader/Loading';
+import Message from '../../shared/messages/Message';
+import NoContentMessage from '../../shared/no-content/NoContentMessage';
 
 export default function Home() {
+    const [topMemes, setTopMemes] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const api = useApi();
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        api.get(endpoint.getTopRatedMemes)
+            .then(topThreeMemes => setTopMemes(topThreeMemes))
+            .catch(error => setErrorMessage(error.message))
+            .finally(() => setIsLoading(false));
+    }, []);
+
     return (
         <section className={`${styles['home']} max-width`}>
             <div className={styles['welcome']}>
@@ -13,21 +36,24 @@ export default function Home() {
                 </div>
             </div>
             <div className={styles['top-rated-memes']}>
-                {/* <!-- If no content show this --> */}
-                <NoContentMessage />
-                <CardMeme />
+                <h2>Top three rated memes</h2>
+
+                {errorMessage && <Message type="error" message={errorMessage} />}
+
+                {isLoading && <Loading />}
+
+                {
+                    !errorMessage && !isLoading
+                        ? topMemes.length === 0
+                            ? <NoContentMessage />
+                            : topMemes.map(m => <CardMeme key={m._id} {...m} />)
+                        : null
+                }
+
             </div>
-            {/* <!-- Jokes use external api to get jokes--> */}
-            <div className={styles['jokes']}>
-                <div className={styles['jokes-wrapper-heading']}>
-                    <h3>Something Funny</h3>
-                    <img src="/assets/emoji-smile.svg" alt="Emoji smile" />
-                </div>
-                <div className={styles['jokes-wrapper-text']}>
-                    <p className={styles['jokes-text']}><sup><i className="fa-solid fa-quote-left"></i></sup>Some bla bla</p>
-                </div>
-                <p><a href="#" className={`${styles['btn']} ${styles['more']}`}><i className="fa-solid fa-angles-right"></i></a></p>
-            </div>
+
+            <Jokes />
+            
         </section >
     );
 }
