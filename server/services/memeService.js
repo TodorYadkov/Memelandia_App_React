@@ -35,6 +35,14 @@ const getMemeByIdWithIncrementView = async (memeId) => {
     return currentMeme;
 };
 
+const getAllMemesForUser = async (userId, page = 1, limit = 20) => {
+    const userMemes = await Meme.find({ author: userId }).skip((page - 1) * limit).limit(limit).populate('author', ['username', 'rating', 'createdAt']);
+    // Count the total number founded documents
+    const totalDocuments = userMemes.length;
+
+    return { userMemes, totalDocuments };
+};
+
 const addMeme = (userId, memeData) => Meme.create({ ...memeData, author: userId });
 
 const updateMeme = (memeId, memeData) => Meme.findByIdAndUpdate(memeId, memeData, { runValidators: true, new: true }).populate('author', 'username');
@@ -144,6 +152,7 @@ module.exports = {
     getMemeBySearch,
     getMemeById,
     getMemeByIdWithIncrementView,
+    getAllMemesForUser,
     addMeme,
     updateMeme,
     deleteMeme,
