@@ -1,45 +1,86 @@
-import styles from './CardMeme.module.css';
-import AddCommentModal from "../../comment/add-comment/AddCommentModal";
-import Rating from "../../rating/Rating";
-import DeleteMemeModal from "../delete-meme/DeleteMemeModal";
+/* eslint-disable react/prop-types */
+import { Link } from 'react-router-dom';
 
-export default function CardMeme() {
+import styles from './CardMeme.module.css';
+
+import AddCommentModal from '../../comment/add-comment/AddCommentModal';
+import Rating from '../../rating/Rating';
+import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
+import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
+import { useState } from 'react';
+
+export default function CardMeme({
+    _id,
+    name,
+    author,
+    category,
+    dislikes,
+    imageUrl,
+    likes,
+    rating,
+    views,
+    createdAt,
+    updatedAt,
+}) {
+    const [userState, setUserState] = useState({});
+    const { isLoggedIn, getUserDetails } = useAuthContext();
+
+    if (isLoggedIn) {
+        const currentUser = {
+            isLogged: isLoggedIn,
+            // eslint-disable-next-line eqeqeq
+            isOwner: getUserDetails?._id == author?._id,
+        };
+
+        setUserState(currentUser);
+    }
+
     return (
         <article className={styles['card']}>
             <header className={styles['card-header']}>
                 {/* <!-- Link to details --> */}
-                <h4><a href="#">Test meme card</a></h4>
+                <h4><Link to={`/memes/details/${_id}`}>{name}</Link></h4>
                 {/* <!-- Link to all author meme --> */}
-                <p className={styles['card-author-name']}>By: <a href="#">Peter</a>, <time>14h</time> ago</p>
+                <p className={styles['card-author-name']}>By: <Link to={`/memes/user-memes/${author._id}`}>{author.username}</Link>, <time>{formatDateToTimeAgo(createdAt)}</time> ago</p>
                 <div className={styles['card-meme-info']}>
+                    <p className={styles['info']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
+                    <p className={styles['info']}><i className="fa-regular fa-eye"></i> {views}</p>
+                    <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likes.length}</p>
+                    <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {dislikes.length}</p>
 
-                    <Rating />
-
-                    <p className={styles['info']}><a href="#">Category</a></p>
-                    <p className={styles['info']}><i className="fa-regular fa-eye"></i> 111</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> 111</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> 111</p>
-                    <p className={styles['info']}><i className="fa-regular fa-message"></i> 111</p>
+                    <Rating rating={rating} />
                 </div>
             </header>
             <div className={styles['card-img-wrapper']}>
                 {/* <!-- Link to details --> */}
-                <a href="#"><img src="/assets/test-meme.jpg" alt="Meme name" /></a>
+                <Link to={`/memes/details/${_id}`}><img src={imageUrl} alt={name} /></Link>
             </div>
             {/* <!-- Only logged user --> */}
-            <footer className={styles['card-footer']}>
-                {/* <!-- Not owner --> */}
-                <p><a className={`btn ${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
-                <p><a className={`btn ${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
-                <p><a className={`btn ${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
-                <p><a className={`btn ${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
-                {/* <!-- Owner --> */}
-                <p><a className={`btn ${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-                <label htmlFor="modal-toggle-meme-delete" className={`btn ${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
-                {/* <!-- Owner and not owner --> */}
-                <label htmlFor="modal-toggle-share" className={`btn ${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
-                    className="fa-solid fa-share-nodes"></i></label>
-            </footer>
+            {userState?.isLoggedIn
+                ?
+                <footer className={styles['card-footer']}>
+                    {userState?.isOwner
+                        ?
+                        <>
+                            <p><a className={`btn ${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
+                            <label htmlFor="modal-toggle-meme-delete" className={`btn ${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
+                        </>
+                        :
+                        <>
+                            <p><a className={`btn ${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
+                            <p><a className={`btn ${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
+                            <p><a className={`btn ${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
+                            <p><a className={`btn ${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
+                        </>
+                    }
+
+                    <label htmlFor="modal-toggle-share" className={`btn ${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
+                        className="fa-solid fa-share-nodes"></i></label>
+                </footer>
+
+                : null
+            }
 
             <DeleteMemeModal />
             <AddCommentModal />
