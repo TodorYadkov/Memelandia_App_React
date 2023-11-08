@@ -9,6 +9,7 @@ const {
     getMemeBySearch,
     getMemeById,
     getMemeByIdWithIncrementView,
+    getAllMemesForUser,
     addMeme,
     updateMeme,
     deleteMeme,
@@ -81,6 +82,24 @@ router.get('/get-one/:memeId', async (req, res, next) => {
         const meme = await getMemeByIdWithIncrementView(memeId);
 
         res.status(200).json(meme);
+    } catch (error) {
+        next(error)
+    }
+});
+
+// Get all memes for user with pagination - Not logged
+router.get('/for-user/:userId', async (req, res, next) => {
+    try {
+        const userId = req.params.userId;
+        // From front-end send request with query params "page" and "limit"
+        const page = parseInt(req.query.page) || 1;    // Get current page
+        const limit = parseInt(req.query.limit) || 20; // Number of memes per page
+        const allUserMemes = await getAllMemesForUser(userId, page, limit);
+
+        const totalPages = Math.ceil(allUserMemes.totalDocuments / limit); // Calculate total number of pages
+        const payload = { userMemes: allUserMemes.userMemes, page, totalPages }; // On front-end receive object with array of user memes, current page, and total pages with data
+
+        res.status(200).json(payload);
     } catch (error) {
         next(error)
     }
