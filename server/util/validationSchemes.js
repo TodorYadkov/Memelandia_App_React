@@ -35,17 +35,23 @@ const validateUserRegistrationSchema = joi.object({
         'string.base': 'Password must be a string',
         'string.min': 'Password must be at least six characters long',
         'string.max': 'Password must not exceed twenty characters',
+    }),
+
+    securityQuestion: joi.string().trim().min(6).max(50).messages({
+        'string.base': 'Security question must be a string',
+        'string.min': 'Security question must be at least six characters long',
+        'string.max': 'Security question must not exceed fifty characters',
     })
 });
 
 // Validate input on login
 const validateUserLoginSchema = joi.object({
-    username: joi.string().trim().max(15).messages({
+    username: joi.string().allow(null).trim().max(15).messages({
         'string.base': 'Username must be a string',
         'string.max': 'Username must not exceed fifteen characters',
     }),
 
-    email: joi.string().trim().email().lowercase().messages({
+    email: joi.string().allow(null).trim().email().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
     }),
@@ -58,34 +64,40 @@ const validateUserLoginSchema = joi.object({
 
 // Validate input on edit user details
 const validateUserUpdateUserSchema = joi.object({
-    username: joi.string().trim().min(2).max(15).messages({
+    username: joi.string().allow(null).trim().min(2).max(15).messages({
         'string.base': 'Username must be a string',
         'string.min': 'Username must be at least two characters long',
         'string.max': 'Username must not exceed fifteen characters',
     }),
 
-    email: joi.string().trim().email().lowercase().messages({
+    email: joi.string().allow(null).trim().email().lowercase().messages({
         'string.base': 'Email must be a string',
         'string.email': 'Invalid email format',
     }),
 
-    name: joi.string().trim().min(2).max(30).messages({
+    name: joi.string().allow(null).trim().min(2).max(30).messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
         'string.max': 'Name must not exceed thirty characters',
     }),
 
-    age: joi.number().integer().min(12).max(120).messages({
+    age: joi.number().allow(null).integer().min(12).max(120).messages({
         'number.base': 'Age must be a number',
         'number.integer': 'Age must be an integer number',
         'number.min': 'Age must be at least 12 years old',
         'number.max': 'Age must not exceed 120 years old',
     }),
 
-    password: joi.string().trim().min(6).max(20).messages({
+    password: joi.string().allow(null).trim().min(6).max(20).messages({
         'string.base': 'Password must be a string',
         'string.min': 'Password must be at least six characters long',
         'string.max': 'Password must not exceed twenty characters',
+    }),
+
+    securityQuestion: joi.string().allow(null).trim().min(6).max(50).messages({
+        'string.base': 'Security question must be a string',
+        'string.min': 'Security question must be at least six characters long',
+        'string.max': 'Security question must not exceed fifty characters',
     })
 });
 
