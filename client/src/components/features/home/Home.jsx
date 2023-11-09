@@ -13,7 +13,7 @@ import NoContentMessage from '../../shared/no-content/NoContentMessage';
 export default function Home() {
     const [topMemes, setTopMemes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
 
     const api = useApi();
 
@@ -22,7 +22,7 @@ export default function Home() {
 
         api.get(endpoint.getTopRatedMemes)
             .then(topThreeMemes => setTopMemes(topThreeMemes))
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -38,12 +38,12 @@ export default function Home() {
             <div className={styles['top-rated-memes']}>
                 <h2>Top three rated memes</h2>
 
-                {errorMessage && <Message type="error" message={errorMessage} />}
+                {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
                 {isLoading && <Loading />}
 
                 {
-                    !errorMessage && !isLoading
+                    !serverMessage?.error && !isLoading
                         ? topMemes.length === 0
                             ? <NoContentMessage />
                             : topMemes.map(m => <CardMeme key={m._id} {...m} />)
@@ -53,7 +53,7 @@ export default function Home() {
             </div>
 
             <Jokes />
-            
+
         </section >
     );
 }

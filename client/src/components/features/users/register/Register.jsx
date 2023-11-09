@@ -14,11 +14,14 @@ import Loading from '../../../shared/loader/Loading';
 export default function Register() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isPasswordVisible, setPasswordVisible] = useState(false);
-    const [isRePasswordVisible, setRePasswordVisible] = useState(false);
-    const { addUserSession } = useAuthContext();
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false); // Show/hidden password in password input field
+    const [isRePasswordVisible, setRePasswordVisible] = useState(false); // Show/hidden rePassword in rePassword input field
+
+    const api = useApi();
     const navigate = useNavigate();
+    const { addUserSession } = useAuthContext();
+    // Use react-hook-form https://react-hook-form.com/docs/useform/register
     const { register, handleSubmit, watch, reset, formState: { errors, isValid, touchedFields, isSubmitting } } = useForm({
         mode: 'onChange',
         reValidateMode: 'onChange',
@@ -32,13 +35,12 @@ export default function Register() {
         }
     });
 
-    const api = useApi();
     useEffect(() => {
         // Get second meme to display in the registration form
         setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
             .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[1]))
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -62,7 +64,7 @@ export default function Register() {
                 // Redirect to catalog (memeboard)
                 navigate('/catalog', { replace: true });
             })
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
@@ -96,7 +98,7 @@ export default function Register() {
 
             </div >
             <div className={styles['register-right']}>
-                {errorMessage && <Message type="error" message={errorMessage} />}
+                {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
                 <h1>Register</h1>
 
                 <form onSubmit={handleSubmit(submitHandler)} method="post" className={styles['form']}>

@@ -7,7 +7,7 @@ import Message from '../../shared/messages/Message';
 export default function Jokes() {
     const [jokeObj, setJokeObj] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
 
     const jokeUrl = import.meta.env.VITE_JOKE_URL;
     const getJoke = () => {
@@ -17,12 +17,12 @@ export default function Jokes() {
             .then(response => response.json())
             .then(dataJoke => {
                 if (dataJoke?.error) {
-                    setErrorMessage(dataJoke.message);
+                    setServerMessage({ error: dataJoke.message });
                 } else {
                     setJokeObj(dataJoke);
                 }
             })
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
@@ -36,7 +36,7 @@ export default function Jokes() {
 
     return (
         <>
-            {errorMessage && <Message type="error" message={errorMessage} />}
+            {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
             <div className={styles['jokes']}>
                 <div className={styles['jokes-wrapper-heading']}>
                     <h3>Something Funny</h3>

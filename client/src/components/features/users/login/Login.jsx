@@ -17,14 +17,15 @@ import { useModal } from '../../../core/hooks/useModal';
 export default function Login() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [isPasswordVisible, setPasswordVisible] = useState(false);
-    const [isActiveInputUsername, setActiveInputUsername] = useState(true);
-    const [isShownModal, toggleModal] = useModal();
-    const { addUserSession } = useAuthContext();
-    const navigate = useNavigate();
-    const api = useApi();
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false); // Show hidden password in password input field
+    const [isActiveInputUsername, setActiveInputUsername] = useState(true); // Switch which login to use user email or username
+    const [isShownModal, toggleModal] = useModal(); // Show hide modal for forgotten password
 
+    const api = useApi();
+    const navigate = useNavigate();
+    const { addUserSession } = useAuthContext();
+    // Use react-hook-form https://react-hook-form.com/docs/useform/register
     const { register, handleSubmit, reset, formState: { errors, isValid, touchedFields, isSubmitting } } = useForm({
         mode: 'onChange',
         reValidateMode: 'onChange',
@@ -40,7 +41,7 @@ export default function Login() {
         setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
             .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[0]))
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
 
@@ -67,7 +68,7 @@ export default function Login() {
                 // Redirect to catalog (memeboard) - replace with new address in history
                 navigate('/catalog', { replace: true });
             })
-            .catch(error => setErrorMessage(error.message))
+            .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
@@ -105,7 +106,7 @@ export default function Login() {
 
             </div >
             <div className={styles['login-right']}>
-                {errorMessage && <Message type="error" message={errorMessage} />}
+                {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
                 <h1>Sign In</h1>
 
                 <form onSubmit={handleSubmit(submitHandler)} method="post" className={styles['form']}>

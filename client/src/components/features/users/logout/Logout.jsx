@@ -9,16 +9,17 @@ import Message from '../../../shared/messages/Message';
 
 export default function Logout() {
     const [isLoading, setIsLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
-    const { clearUserSession } = useAuthContext();
-    const navigate = useNavigate();
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+
     const api = useApi();
+    const navigate = useNavigate();
+    const { clearUserSession } = useAuthContext();
 
     useEffect(() => {
         api.get(endpoint.logout)
             .then(data => clearUserSession())
             .catch(error => {
-                setErrorMessage(error.message);
+                setServerMessage({ error: error.message });
                 clearUserSession();
             })
             .finally(() => {
@@ -30,7 +31,7 @@ export default function Logout() {
     return (
         <>
             {isLoading && <Loading />}
-            {errorMessage && <Message type="error" message={errorMessage} />}
+            {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
         </>
     );
 }
