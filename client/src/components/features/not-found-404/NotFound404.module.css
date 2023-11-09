@@ -1,0 +1,68 @@
+.not-found {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25em;
+    text-align: center;
+    color: var(--color-text);
+}
+
+.not-found-heading {
+    font-size: 8em;
+    font-weight: 900;
+    margin: 0px;
+}
+
+.not-found-heading span {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.8s;
+}
+
+span:nth-child(2n + 1):hover {
+    color: var(--color-hover);
+}
+
+.not-found-heading .not-found-emoji {
+    width: 1em;
+    height: auto;
+    -webkit-transform: scale(1.4);
+    -ms-transform: scale(1.4);
+    transform: scale(1.4);
+    transition: transform 1s ease-in-out;
+}
+
+.not-found-emoji:hover {
+    transform: scale(1.1);
+}
+
+.not-found h2 {
+    font-size: 1.25em;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.not-found p {
+    color: var(--color-header-footer);
+    font-weight: 300;
+    margin-bottom: 2em;
+    width: 65ch;
+}
+
+.btn.not-found-btn {
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-header-footer);
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn.not-found-btn:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
