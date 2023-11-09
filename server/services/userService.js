@@ -6,6 +6,7 @@ const { User } = require('../models/User.js');
 const { Meme } = require('../models/Meme.js');
 const { tokenBlackList } = require('../util/tokenBlackList.js');
 const { ratingValue } = require('../environments/constants.js');
+const { Comment } = require('../models/Comment.js');
 
 // Get environment variable
 const ROUNDS_BCRYPT = Number(process.env.ROUNDS_BCRYPT);
@@ -28,6 +29,9 @@ async function userRegister(userData) {
     // Create token
     const userToken = await generateToken(user);
 
+    // The number of comments for the current user to display on their profile
+    const commentsCount = await Comment.countDocuments({ userId: user._id });
+
     // Return user info
     return {
         accessToken: userToken,
@@ -39,7 +43,8 @@ async function userRegister(userData) {
             age: user.age,
             rating: user.rating,
             createdUser: user.createdAt,
-            updatedUser: user.updatedAt
+            updatedUser: user.updatedAt,
+            commentsCount: commentsCount
         }
     };
 }
@@ -62,6 +67,9 @@ async function userLogin(userData) {
     // Create token
     const userToken = await generateToken(user);
 
+    // The number of comments for the current user to display on their profile
+    const commentsCount = await Comment.countDocuments({ userId: user._id });
+
     // Return user info
     return {
         accessToken: userToken,
@@ -73,7 +81,8 @@ async function userLogin(userData) {
             age: user.age,
             rating: user.rating,
             createdUser: user.createdAt,
-            updatedUser: user.updatedAt
+            updatedUser: user.updatedAt,
+            commentsCount: commentsCount
         }
     };
 }
@@ -106,6 +115,9 @@ async function forgottenPassword(userData) {
     // Create token
     const userToken = await generateToken(user);
 
+    // The number of comments for the current user to display on their profile
+    const commentsCount = await Comment.countDocuments({ userId: user._id });
+
     // Return user info
     return {
         accessToken: userToken,
@@ -117,7 +129,8 @@ async function forgottenPassword(userData) {
             age: user.age,
             rating: user.rating,
             createdUser: user.createdAt,
-            updatedUser: user.updatedAt
+            updatedUser: user.updatedAt,
+            commentsCount: commentsCount
         }
     };
 }
@@ -129,7 +142,9 @@ async function userLogout(userToken) {
 
 async function getUserById(userId) {
     // Select all without password (-password)
-    return User.findById(userId).select('-password');
+    const user = await User.findById(userId).select('-password -securityQuestion').lean();
+    const commentsCount = await Comment.countDocuments({ userId });
+    return { ...user, commentsCount };
 }
 
 
