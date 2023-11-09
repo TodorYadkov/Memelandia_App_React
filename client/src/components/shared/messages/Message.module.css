@@ -54,12 +54,12 @@
     color: #178344;
 }
 
-.danger-alert {
+.error-alert {
     background-color: #f7a7a3;
     border-left: 5px solid #8f130c;
 }
 
-.danger-alert .close {
+.error-alert .close {
     border-color: #8f130c;
     color: #8f130c;
 }
