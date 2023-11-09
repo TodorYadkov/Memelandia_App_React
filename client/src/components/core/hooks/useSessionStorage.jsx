@@ -5,7 +5,7 @@ import { tokenName } from '../environments/constants';
 export const useSessionStorage = () => {
     // User data is saved in context to easy use in app: { _id, username, email, name, age, rating, createdUser, updatedUser }
     const [currentUserData, setCurrentUserData] = useState({});
-    
+
     // Initial user token is saved in local storage --> can be null or accessToken
     const [currentUserToken, setCurrentUserToken] = useState(() => {
         try {
@@ -16,10 +16,10 @@ export const useSessionStorage = () => {
             }
 
         } catch (error) {
-            // TODO: Here can add some console log to show if there is any error
+            console.error(error);
             return null;
         }
-
+        // Default value
         return null;
     });
 
