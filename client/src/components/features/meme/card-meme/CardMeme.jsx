@@ -1,14 +1,15 @@
 /* eslint-disable react/prop-types */
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './CardMeme.module.css';
-
-import AddCommentModal from '../../comment/add-comment/AddCommentModal';
-import Rating from '../../rating/Rating';
-import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
-import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
-import { useState } from 'react';
+
+import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
+import Rating from '../../rating/Rating';
+import AddCommentModal from '../../comment/add-comment/AddCommentModal';
+import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
+
 
 export default function CardMeme({
     _id,
@@ -23,7 +24,6 @@ export default function CardMeme({
     createdAt,
     updatedAt,
 }) {
-    const [userState, setUserState] = useState({});
     const { isLoggedIn, getUserDetails } = useAuthContext();
 
     if (isLoggedIn) {
@@ -33,230 +33,57 @@ export default function CardMeme({
             isOwner: getUserDetails?._id == author?._id,
         };
 
-        setUserState(currentUser);
-    }
 
-    return (
-        <article className={styles['card']}>
-            <header className={styles['card-header']}>
-                {/* <!-- Link to details --> */}
-                <h4><Link to={`/memes/details/${_id}`}>{name}</Link></h4>
-                {/* <!-- Link to all author meme --> */}
-                <p className={styles['card-author-name']}>By: <Link to={`/memes/user-memes/${author._id}`}>{author.username}</Link>, <time>{formatDateToTimeAgo(createdAt)}</time> ago</p>
-                <div className={styles['card-meme-info']}>
-                    <p className={styles['info']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
-                    <p className={styles['info']}><i className="fa-regular fa-eye"></i> {views}</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likes.length}</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {dislikes.length}</p>
+        return (
+            <article className={styles['card']}>
+                <header className={styles['card-header']}>
 
-                    <Rating rating={rating} />
+                    <h4><Link to={`/memes/details/${_id}`}>{name}</Link></h4>
+
+                    <p className={styles['card-author-name']}>By: <Link to={`/memes/user-memes/${author._id}`}>{author.username}</Link>, <time>{formatDateToTimeAgo(createdAt)}</time> ago</p>
+                    <div className={styles['card-meme-info']}>
+                        <p className={styles['info']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
+                        <p className={styles['info']}><i className="fa-regular fa-eye"></i> {views}</p>
+                        <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likes.length}</p>
+                        <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {dislikes.length}</p>
+
+                        <Rating rating={rating} />
+                    </div>
+                </header>
+                <div className={styles['card-img-wrapper']}>
+
+                    <Link to={`/memes/details/${_id}`}><img src={imageUrl} alt={name} /></Link>
                 </div>
-            </header>
-            <div className={styles['card-img-wrapper']}>
-                {/* <!-- Link to details --> */}
-                <Link to={`/memes/details/${_id}`}><img src={imageUrl} alt={name} /></Link>
-            </div>
-            {/* <!-- Only logged user --> */}
-            {userState?.isLoggedIn
-                ?
-                <footer className={styles['card-footer']}>
-                    {userState?.isOwner
-                        ?
-                        <>
-                            <p><a className={`btn ${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-                            <label htmlFor="modal-toggle-meme-delete" className={`btn ${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
-                        </>
-                        :
-                        <>
-                            <p><a className={`btn ${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
-                            <p><a className={`btn ${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
-                            <p><a className={`btn ${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
-                            <p><a className={`btn ${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
-                        </>
-                    }
 
-                    <label htmlFor="modal-toggle-share" className={`btn ${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
-                        className="fa-solid fa-share-nodes"></i></label>
-                </footer>
+                {currentUser?.isLoggedIn
+                    ?
+                    <footer className={styles['card-footer']}>
+                        {currentUser?.isOwner
+                            ?
+                            <>
+                                <p><a className={`btn ${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
+                                <label htmlFor="modal-toggle-meme-delete" className={`btn ${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
+                            </>
+                            :
+                            <>
+                                <p><a className={`btn ${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
+                                <p><a className={`btn ${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
+                                <p><a className={`btn ${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
+                                <p><a className={`btn ${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
+                            </>
+                        }
 
-                : null
-            }
+                        <label htmlFor="modal-toggle-share" className={`btn ${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
+                            className="fa-solid fa-share-nodes"></i></label>
+                    </footer>
 
-            <DeleteMemeModal />
-            <AddCommentModal />
+                    : null
+                }
 
-        </article>
-    );
+            </article>
+        );
+    }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Card meme HOME Page
-{/* <article className={styles['card']}>
-<header className={styles['card-header']}>
-    <!-- Link to details -->
-    <h4><a href="#">Test meme card</a></h4>
-    <!-- Link to all author meme -->
-    <p className={styles['card-author-name']}>By: <a href="#">Peter</a>, <time>14h</time> ago</p>
-    <div className={styles['card-meme-info']}>
-        <div className={styles['rating']}>
-            <span className={`${styles['rating-star']} ${styles['active']}`} data-rating="1"></span>
-            <span className={styles['rating-star']} data-rating="2"></span>
-            <span className={styles['rating-star']} data-rating="3"></span>
-            <span className={styles['rating-star']} data-rating="4"></span>
-            <span className={styles['rating-star']} data-rating="5"></span>
-        </div>
-        <p className={styles['info']}><a href="#">Category</a></p>
-        <p className={styles['info']}><i className="fa-regular fa-eye"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-message"></i> 111</p>
-    </div>
-</header>
-<div className={styles['card-img-wrapper']}>
-    <!-- Link to details -->
-    <a href="#"><img src="./assets/test-meme.jpg" alt="Meme name" /></a>
-</div>
-<!-- Only logged user -->
-<footer className={styles['card-footer']}>
-    <!-- Not owner -->
-    <p><a className={`${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
-    <p><a className={`${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
-    <!-- Modal comment -->
-    <label htmlFor="modal-toggle-comment" className={`${styles['btn']} ${styles['comment']} ${styles['modal-button']}`}><i
-        className="fa-solid fa-message"></i></label>
-    <p><a className={`${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
-    <!-- Owner -->
-    <p><a className={`${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-    <label htmlFor="modal-toggle-meme-delete" className={`${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
-    <!-- Owner and not owner -->
-    <!-- Modal share -->
-    <label htmlFor="modal-toggle-share" className={`${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
-        className="fa-solid fa-share-nodes"></i></label>
-</footer>
-
-</article> */}
-
-
-
-
-
-
-
-
-
-// Card meme details page
-{/* <article className={styles['card']}>
-<header className={styles['card-header']}>
-    <!-- Link to details -->
-    <h4><a href="#">Test meme card</a></h4>
-    <!-- Link to all author meme -->
-    <p className={styles['card-author-name']}>By: <a href="#">Peter</a>, <time>14h</time> ago</p>
-    <div className={styles['card-meme-info']}>
-        <div className={styles['rating']}>
-            <span className={`${styles['rating-star']} ${styles['active']}`} data-rating="1"></span>
-            <span className={styles['rating-star']} data-rating="2"></span>
-            <span className={styles['rating-star']} data-rating="3"></span>
-            <span className={styles['rating-star']} data-rating="4"></span>
-            <span className={styles['rating-star']} data-rating="5"></span>
-        </div>
-        <p className={styles['info']}><a href="#">Category</a></p>
-        <p className={styles['info']}><i className="fa-regular fa-eye"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-message"></i> 111</p>
-    </div>
-</header>
-<div className={styles['card-img-wrapper']}>
-    <!-- Link to details -->
-    <a href="#"><img src="/assets/test-meme.jpg" alt="Meme name" /></a>
-</div>
-<!-- Only logged user -->
-<footer className={styles['card-footer']}>
-    <!-- Not owner -->
-    <!-- When someone click on like, dislike, favorite add class to be marked -->
-    <!-- <p><a className={`${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p> -->
-    <!-- Owner -->
-    <p><a className={`${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-    <label htmlFor="modal-toggle-meme-delete" className={`${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
-    <!-- Owner and Not owner -->
-    <label htmlFor="modal-toggle-share" className={`${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
-        className="fa-solid fa-share-nodes"></i></label>
-</footer>
-
-</article> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Card meme Profile
-{/* <article className={styles['card']}>
-<header className={styles['card-header']}>
-    <!-- Link to details -->
-    <h4><a href="#">Test meme card</a></h4>
-    <!-- Link to all author meme -->
-    <p className={styles['card-author-name']}>By: <a href="#">Peter</a>, <time>14h</time> ago</p>
-    <div className={styles['card-meme-info']}>
-        <div className={styles['rating']}>
-            <span className={`${styles['rating-star']} ${styles['active']}`} data-rating="1"></span>
-            <span className={styles['rating-star']} data-rating="2"></span>
-            <span className={styles['rating-star']} data-rating="3"></span>
-            <span className={styles['rating-star']} data-rating="4"></span>
-            <span className={styles['rating-star']} data-rating="5"></span>
-        </div>
-        <p className={styles['info']}><a href="#">Category</a></p>
-        <p className={styles['info']}><i className="fa-regular fa-eye"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> 111</p>
-        <p className={styles['info']}><i className="fa-regular fa-message"></i> 111</p>
-    </div>
-</header>
-<div className={styles['card-img-wrapper']}>
-    <!-- Link to details -->
-    <a href="#"><img src="/assets/test-meme.jpg" alt="Meme name" /></a>
-</div>
-<!-- Only logged user -->
-<footer className={styles['card-footer']}>
-    <!-- Not owner -->
-    <!-- When someone click on like, dislike, favorite add class to be marked -->
-    <!-- <p><a className={`${styles['btn']} ${styles['like']}`} href="#"><i className="fa-solid fa-thumbs-up"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['comment']}`} href="#"><i className="fa-solid fa-message"></i></a></p>
-<p><a className={`${styles['btn']} ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p> -->
-    <!-- Owner -->
-    <p><a className={`${styles['btn']} ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-    <label htmlFor="modal-toggle-meme-delete" className={`${styles['btn']} ${styles['delete']} ${styles['modal-button']}`}><i
-        className="fa-solid fa-trash"></i></label>
-    <!-- Owner and Not owner -->
-    <label htmlFor="modal-toggle-share" className={`${styles['btn']} ${styles['share']} ${styles['modal-button']}`}><i
-        className="fa-solid fa-share-nodes"></i></label>
-</footer>
-
-</article> */}
+// <DeleteMemeModal />
+// <AddCommentModal />
