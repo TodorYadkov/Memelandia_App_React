@@ -84,13 +84,18 @@
 }
 
 .top-rated-memes>h2 {
+    cursor: default;
+    color: var(--color-text);
+    font-size: 3em;
     font-weight: bold;
-    -webkit-text-fill-color: var(--color-white);
-    -webkit-text-stroke: 1px;
-    text-shadow: 3px 3px 2px rgb(0, 0, 0, 0.9);
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 6px;
     text-align: center;
     letter-spacing: 2px;
+    text-shadow: 1px 1px var(--color-text), 2px 2px var(--color-text), 3px 3px var(--color-text), 4px 4px var(--color-text), 5px 5px var(--color-text), 6px 6px var(--color-text), 7px 7px var(--color-text), 8px 8px var(--color-text);
+    -webkit-text-fill-color: var(--color-white);
+    -webkit-text-stroke: 2px;
+    -webkit-transition: all 0.6s ease-out;
+    -moz-transition: all 0.6s ease-out;
+    -o-transition: all 0.6s ease-out;
+    transition: all 0.6s ease-out;
+    margin-bottom: 1em;
 }
