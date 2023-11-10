@@ -7,6 +7,7 @@ import styles from './Login.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
+import { trimInputData } from '../../../utils/trimInputData';
 
 import { USER_FIELD } from '../userFieldConstants';
 import ForgotPasswordModal from '../forgot-password/ForgotPasswordModal';
@@ -17,10 +18,10 @@ import { useModal } from '../../../core/hooks/useModal';
 export default function Login() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
-    const [isPasswordVisible, setPasswordVisible] = useState(false); // Show hidden password in password input field
+    const [serverMessage, setServerMessage] = useState({ error: '' });      // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false);        // Show hidden password in password input field
     const [isActiveInputUsername, setActiveInputUsername] = useState(true); // Switch which login to use user email or username
-    const [isShownModal, toggleModal] = useModal(); // Show hide modal for forgotten password
+    const [isShownModal, setIsShownModal] = useModal();                     // Show hide modal for forgotten password
 
     const api = useApi();
     const navigate = useNavigate();
@@ -48,15 +49,7 @@ export default function Login() {
     // Submit form
     const submitHandler = (userInput) => {
         // Trim user input and check for empty field
-        const trimmedInput = Object.entries(userInput).reduce((acc, inputField) => {
-            const [inputFieldName, inputFieldValue] = inputField;
-            // Check if the email or username is empty
-            if (inputFieldValue === '') {
-                return acc;
-            }
-
-            return { ...acc, [inputFieldName]: typeof inputFieldValue === 'string' ? inputFieldValue.trim() : inputFieldValue };
-        }, {});
+        const trimmedInput = trimInputData(userInput);
 
         setIsLoading(true);
         api.post(endpoint.login, trimmedInput)
@@ -66,7 +59,7 @@ export default function Login() {
                 // Reset form after submit
                 reset();
                 // Redirect to catalog (memeboard) - replace with new address in history
-                navigate('/catalog', { replace: true });
+                navigate('/memes/catalog', { replace: true });
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
@@ -207,13 +200,13 @@ export default function Login() {
                             className={`${styles['btn']} ${styles['btn-login']}`}
                         />
 
-                        <button onClick={toggleModal} type="button" className={`${styles['btn']} ${styles['btn-link']}`}>Forgot password?</button>
+                        <button onClick={setIsShownModal} type="button" className={`${styles['btn']} ${styles['btn-link']}`}>Forgot password?</button>
                         <Link to="/register" className={`${styles['btn']} ${styles['btn-link']}`}>Don&apos;t have an account yet?</Link>
                     </div>
                 </form>
             </div >
 
-            {isShownModal && <ForgotPasswordModal modalHandler={toggleModal} />}
+            {isShownModal && <ForgotPasswordModal modalHandler={setIsShownModal} />}
         </section >
     );
 }
