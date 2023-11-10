@@ -8,6 +8,7 @@ import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { USER_FIELD } from '../userFieldConstants';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
+import { trimInputData } from '../../../utils/trimInputData';
 
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
@@ -15,7 +16,7 @@ import Message from '../../../shared/messages/Message';
 export default function ForgotPasswordModal({ modalHandler }) {
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
-    const [isPasswordVisible, setPasswordVisible] = useState(false); // Show hidden password in password input field
+    const [isPasswordVisibleModal, setPasswordVisibleModal] = useState(false); // Show hidden password in password input field
     const [isValidUser, setIsValidUser] = useState(false); // Enable - disables the password input field
     const [isActiveInputUsername, setActiveInputUsername] = useState(true); // Switch which login to use user email or username
 
@@ -105,15 +106,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
     // Submit form
     const submitHandler = (userInput) => {
         // Trim user input and check for empty field
-        const trimmedInput = Object.entries(userInput).reduce((acc, inputField) => {
-            const [inputFieldName, inputFieldValue] = inputField;
-            // Check if the email or username is empty
-            if (inputFieldValue === '') {
-                return acc;
-            }
-
-            return { ...acc, [inputFieldName]: typeof inputFieldValue === 'string' ? inputFieldValue.trim() : inputFieldValue };
-        }, {});
+        const trimmedInput = trimInputData(userInput);
 
         setIsLoading(true);
         api.put(endpoint.forgottenPass, trimmedInput)
@@ -123,7 +116,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                 // Reset form after submit
                 reset();
                 // Redirect to catalog (memeboard) - replace with new address in history
-                navigate('/catalog', { replace: true });
+                navigate('/memes/catalog', { replace: true });
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
@@ -132,10 +125,10 @@ export default function ForgotPasswordModal({ modalHandler }) {
     // Show hide password
     const toggleViewPassword = (e) => {
         // Check which field is clicked
-        if (e.target.classList.contains(styles['icon-password'])) {
+        if (e.target.classList.contains(styles['icon-password-modal'])) {
             // Show hide password
-            setPasswordVisible(!isPasswordVisible);
-            document.getElementById(USER_FIELD.password).type = isPasswordVisible ? 'password' : 'text';
+            setPasswordVisibleModal(!isPasswordVisibleModal);
+            document.getElementById('password-modal').type = isPasswordVisibleModal ? 'password' : 'text';
         }
     };
 
@@ -166,7 +159,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                             isActiveInputUsername
                                 ?
                                 <div className={`${styles['control']} ${styles['username']} ${isActiveInputUsername ? '' : styles['exchanged']}`} onClick={changeUserInput}>
-                                    <label htmlFor={USER_FIELD.username} className={`${styles['label']}`}>Username</label>
+                                    <label htmlFor="username-modal" className={`${styles['label']}`}>Username</label>
                                     <input
                                         {...register(USER_FIELD.username, {
                                             required: {
@@ -183,7 +176,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                             }
                                         })}
                                         type="text"
-                                        id={USER_FIELD.username}
+                                        id="username-modal"
                                         className={`${styles['input']} ${(touchedFields?.username && isValid) ? styles['valid'] : errors?.username ? styles['invalid'] : ''}`}
                                         placeholder="Username"
                                         name={USER_FIELD.username}
@@ -197,7 +190,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                 </div>
                                 :
                                 <div className={`${styles['control']} ${styles['email']} ${isActiveInputUsername ? styles['exchanged'] : ''}`} onClick={changeUserInput}>
-                                    <label htmlFor={USER_FIELD.email} className={`${styles['label']}`}>Email</label>
+                                    <label htmlFor="email-modal" className={`${styles['label']}`}>Email</label>
                                     <input
                                         {...register(USER_FIELD.email, {
                                             required: {
@@ -210,7 +203,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                             },
                                         })}
                                         type="email"
-                                        id={USER_FIELD.email}
+                                        id="email-modal"
                                         className={`${styles['input']} ${(touchedFields?.email && isValid) ? styles['valid'] : errors?.email ? styles['invalid'] : ''}`}
                                         placeholder="Email"
                                         name={USER_FIELD.email}
@@ -223,7 +216,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                         }
                         {/* Security Question */}
                         <div className={`${styles['control']}`}>
-                            <label htmlFor={USER_FIELD.securityQuestion} className={`${styles['label']}`}>Security Question</label>
+                            <label htmlFor="security-question-modal" className={`${styles['label']}`}>Security Question</label>
                             <input
                                 {...register(USER_FIELD.securityQuestion, {
                                     required: {
@@ -240,7 +233,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                     }
                                 })}
                                 type="text"
-                                id={USER_FIELD.securityQuestion}
+                                id="security-question-modal"
                                 className={`${styles['input']} ${(touchedFields?.securityQuestion && isValid) ? styles['valid'] : errors?.securityQuestion ? styles['invalid'] : ''}`}
                                 placeholder="Security Question"
                                 name={USER_FIELD.securityQuestion}
@@ -254,7 +247,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                         </div>
                         {/* Password */}
                         <div className={`${styles['control']}`} onClick={toggleViewPassword}>
-                            <label htmlFor={USER_FIELD.password} className={`${styles['label']}`}>Password</label>
+                            <label htmlFor="password-modal" className={`${styles['label']}`}>Password</label>
                             <input
                                 {...register(USER_FIELD.password, {
                                     required: {
@@ -271,7 +264,7 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                     }
                                 })}
                                 type="password"
-                                id={USER_FIELD.password}
+                                id="password-modal"
                                 className={`${styles['input']} ${(touchedFields?.password && isValid) ? styles['valid'] : errors?.password ? styles['invalid'] : ''}`}
                                 placeholder="Password"
                                 disabled={!isValidUser}
@@ -279,8 +272,8 @@ export default function ForgotPasswordModal({ modalHandler }) {
                                 minLength={6}
                                 maxLength={20}
                             />
-                            <i className={`fa-solid fa-eye ${styles['icon-password']} ${isPasswordVisible ? '' : styles['active']}`}></i>
-                            <i className={`fa-solid fa-eye-slash ${styles['icon-password']} ${isPasswordVisible ? styles['active'] : ''}`}></i>
+                            <i className={`fa-solid fa-eye ${styles['icon-password-modal']} ${isPasswordVisibleModal ? '' : styles['active-modal']}`}></i>
+                            <i className={`fa-solid fa-eye-slash ${styles['icon-password-modal']} ${isPasswordVisibleModal ? styles['active-modal'] : ''}`}></i>
                             <i className="fa-solid fa-shield"></i>
                             {errors?.password && (<p className={styles['error-message']}><span>{errors.password.message}</span></p>)}
                         </div>
