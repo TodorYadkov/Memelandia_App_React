@@ -23,8 +23,11 @@ async function userRegister(userData) {
     // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, ROUNDS_BCRYPT);
 
+    //Hash security question
+    const hashedSecurityQuestion = await bcrypt.hash(userData.securityQuestion, ROUNDS_BCRYPT);
+
     // Create new user
-    const user = await User.create({ ...userData, password: hashedPassword });
+    const user = await User.create({ ...userData, password: hashedPassword, securityQuestion: hashedSecurityQuestion });
 
     // Create token
     const userToken = await generateToken(user);
@@ -42,8 +45,9 @@ async function userRegister(userData) {
             name: user.name,
             age: user.age,
             rating: user.rating,
-            createdUser: user.createdAt,
-            updatedUser: user.updatedAt,
+            favorite: user.favorite,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
             commentsCount: commentsCount
         }
     };
@@ -80,8 +84,9 @@ async function userLogin(userData) {
             name: user.name,
             age: user.age,
             rating: user.rating,
-            createdUser: user.createdAt,
-            updatedUser: user.updatedAt,
+            favorite: user.favorite,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
             commentsCount: commentsCount
         }
     };
@@ -97,7 +102,9 @@ async function forgottenPassword(userData) {
         throw new Error('Invalid credentials!');
     }
 
-    if (user?.securityQuestion !== userData?.securityQuestion) {
+    // Validate security question
+    const matchSecurityQuestion = await bcrypt.compare(userData.securityQuestion, user.securityQuestion);
+    if (!matchSecurityQuestion) {
         throw new Error('Invalid credentials!');
     }
 
@@ -128,8 +135,9 @@ async function forgottenPassword(userData) {
             name: user.name,
             age: user.age,
             rating: user.rating,
-            createdUser: user.createdAt,
-            updatedUser: user.updatedAt,
+            favorite: user.favorite,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
             commentsCount: commentsCount
         }
     };
@@ -142,15 +150,17 @@ async function userLogout(userToken) {
 
 async function getUserById(userId) {
     // Select all without password (-password)
-    const user = await User.findById(userId).select('-password -securityQuestion').lean();
+    const user = await User.findById(userId).select('-password -securityQuestion').populate('favorite').lean();
     const commentsCount = await Comment.countDocuments({ userId });
     return { ...user, commentsCount };
 }
 
 
 async function updateUserById(userData, userId) {
-    // Update user details and run validators
-    return User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true })
+    // Update user details, run validators and return update data
+    const user = await User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true, select: '-password -securityQuestion' }).lean();
+    const commentsCount = await Comment.countDocuments({ userId });
+    return { ...user, commentsCount };
 }
 
 const addRemoveFavorite = async (memeId, userId) => {
