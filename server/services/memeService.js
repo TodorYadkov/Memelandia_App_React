@@ -37,8 +37,8 @@ const getMemeByIdWithIncrementView = async (memeId) => {
 
 const getAllMemesForUser = async (userId, page = 1, limit = 20) => {
     const userMemes = await Meme.find({ author: userId }).skip((page - 1) * limit).limit(limit).populate('author', ['username', 'rating', 'createdAt']);
-    // Count the total number founded documents
-    const totalDocuments = userMemes.length;
+    // Count the total number of user's documents
+    const totalDocuments = await Meme.countDocuments({ author: userId });
 
     return { userMemes, totalDocuments };
 };
