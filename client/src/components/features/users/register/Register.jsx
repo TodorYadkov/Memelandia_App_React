@@ -7,6 +7,7 @@ import { USER_FIELD } from '../userFieldConstants';
 import { useApi } from '../../../core/hooks/useApi';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
+import { trimInputData } from '../../../utils/trimInputData';
 
 import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
@@ -14,8 +15,8 @@ import Loading from '../../../shared/loader/Loading';
 export default function Register() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
-    const [isPasswordVisible, setPasswordVisible] = useState(false); // Show/hidden password in password input field
+    const [serverMessage, setServerMessage] = useState({ error: '' });  // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false);    // Show/hidden password in password input field
     const [isRePasswordVisible, setRePasswordVisible] = useState(false); // Show/hidden rePassword in rePassword input field
 
     const api = useApi();
@@ -47,10 +48,7 @@ export default function Register() {
     // Submit form
     const submitHandler = (userInput) => {
         // Trim user input
-        const trimmedInput = Object.entries(userInput).reduce((acc, inputField) => {
-            const [inputFieldName, inputFieldValue] = inputField;
-            return { ...acc, [inputFieldName]: typeof inputFieldValue === 'string' ? inputFieldValue.trim() : inputFieldValue };
-        }, {});
+        const trimmedInput = trimInputData(userInput);
         // Exclude rePass field 
         const { rePass, ...verifiedUserData } = trimmedInput;
 
@@ -62,7 +60,7 @@ export default function Register() {
                 // Reset form after submit
                 reset();
                 // Redirect to catalog (memeboard)
-                navigate('/catalog', { replace: true });
+                navigate('/memes/catalog', { replace: true });
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
