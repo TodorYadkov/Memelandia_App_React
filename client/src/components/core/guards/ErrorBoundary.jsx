@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 
+import styles from './ErrorBoundary.module.css';
+
 // This is the official React ErrorBoundary
 // https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary
 export class ErrorBoundary extends React.Component {
@@ -15,7 +17,7 @@ export class ErrorBoundary extends React.Component {
     }
 
     componentDidCatch(error, info) {
-        // console.log('React info for crash: ', info); // Can be used for logging errors
+        console.log('React info for crash: ', info); // Can be used for logging errors
         console.error('React ErrorBoundary message: ', error);
     }
 
@@ -23,10 +25,10 @@ export class ErrorBoundary extends React.Component {
         if (this.state.hasError) {
 
             return (
-                <div className='max-width'>
-                    <h2>Oops! Page Not Be Found</h2>
-                    <p>Sorry, something went wrong.</p>
-                    <a href="/">Back to homepage</a>
+                <div className={`${styles['not-found']} max-width`}>
+                    <h2>Oops! An unexpected type error occurred!</h2>
+                    <p>Please try again later or contact support.</p>
+                    <a href="/" className={`btn ${styles['btn']} ${styles['not-found-btn']}`}><i className="fa-solid fa-face-sad-cry"></i> Back to homepage</a>
                 </div>
             );
         }
