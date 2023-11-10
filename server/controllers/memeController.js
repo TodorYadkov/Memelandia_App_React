@@ -29,13 +29,13 @@ router.get('/', async (req, res, next) => {
         // From front-end send request with query params "page" and "limit"
         const page = parseInt(req.query.page) || 1;    // Get current page
         const limit = parseInt(req.query.limit) || 20; // Number of memes per page
-        const [countMemesDocuments, allMemes] = await Promise.all([
+        const [countMemesDocuments, memes] = await Promise.all([
             getMemeCountDocuments(),
             getAllMemes(page, limit),
         ]);
 
         const totalPages = Math.ceil(countMemesDocuments / limit); // Calculate total number of pages
-        const payload = { allMemes, page, totalPages }; // On front-end receive object with array of memes, current page, and total pages with data
+        const payload = { memes, page, totalPages }; // On front-end receive object with array of memes, current page, and total pages with data
 
         res.status(200).json(payload);
     } catch (error) {
@@ -66,7 +66,7 @@ router.get('/search', async (req, res, next) => {
         const foundMemes = await getMemeBySearch(name, category, page, limit); // foundMemes is object with array of found memes and total count of found document (total pages)
 
         const totalPages = Math.ceil(foundMemes.totalDocuments / limit); // Calculate total number of pages
-        const payload = { foundMemes: foundMemes.foundMemes, page, totalPages }; // On front-end receive object with array of searched memes, current page, and total pages with data
+        const payload = { memes: foundMemes.foundMemes, page, totalPages }; // On front-end receive object with array of searched memes, current page, and total pages with data
 
         res.status(200).json(payload);
     } catch (error) {
@@ -97,7 +97,7 @@ router.get('/for-user/:userId', async (req, res, next) => {
         const allUserMemes = await getAllMemesForUser(userId, page, limit);
 
         const totalPages = Math.ceil(allUserMemes.totalDocuments / limit); // Calculate total number of pages
-        const payload = { userMemes: allUserMemes.userMemes, page, totalPages }; // On front-end receive object with array of user memes, current page, and total pages with data
+        const payload = { memes: allUserMemes.userMemes, page, totalPages }; // On front-end receive object with array of user memes, current page, and total pages with data
 
         res.status(200).json(payload);
     } catch (error) {
