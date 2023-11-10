@@ -1,8 +1,15 @@
 import styles from './ListMemes.module.css';
-import CardMeme from "../card-meme/CardMeme";
-import NoContentMessage from '../../../shared/no-content/NoContentMessage';
+import { useForm } from 'react-hook-form';
+
+import { endpoint } from '../../../core/environments/constants';
+
+import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 
 export default function ListMemes() {
+
+    const { register, handleSubmit } = useForm({});
+
+
     return (
         <section className={`${styles['catalog']} max-width`}>
             <div className={styles['catalog-search']}>
@@ -20,10 +27,11 @@ export default function ListMemes() {
                     </select>
                 </div>
             </div>
+
             <div className={styles['all-memes']}>
-                {/* <!-- If no content show this --> */}
-                <NoContentMessage />
-                <CardMeme />
+
+                <InfiniteScrollComponent endpoint={endpoint.getAllMemes} />
+
             </div >
         </section >);
 }

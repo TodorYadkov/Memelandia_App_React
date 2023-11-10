@@ -10,6 +10,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 4em;
+    margin-bottom: 2em;
 }
 
 .search-name {
