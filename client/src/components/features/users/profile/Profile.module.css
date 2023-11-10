@@ -30,6 +30,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1em;
     padding-inline: 1em;
     background-color: var(--color-sky-blue);
 }
@@ -74,6 +75,7 @@
     transition: transform 0.6s ease-in-out, text-shadow 0.6s;
 }
 
+.profile-email,
 .profile-username,
 .profile-age {
     display: block;
@@ -87,6 +89,7 @@
 }
 
 .profile-name:hover,
+.profile-email:hover,
 .profile-username:hover,
 .profile-age:hover {
     transform: scale(1.1);
@@ -97,8 +100,9 @@
     text-shadow: 3px 3px 1px rgb(0, 0, 0, 0.3);
 }
 
-.profile-age:hover,
-.profile-username:hover {
+.profile-email:hover,
+.profile-username:hover,
+.profile-age:hover {
     text-shadow: 2px 2px 2px rgb(0, 0, 0, 0.3);
 }
 
@@ -109,6 +113,24 @@
 
 .profile-stat {
     padding: 1em;
+}
+
+.profile-memes {
+    gap: 1em;
+}
+
+.profile-memes-heading {
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 0.05em;
+    text-decoration-style: wavy;
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: rgb(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
+    margin-bottom: 1em;
 }
 
 /* Statistic */
@@ -233,6 +255,10 @@
     animation-delay: 2.5s;
 }
 
+.box .content .percent.red svg circle:nth-child(2) {
+    stroke: var(--color-red);
+}
+
 @keyframes fadeIn {
     0% {
         opacity: 0;
@@ -272,6 +298,10 @@
     border-radius: 50%;
 }
 
+.box .content .percent.red .dot::before {
+    background: var(--color-red);
+}
+
 .box .content .number {
     position: relative;
     inset: 0;
@@ -283,6 +313,10 @@
 .box .content .number h2 {
     font-size: 2.5rem;
     color: var(--color-text);
+}
+
+.box .content .number.red h2 {
+    color: var(--color-red);
 }
 
 .box .content .number h2 span {
@@ -306,6 +340,7 @@
     color: var(--color-text);
     padding: 0.25em 0.5em;
     border-radius: 0.5em;
+    border: none;
     cursor: pointer;
     transition: transform 0.8s ease-in-out, color 1s;
 }
@@ -314,17 +349,4 @@
 .btn.btn-user:hover {
     transform: scale(1.2);
     color: var(--color-white);
-}
-
-.profile-memes {
-    gap: 1em;
-}
-
-.profile-memes-heading {
-    text-align: center;
-    font-weight: bold;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-    text-decoration-thickness: 0.05em;
-    text-decoration-style: wavy;
 }
