@@ -21,7 +21,7 @@
     transition: color 0.8s;
 }
 
-span:nth-child(2n + 1):hover {
+.not-found-heading span:nth-child(2n + 1):hover {
     color: var(--color-hover);
 }
 
