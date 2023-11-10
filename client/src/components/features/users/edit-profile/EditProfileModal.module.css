@@ -1,0 +1,98 @@
+.form,
+.form-buttons,
+.control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    position: relative;
+}
+
+.control i {
+    position: absolute;
+    top: 59%;
+    left: 10%;
+}
+
+.error-message {
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: -1.8em;
+    font-size: 0.55em;
+    font-weight: 500;
+    color: var(--color-red);
+}
+
+.error-message>span {
+    display: block;
+    margin-left: 1.25em;
+}
+
+.label {
+    visibility: hidden;
+}
+
+.input {
+    width: 80%;
+    margin: 0 auto;
+    text-indent: 1.5em;
+    border: unset;
+    border-bottom: 1px solid var(--color-sky-blue);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 4px 2px rgb(0, 0, 0, 0.3);
+    padding: 0.25em 0.5em;
+    background-color: var(--color-light-gray);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.input:focus {
+    background-color: var(--color-input-active);
+    box-shadow: inset 0 0 0 1px var(--color-sky-blue);
+}
+
+.input.valid,
+.input.valid:focus {
+    border: 2px solid var(--color-green);
+}
+
+.input.invalid,
+.input.invalid:focus {
+    border: 2px solid var(--color-red);
+}
+
+.input::placeholder {
+    color: var(--color-text);
+    font-size: 0.8em;
+}
+
+.control.age {
+    margin-bottom: 2em;
+}
+
+.form-buttons {
+    align-items: center;
+}
+
+.btn.btn-edit-profile {
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-header-footer);
+    padding: 0.25em 1em;
+    border-radius: 0.5em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.btn.btn-edit-profile:disabled {
+    background-color: var(--color-body);
+    cursor: not-allowed;
+}
+
+.btn.btn-edit-profile:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
+
+.btn.btn-edit-profile:hover:disabled {
+    transform: scale(1);
+}
