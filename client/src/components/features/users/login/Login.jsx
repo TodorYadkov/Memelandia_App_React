@@ -38,6 +38,9 @@ export default function Login() {
     });
 
     useEffect(() => {
+        // Add page title
+        document.title = 'Login page';
+
         // Get first meme to display in the login form
         setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
