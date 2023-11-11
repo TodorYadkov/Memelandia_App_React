@@ -29,6 +29,9 @@ export default function Profile() {
     const [isShownModal, setIsShownModal] = useModal();                                     // Show hide modal for edit user profile
 
     useEffect(() => {
+        // Add page title
+        document.title = `Profile of ${getUserDetails['username'] ? getUserDetails['username'] : userDetails.username}`;
+
         // If the user has refreshed their browser, get their data from the server
         if (getUserDetails['_id']) {
             setUserDetails(getUserDetails); // Get user details from context (in memory)
@@ -70,8 +73,8 @@ export default function Profile() {
                 currentState === 'meme' && setMyFavoriteMemes(userData.favorite);   // Save user's favorite memes in state
             })
             .catch(error => currentState === 'meme'
-                ? setServerMessage({ errorUser: error.message })                    // Use this to display a message in the user's details
-                : setServerMessage({ errorMeme: error.message })                    // Use this to display a message below the user's data
+                ? setServerMessage({ errorMeme: error.message })                    // Use this to display a message below the user's data
+                : setServerMessage({ errorUser: error.message })                    // Use this to display a message in the user's details
             )
             .finally(() => setLoadingState(false));
     };
@@ -87,7 +90,7 @@ export default function Profile() {
                 </div>
 
                 {(serverMessage?.errorUser && !isLoadingUser) && <Message type="error" message={serverMessage.errorUser} />}
-                {isLoadingUser
+                {(serverMessage?.errorUser && !isLoadingUser)
                     ? <Loading />
                     : <>
                         <div className={styles['profile-header']}>
@@ -98,6 +101,7 @@ export default function Profile() {
                                 <span className={styles['profile-age']}>{userDetails?.age} years old</span>
                             </p>
                         </div>
+
                         <div className={styles['profile-stat']}>
                             <div className={styles['profile-stat-container']}>
 
