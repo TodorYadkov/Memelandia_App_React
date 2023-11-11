@@ -9,17 +9,17 @@ const endpoint = {
     forgottenPass: 'users/forgotten-password', // put
     addRemoveFavoriteMeme: (memeId) => `users/favorite/${memeId}`, // get
     getTopRatedMemes: 'memes/three-top-rated', // get
-    getAllMemes: 'memes?', // get  -----> (page, limit) => `memes?page=${page}&limit=${limit}`
-    getMemeBySearch: (memeName, category, page, limit) => `memes/search?name=${memeName}&category=${category}&page=${page}&limit=${limit}`, // get
+    getAllMemes: 'memes?', // get  ---> (page, limit) => `memes?page=${page}&limit=${limit}`
+    getMemeBySearch: (memeName, category) => `memes/search?name=${memeName}&category=${category}&`, // get   ---> (memeName, category, page, limit) => `memes/search?name=${memeName}&category=${category}&page=${page}&limit=${limit}`
     getMemeById: (memeId) => `memes/get-one/${memeId}`, // get
-    getMemeForUserById: (userId) => `memes/for-user/${userId}?`, // get  -----> (userId, page, limit) => `memes/for-user/${userId}?page=${page}&limit=${limit}`
+    getMemeForUserById: (userId) => `memes/for-user/${userId}?`, // get  ---> (userId, page, limit) => `memes/for-user/${userId}?page=${page}&limit=${limit}`
     addNewMeme: 'memes/create', // post
     updateMeme: (memeId) => `memes/edit/${memeId}`, // put
     deleteMeme: (memeId) => `memes/delete/${memeId}`, // delete
     addRemoveLikeMeme: (memeId) => `memes/like/${memeId}`, // get
     addRemoveDislikeMeme: (memeId) => `memes/dislike/${memeId}`, // get
     addNewComment: (memeId) => `memes/comments/${memeId}`, // post
-    getAllComments: (memeId) => `memes/comments/${memeId}`, // get
+    getAllCommentsForMeme: (memeId) => `memes/comments/${memeId}`, // get
     getCommentById: (commentId) => `memes/comments/get-one/${commentId}`, // get
     updateComment: (commentId) => `memes/comments/edit/${commentId}`, // put
     deleteComment: (commentId) => `memes/comments/delete/${commentId}`, // delete
@@ -27,7 +27,7 @@ const endpoint = {
 
 const tokenName = '43j54FD345HfiR3413fdErl326MCVzQ4543TRv23Ipo57';
 
-const paginationLimit = 1;
+const paginationLimit = 10;
 
 export {
     host,
