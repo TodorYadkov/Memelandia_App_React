@@ -16,6 +16,9 @@ export default function Logout() {
     const { clearUserSession } = useAuthContext();
 
     useEffect(() => {
+        // Add page title
+        document.title = 'Logout page';
+
         api.get(endpoint.logout)
             .then(data => clearUserSession())
             .catch(error => {
