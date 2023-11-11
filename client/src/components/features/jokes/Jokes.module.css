@@ -19,11 +19,14 @@
 }
 
 .jokes-wrapper-heading h3 {
+    cursor: default;
+    color: var(--color-text);
     font-weight: bold;
+    text-align: center;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px var(--color-text), 2px 2px var(--color-text), 3px 3px var(--color-text), 4px 4px var(--color-text), 5px 5px var(--color-text), 6px 6px var(--color-text);
     -webkit-text-fill-color: var(--color-white);
     -webkit-text-stroke: 1px;
-    text-shadow: 3px 3px 2px rgb(0, 0, 0, 0.9);
-    letter-spacing: 2px;
     margin: 0.1em;
 }
 
