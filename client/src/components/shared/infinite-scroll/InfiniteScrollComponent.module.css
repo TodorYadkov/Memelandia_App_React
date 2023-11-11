@@ -1,0 +1,13 @@
+.not-found {
+    cursor: default;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 2px;
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: rgb(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
+}
