@@ -3,6 +3,7 @@
     flex-direction: column;
     align-content: center;
     gap: 2em;
+    cursor: default;
     color: var(--color-text);
 }
 
