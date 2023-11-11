@@ -7,7 +7,7 @@ const memeSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Name is required.'],
         minlength: [2, 'Name must be at least two characters long.'],
-        maxlength: [50, 'Name must be at least fifty characters long.']
+        maxlength: [50, 'Name must not exceed fifty characters.']
     },
     imageUrl: {
         type: String,
