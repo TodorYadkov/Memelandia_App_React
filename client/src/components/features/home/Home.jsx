@@ -18,6 +18,8 @@ export default function Home() {
     const api = useApi();
 
     useEffect(() => {
+        // Add page title
+        document.title = 'Home';
         setIsLoading(true);
 
         api.get(endpoint.getTopRatedMemes)
@@ -36,8 +38,12 @@ export default function Home() {
                 </div>
             </div>
             <div className={styles['top-rated-memes']}>
-                <h2>Top three rated memes</h2>
-
+                <h2>
+                    <span className={styles['span']}>Top</span>
+                    <span className={styles['span']}>three</span>
+                    <span className={styles['span']}>rated</span>
+                    <span className={styles['span']}>memes</span>
+                </h2>
                 {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
                 {isLoading && <Loading />}
