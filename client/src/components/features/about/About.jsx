@@ -1,6 +1,14 @@
+import { useEffect } from 'react';
+
 import styles from './About.module.css';
 
 export default function About() {
+
+    useEffect(() => {
+        // Add page title
+        document.title = 'About page';
+    }, []);
+
     return (
         <section className={`${styles['about']} max-width`}>
             <h1 className={styles['about-heading']}>About <span>Meme</span><span>Landia</span></h1>
