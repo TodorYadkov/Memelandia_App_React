@@ -37,6 +37,9 @@ export default function Register() {
     });
 
     useEffect(() => {
+        // Add page title
+        document.title = 'Register page';
+
         // Get second meme to display in the registration form
         setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
