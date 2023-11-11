@@ -5,20 +5,50 @@
     gap: 2em;
 }
 
-.catalog-search {
+.form-search {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    gap: 4em;
+    align-items: flex-end;
+    gap: 2em;
     margin-bottom: 2em;
 }
 
 .search-name {
-    flex: 60%;
+    flex: 50%;
+    position: relative;
 }
 
 .search-category {
-    flex: 40%;
+    flex: 35%;
+    position: relative;
+}
+
+.search-button-wrapper {
+    flex: 15%;
+}
+
+.search-name input,
+.search-category select {
+    text-indent: 1.5em;
+}
+
+.search-name i,
+.search-category i {
+    position: absolute;
+    cursor: default;
+    top: 20%;
+    left: 2%;
+    transition: all 0.8s ease-in-out;
+}
+
+.search-category i {
+    left: 3%;
+}
+
+.search-name i:hover,
+.search-category i:hover {
+    transform: scale(1.5);
+    color: var(--color-hover);
 }
 
 .search-name>input,
@@ -33,7 +63,8 @@
     transition: background-color 0.3s ease-in-out;
 }
 
-.search-name>input:focus {
+.search-name>input:focus,
+.search-category>select:focus {
     background-color: var(--color-input-active);
     box-shadow: inset 0 0 0 1px var(--color-sky-blue);
 }
@@ -52,8 +83,58 @@
     color: var(--color-text);
 }
 
+.search-button-wrapper .btn-reset {
+    all:unset;
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-header-footer);
+    padding: 0.2em 0.5em;
+    border-radius: 0.5em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.search-button-wrapper .btn-reset:hover {
+    transform: scale(1.05);
+    color: var(--color-hover);
+}
+
+.error-message {
+    width: 100%;
+    margin: 0.25em auto;
+    margin-bottom: -1.8em;
+    font-size: 1em;
+    color: var(--color-red);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='15' height='15' fill='none' stroke='%23df382c'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23df382c' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.error-message>span {
+    display: block;
+    margin-left: 1.25em;
+}
+
 .all-memes {
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+@media (max-width: 600px) {
+    .search-name {
+        flex: 40%;
+        position: relative;
+    }
+
+    .search-category {
+        flex: 35%;
+        position: relative;
+    }
+
+    .search-button-wrapper {
+        flex: 25%;
+    }
 }
