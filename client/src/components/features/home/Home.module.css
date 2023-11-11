@@ -14,7 +14,7 @@
     background-color: rgb(255, 255, 255, 0.2);
     box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
     transition: box-shadow 2s, background-color 2s;
-    margin-bottom: 2em;
+    margin-bottom: 6em;
 }
 
 .welcome:hover {
@@ -86,16 +86,78 @@
 .top-rated-memes>h2 {
     cursor: default;
     color: var(--color-text);
+    background-color: rgb(255, 255, 255, 0.2);
     font-size: 3em;
     font-weight: bold;
     text-align: center;
     letter-spacing: 2px;
-    text-shadow: 1px 1px var(--color-text), 2px 2px var(--color-text), 3px 3px var(--color-text), 4px 4px var(--color-text), 5px 5px var(--color-text), 6px 6px var(--color-text), 7px 7px var(--color-text), 8px 8px var(--color-text);
-    -webkit-text-fill-color: var(--color-white);
-    -webkit-text-stroke: 2px;
-    -webkit-transition: all 0.6s ease-out;
-    -moz-transition: all 0.6s ease-out;
-    -o-transition: all 0.6s ease-out;
-    transition: all 0.6s ease-out;
+    border-radius: 0.5em;
+    padding: 0.25em;
+    text-shadow:
+        1px -1px var(--color-text),
+        2px -2px var(--color-text),
+        3px -3px var(--color-text),
+        4px -4px var(--color-text),
+        5px -5px var(--color-text),
+        6px -6px var(--color-text),
+        7px -7px var(--color-text),
+        8px -8px var(--color-text);
+    box-shadow: 4px 4px 12px 1px rgb(255, 255, 255, 0.5), 14px 14px 16px 0 rgba(0, 0, 0, 0.15);
+    -webkit-text-stroke: 1px;
     margin-bottom: 1em;
+    transition: all 1s ease-in-out;
+}
+
+.top-rated-memes>h2:hover {
+    color: var(--color-text);
+    font-size: 4em;
+    text-shadow:
+        1px 1px var(--color-text),
+        2px 2px var(--color-text),
+        3px 3px var(--color-text),
+        4px 4px var(--color-text),
+        5px 5px var(--color-text),
+        6px 6px var(--color-text),
+        7px 7px var(--color-text),
+        8px 8px var(--color-text);
+    box-shadow: 12px 12px 12px 1px rgb(255, 255, 255, 0.7), 18px 18px 16px 0 rgba(0, 0, 0, 0.25);
+}
+
+.top-rated-memes .span {
+    margin-right: 0.25em;
+}
+
+.top-rated-memes .span:nth-child(1) {
+    -webkit-text-fill-color: var(--color-pink);
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 4px;
+}
+
+.top-rated-memes .span:nth-child(2) {
+    -webkit-text-fill-color: var(--color-star);
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 4px;
+
+}
+
+.top-rated-memes .span:nth-child(3) {
+    -webkit-text-fill-color: var(--color-light-green);
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 4px;
+
+}
+
+.top-rated-memes .span:nth-child(4) {
+    -webkit-text-fill-color: var(--color-sky-blue);
+    text-decoration: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 10px;
+    text-decoration-thickness: 4px;
+
 }
