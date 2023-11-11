@@ -1,41 +1,58 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
 import styles from './DetailsMeme.module.css';
-import DeleteCommentModal from "../../comment/delete-comment/DeleteCommentModal";
-import EditCommentModal from "../../comment/edit-comment/EditComentModal";
-import ShareMemeModal from "../share-meme/ShareMemeModal";
+import { useApi } from '../../../core/hooks/useApi';
+import { endpoint } from '../../../core/environments/constants';
+
 import CardMeme from '../card-meme/CardMeme';
+import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
+import ListComments from '../../comment/list-comments/ListComments';
 
 export default function DetailsMeme() {
+    const [currentMeme, setCurrentMeme] = useState({});
+    const [allCommentsForMeme, setAllCommentsForMeme] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+
+    const api = useApi();
+    const { memeId } = useParams('memeId');
+
+    useEffect(() => {
+        // Add page title
+        document.title = 'Details';
+        setIsLoading(true);
+        Promise.all([
+            api.get(endpoint.getMemeById(memeId)),
+            api.get(endpoint.getAllCommentsForMeme(memeId))
+        ])
+            .then(([memeDetails, memeComments]) => {
+                setCurrentMeme(memeDetails);
+                setAllCommentsForMeme(memeComments);
+            })
+            .catch(error => setServerMessage({ error: error.message }))
+            .finally(() => setIsLoading(false));
+    }, []);
+
     return (
-        <section className={`${styles['details']} ${styles['max-width']}`}>
-            
-            <CardMeme />
+        <section className={`${styles['details']} max-width`}>
 
-            <div className={styles['all-comments']}>
-                <div className={styles['comments-wrapper-heading']}>
-                    <h3>Comments</h3>
-                </div>
-                {/* <!-- One comment --> */}
-                <div className={styles['comment']}>
-                    <div className={styles['comment-author-wrapper']}>
-                        <p className={styles['comment-author']}>Peter</p>
-                        {/* <!-- If the current user is owner --> */}
-                        <div className={styles['comment-buttons']}>
-                            <p><time>22.02.2023 </time></p>
-                            <label htmlFor="modal-toggle-comment-edit" className={`btn ${styles['btn']} ${styles['comment-edit']} ${styles['modal-button']}`}><i
-                                className="fa-solid fa-pen-to-square"></i></label>
+            {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
-                            <label htmlFor="modal-toggle-comment-delete" className={`btn ${styles['btn']} ${styles['comment-delete']} ${styles['modal-button']}`}><i
-                                className="fa-solid fa-trash"></i></label>
-                        </div>
+            {isLoading
+                ? <Loading />
+                : <>
+                    <div className={styles['details-card']}>
+                        {currentMeme?._id && <CardMeme {...currentMeme} />}
+
                     </div>
-                    <p className={styles['comment-text']}>Best meme ever!</p>
-                </div>
+                    <div className={styles['details-comments']}>
+                        <ListComments comments={allCommentsForMeme} />
 
-            </div>
-
-            <EditCommentModal />
-            <DeleteCommentModal />
-            <ShareMemeModal />
-        </section >
+                    </div>
+                </>
+            }
+        </section>
     );
 }
