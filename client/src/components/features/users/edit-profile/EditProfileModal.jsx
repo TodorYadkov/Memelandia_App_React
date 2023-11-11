@@ -39,19 +39,10 @@ export default function EditProfileModal({ userDetails, setUserDetails, modalHan
             .then(updatedData => {
                 setServerMessage({ success: 'Information changed successfully.' });
                 setUserDetails(updatedData);
+                // Set the update data for the entire application to be current
                 addUserSession({
                     accessToken: getUserToken,
-                    userDetails: {
-                        _id: updatedData._id,
-                        username: updatedData.username,
-                        email: updatedData.email,
-                        name: updatedData.name,
-                        age: updatedData.age,
-                        rating: updatedData.rating,
-                        createdUser: updatedData.createdAt,
-                        updatedUser: updatedData.updatedAt,
-                        commentsCount: updatedData.commentsCount
-                    }
+                    userDetails: { ...updatedData }
                 });
             })
             .catch(error => setServerMessage({ error: error.message }))
