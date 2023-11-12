@@ -1,0 +1,60 @@
+.form,
+.control-comment,
+.form-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.textarea-label {
+    display: block;
+    visibility: hidden;
+}
+
+.textarea {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    border: unset;
+    border-bottom: 1px solid var(--color-sky-blue);
+    border-radius: 0.5em;
+    box-shadow: 0 2px 4px 1px rgb(0, 0, 0, 0.3);
+    padding: 0.5em 0.5em;
+    background-color: var(--color-light-gray);
+    transition: all 0.5s ease-in-out;
+}
+
+.form-buttons {
+    align-items: center;
+}
+
+.form-buttons .btn-delete {
+    all: unset;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-red-dark);
+    padding: 0.5em 1.25em;
+    border-radius: 0.5em;
+    transition: transform 0.8s ease-in-out;
+}
+
+.form-buttons .btn-delete>i {
+    color: var(--color-star);
+}
+
+.form-buttons .btn-delete:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
+
+.form-buttons .btn-delete:disabled,
+.form-buttons .btn-delete:disabled>i {
+    color: var(--color-white);
+    background-color: var(--color-body);
+    cursor: not-allowed;
+}
+
+.form-buttons .btn-delete:hover:disabled {
+    transform: scale(1);
+}
