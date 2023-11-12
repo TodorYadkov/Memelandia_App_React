@@ -12,25 +12,19 @@ import ListComments from '../../comment/list-comments/ListComments';
 
 export default function DetailsMeme() {
     const [currentMeme, setCurrentMeme] = useState({});
-    const [allCommentsForMeme, setAllCommentsForMeme] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
 
     const api = useApi();
-    const { memeId } = useParams('memeId');
+    const { memeId } = useParams('memeId');                             // Get memeId from query params
 
     useEffect(() => {
         // Add page title
         document.title = 'Details';
+
         setIsLoading(true);
-        Promise.all([
-            api.get(endpoint.getMemeById(memeId)),
-            api.get(endpoint.getAllCommentsForMeme(memeId))
-        ])
-            .then(([memeDetails, memeComments]) => {
-                setCurrentMeme(memeDetails);
-                setAllCommentsForMeme(memeComments);
-            })
+        api.get(endpoint.getMemeById(memeId))
+            .then(memeDetails => setCurrentMeme(memeDetails))
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
@@ -48,11 +42,12 @@ export default function DetailsMeme() {
 
                     </div>
                     <div className={styles['details-comments']}>
-                        <ListComments comments={allCommentsForMeme} />
+                        {currentMeme?._id && <ListComments memeInfo={currentMeme} />}
 
                     </div>
                 </>
             }
+
         </section>
     );
 }
