@@ -5,13 +5,14 @@
     color: var(--color-text);
 }
 
+.btn,
+.btn>i {
+    transition: transform 0.8s ease-in-out;
+}
+
 .btn:hover {
     transform: scale(1.3);
     color: var(--color-hover);
-}
-
-.btn>i {
-    transition: transform 0.3s ease-in-out;
 }
 
 .btn>i:hover {
