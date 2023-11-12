@@ -37,10 +37,18 @@
 
 .modal-footer {
     display: flex;
-    justify-content: flex-end;
-    background-color: var(--color-white);
-    padding: 0.25em 1em;
-    border-top: 1px solid black;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-sky-blue);
+    padding: 0.5em 1em;
+}
+
+.modal-footer::before {
+    content: 'MemeLandia';
+    display: inline-block;
+    color: transparent;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 1px rgb(255, 255, 255, 0.6);
 }
 
 .modal-close {
@@ -59,7 +67,6 @@
     padding: 0.25em 1em;
     border-radius: 0.5em;
     transition: color 0.6s, transform 0.3s ease-in-out;
-
 }
 
 .modal-close:hover,
