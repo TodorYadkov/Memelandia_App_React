@@ -37,7 +37,8 @@
 }
 
 .comment-author {
-    font-weight: 600;
+    font-size: 1.1em;
+    font-weight: 500;
 }
 
 .comment-buttons {
@@ -46,26 +47,74 @@
     gap: 0.25em;
 }
 
-.comment-author a {
+.btn-add-new-comment {
+    all: unset;
+    cursor: pointer;
+}
+
+.comment-author a,
+.comment-author a>i {
+    display: inline-block;
     text-decoration: none;
     color: var(--color-text);
     transition: all 0.8s;
 }
 
-.comment-author a:hover {
+.comment-author a:hover,
+.comment-author a>i:hover {
     color: var(--color-hover);
+    transform: scale(1.2);
 }
 
-.comment-buttons p:first-of-type {
-    font-size: 0.9em;
+.comment-author a>i:hover {
+    transform: scale(1.3);
 }
 
-.btn.comment-edit,
-.btn.comment-delete {
-    font-size: 1.25em;
+.comment-buttons .comment-edit,
+.comment-buttons .comment-delete {
+    all: unset;
     cursor: pointer;
+    padding-inline: 0.25em;
+}
+
+.comment-time {
+    font-size: 0.9em;
+    cursor: default;
+}
+
+.comment-time sup {
+    display: inline-block;
+    font-size: 0.6em;
+    margin-left: 0.25em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.comment-time sup:hover {
+    transform: scale(1.2);
 }
 
 .comment-text {
     font-size: 1.25em;
+}
+
+.no-comments,
+.no-comments i {
+    font-size: 1.5em;
+}
+
+.no-comments {
+    text-align: center;
+    font-weight: bold;
+    padding: 1em;
+    background-color: var(--color-input-active);
+}
+
+.no-comments i {
+    color: var(--color-sky-blue);
+    transition: all 0.8s ease-in-out;
+}
+
+.no-comments i:hover {
+    color: var(--color-hover);
+    transform: scale(1.3);
 }

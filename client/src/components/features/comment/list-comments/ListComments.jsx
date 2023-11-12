@@ -6,19 +6,28 @@ import styles from './ListComments.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
+import { useModal } from '../../../core/hooks/useModal';
+
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
+import AddCommentModal from '../add-comment/AddCommentModal';
+import EditCommentModal from '../edit-comment/EditCommentModal';
+import DeleteCommentModal from '../delete-comment/DeleteCommentModal';
 
-export default function ListComments({ comments }) {
-    const [userDetails, setUserDetails] = useState({});                             // Use to show user details
+export default function ListComments({ memeInfo }) {
+    const [allComments, setAllComments] = useState([]);                                     // Use to show all comments              
+    const [commentDetails, setCommentDetails] = useState({});                               // Use to show details for one comment              
+    const [userDetails, setUserDetails] = useState({});                                     // Use of customer details to access various functionalities
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' });               // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                      // Use to display various messages from the server
 
     const api = useApi();
+    const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                 // Show hide modal for add comment
+    const [isShownEditCommentModal, setIsShownEditCommentModal] = useModal();               // Show hide modal for edit comment
+    const [isShownDeleteCommentModal, setIsShownDeleteCommentModal] = useModal();           // Show hide modal for delete comment
     const { isLoggedIn, getUserDetails, addUserSession, getUserToken } = useAuthContext();
 
     useEffect(() => {
-
         // If the user has refreshed their browser, get their data from the server
         if (getUserDetails['_id'] && isLoggedIn) {
             setUserDetails(getUserDetails); // Get user details from context (in memory)
@@ -38,7 +47,41 @@ export default function ListComments({ comments }) {
                 .finally(() => setIsLoading(false));
         }
 
+        getAllComments();
+
     }, []);
+
+    // Get all comments for meme
+    const getAllComments = () => {
+        setIsLoading(true);
+
+        api.get(endpoint.getAllCommentsForMeme(memeInfo._id))
+            .then(comments => setAllComments(comments))
+            .catch(error => setServerMessage({ error: error.message }))
+            .finally(() => setIsLoading(false));
+    };
+
+    // Get one comment and show a edit modal
+    const editCommentHandler = (comment) => {
+        // If the modal is shown not set again comment
+        if (!isShownEditCommentModal) {
+            setCommentDetails(comment);
+            setIsShownEditCommentModal();
+        }
+        // Hide modal
+        setIsShownEditCommentModal();
+    };
+
+    // Get one comment and show a delete modal
+    const deleteCommentHandler = (comment) => {
+        // If the modal is shown not set again comment
+        if (!isShownDeleteCommentModal) {
+            setCommentDetails(comment);
+            setIsShownDeleteCommentModal();
+        }
+        // Hide modal
+        setIsShownDeleteCommentModal();
+    };
 
     return (
         <div className={styles['all-comments']}>
@@ -49,28 +92,35 @@ export default function ListComments({ comments }) {
             {isLoading && <Loading />}
             {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
-            {comments.length > 0
+            {allComments.length > 0
                 ?
                 (
-                    comments.map((comment, index) => (
-                        <div className={styles['comment']} key={index}>
+                    allComments.map(comment => (
+                        <div className={styles['comment']} key={comment._id}>
                             <div className={styles['comment-author-wrapper']}>
 
-                                <p className={styles['comment-author']}><Link to={`/memes/user-memes/${comment.userId._id}`}>{comment.userId.username}</Link></p>
-
+                                <p className={styles['comment-author']}><Link to={`/memes/user-memes/${comment.userId._id}`}><i className="fa-solid fa-at"></i> {comment.userId.username}</Link></p>
                                 <div className={styles['comment-buttons']}>
 
-                                    <p><time>{new Date(comment?.createdAt).toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</time></p>
+                                    <p className={styles['comment-time']}>
+                                        <time>
+                                            {
+                                                new Date(comment?.createdAt !== comment?.updatedAt ? comment?.updatedAt : comment?.createdAt)
+                                                    .toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                                            }
+                                        </time>
+                                        {comment?.createdAt !== comment?.updatedAt && <sup>(edited)</sup>}
+                                    </p>
 
                                     {
-                                        userDetails?._id === comment.userId._id && (
+                                        (userDetails?._id === comment.userId._id) && (
                                             <>
-                                                <label htmlFor="modal-toggle-comment-edit" className={`btn ${styles['btn']} ${styles['comment-edit']} ${styles['modal-button']}`}>
+                                                <button onClick={() => editCommentHandler(comment)} className={`btn ${styles['comment-edit']}`}>
                                                     <i className="fa-solid fa-pen-to-square"></i>
-                                                </label>
-                                                <label htmlFor="modal-toggle-comment-delete" className={`btn ${styles['btn']} ${styles['comment-delete']} ${styles['modal-button']}`}>
+                                                </button>
+                                                <button onClick={() => deleteCommentHandler(comment)} className={`btn ${styles['comment-delete']}`}>
                                                     <i className="fa-solid fa-trash"></i>
-                                                </label>
+                                                </button>
                                             </>
                                         )
                                     }
@@ -79,15 +129,24 @@ export default function ListComments({ comments }) {
                             </div>
 
                             <p className={styles['comment-text']}>{comment.comment}</p>
-
                         </div>
                     ))
                 )
-                :
-                (
-                    <p>No comments yet. <a href="#add-comment">Add a new comment</a></p>
-                )
+                : <p className={styles['no-comments']}> No comments yet.
+                    {(userDetails?._id !== memeInfo.author._id) &&
+                        (
+                            <button onClick={setIsShownAddCommentModal}
+                                className={styles['btn-add-new-comment']}>
+                                <i className="btn fa-solid fa-comment-medical"></i>
+                            </button>
+                        )
+                    }
+                </p>
             }
+
+            {isShownAddCommentModal && <AddCommentModal modalHandler={setIsShownAddCommentModal} memeId={memeInfo._id} setNewCommentHandler={setAllComments} />}
+            {isShownEditCommentModal && <EditCommentModal modalHandler={setIsShownEditCommentModal} commentDetails={commentDetails} setUpdatedCommentHandler={setAllComments} />}
+            {isShownDeleteCommentModal && <DeleteCommentModal modalHandler={setIsShownDeleteCommentModal} commentDetails={commentDetails} setDeletedCommentHandler={setAllComments} />}
         </div>
     );
 }
