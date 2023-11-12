@@ -12,15 +12,11 @@
 .card a {
     color: var(--color-text);
     text-decoration: none;
+    transition: all 0.8s ease-in-out;
 }
 
 .card a:hover {
     color: var(--color-hover);
-}
-
-.category a,
-.card-author-name a {
-    color: var(--color-white);
 }
 
 .card-header {
@@ -29,8 +25,24 @@
 }
 
 .card-header>h4 {
-    margin: 0;
+    margin: 0 0 -0.1em 0;
     font-weight: bold;
+}
+
+.card-author-name {
+    margin-bottom: -0.25em;
+}
+
+.card-author-name * {
+    margin-left: 0.15em;
+}
+
+.category a:hover,
+.card-author-name a:hover,
+.card-author-name i:hover {
+    display: inline-block;
+    color: var(--color-hover);
+    transform: scale(1.1);
 }
 
 .card-meme-info {

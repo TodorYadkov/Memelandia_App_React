@@ -6,8 +6,8 @@ import styles from './CardMeme.module.css';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
-
 import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
+
 import Rating from '../../rating/Rating';
 import AddCommentModal from '../../comment/add-comment/AddCommentModal';
 import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
@@ -58,6 +58,7 @@ export default function CardMeme({
 
     }, []);
 
+    // Get state of the current user
     const currentUser = {
         isLogged: isLoggedIn,
         isOwner: userDetails?._id === author?._id,
@@ -65,15 +66,23 @@ export default function CardMeme({
 
     return (
         <article className={styles['card']}>
-
             {isLoading && <Loading />}
             {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
             <header className={styles['card-header']}>
-
                 <h4><Link to={`/memes/details/${_id}`}>{name}</Link></h4>
 
-                <p className={styles['card-author-name']}>By: <Link to={`/memes/user-memes/${author._id}`} className={styles['card-author-link']}>{author.username}</Link>, <time>{formatDateToTimeAgo(createdAt)}</time> ago</p>
+                <p className={styles['card-author-name']}>
+                    <span>By:</span>
+                    <Link
+                        to={`/memes/user-memes/${author._id}`}
+                        className={styles['card-author-link']}>
+                        <i className="fa-solid fa-at"></i> {author.username}
+                    </Link>
+                    <span>,</span>
+                    <time>{formatDateToTimeAgo(createdAt)}</time>
+                    <span>ago</span>
+                </p>
 
                 <div className={styles['card-meme-info']}>
                     <p className={styles['category']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
@@ -118,5 +127,8 @@ export default function CardMeme({
     );
 }
 
+
+// const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                 // Show hide modal for add comment
+// {isShownAddCommentModal && <AddCommentModal modalHandler={setIsShownAddCommentModal} memeId={memeInfo._id} />}
 // <DeleteMemeModal />
 // <AddCommentModal />
