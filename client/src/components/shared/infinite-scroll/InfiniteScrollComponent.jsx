@@ -10,7 +10,7 @@ import Loading from '../loader/Loading';
 import Message from '../messages/Message';
 import NoContentMessage from '../no-content/NoContentMessage';
 
-export const InfiniteScrollComponent = ({ endpoint }) => {
+export const InfiniteScrollComponent = ({ endpoint, setFetchedMemes }) => {
     const [memes, setMemes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });
@@ -47,6 +47,12 @@ export const InfiniteScrollComponent = ({ endpoint }) => {
                 }
                 // Get total number of pages from the server
                 setTotalPages(serverData.totalPages);
+
+                // This is utilized on the user's memes page to retrieve user details without making any additional server requests.
+                ((setFetchedMemes && currentPage === 1) && (serverData.memes.length > 0)) && (
+                    setFetchedMemes({ ...serverData.memes[0].author, userMemesCount: serverData.userMemesCount })
+                );
+
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
@@ -82,7 +88,7 @@ export const InfiniteScrollComponent = ({ endpoint }) => {
             {!serverMessage?.error && !isLoading
                 ? memes.length !== 0
                     ? memes.map((meme) => <CardMeme key={meme._id} {...meme} />)
-                    : endpoint.includes('search?name=&category=&') ? <NoContentMessage /> : <h2 className={styles['not-found']}>No Found Results</h2>
+                    : endpoint.includes('search?') ? <h2 className={styles['not-found']}>No Found Results</h2> : <NoContentMessage />
                 : null
             }
         </>
