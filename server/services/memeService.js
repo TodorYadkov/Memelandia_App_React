@@ -130,9 +130,14 @@ const addRemoveDislike = async (memeId, userId) => {
 };
 
 // Meme comments
-const addComment = (commentData, memeId, userId) => {
+const addComment = async (commentData, memeId, userId) => {
     const { comment } = commentData;
-    return Comment.create({ comment, memeId, userId });
+    const newComment = await Comment.create({ comment, memeId, userId });
+
+    // Fetch the newly created meme with populated userId data
+    const populatedComment = await Comment.findById(newComment._id).populate('userId', ['username', 'rating']);
+
+    return populatedComment;
 };
 
 const getAllComments = (memeId) => Comment.find({ memeId }).populate('userId', ['username', 'rating']);
@@ -141,7 +146,7 @@ const getCommentById = (commentId) => Comment.findById(commentId).populate('user
 
 const updateComment = (commentData, commentId) => {
     const { comment } = commentData;
-    return Comment.findByIdAndUpdate(commentId, { comment }, { runValidators: true, new: true });
+    return Comment.findByIdAndUpdate(commentId, { comment }, { runValidators: true, new: true }).populate('userId', ['username', 'rating']);
 };
 
 const deleteComment = (commentId) => Comment.findByIdAndDelete(commentId, { returnDocument: true });
