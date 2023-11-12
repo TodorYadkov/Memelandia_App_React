@@ -84,6 +84,10 @@
 }
 
 .top-rated-memes>h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
     cursor: default;
     color: var(--color-text);
     background-color: rgb(255, 255, 255, 0.2);
@@ -110,7 +114,7 @@
 
 .top-rated-memes>h2:hover {
     color: var(--color-text);
-    font-size: 4em;
+    font-size: 3.8em;
     text-shadow:
         1px 1px var(--color-text),
         2px 2px var(--color-text),
