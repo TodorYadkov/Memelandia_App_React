@@ -97,7 +97,11 @@ router.get('/for-user/:userId', async (req, res, next) => {
         const allUserMemes = await getAllMemesForUser(userId, page, limit);
 
         const totalPages = Math.ceil(allUserMemes.totalDocuments / limit); // Calculate total number of pages
-        const payload = { memes: allUserMemes.userMemes, page, totalPages }; // On front-end receive object with array of user memes, current page, and total pages with data
+        const payload = {
+            memes: allUserMemes.userMemes,
+            page, totalPages,
+            userMemesCount: allUserMemes.totalDocuments
+        }; // On front-end receive object with array of user memes, current page, total pages and total count of the user's meme
 
         res.status(200).json(payload);
     } catch (error) {
