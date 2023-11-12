@@ -9,8 +9,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    gap: 2em;
-    margin-bottom: 2em;
+    gap: 1em;
+    padding: 2em;
+    background-color: rgb(255, 255, 255, 0.3);
+    border-radius: 1em;
+    margin-bottom: 1em;
 }
 
 .search-name {
@@ -19,12 +22,12 @@
 }
 
 .search-category {
-    flex: 35%;
+    flex: 30%;
     position: relative;
 }
 
 .search-button-wrapper {
-    flex: 15%;
+    flex: 10%;
 }
 
 .search-name input,
@@ -53,7 +56,7 @@
 
 .search-name>input,
 .search-category>select {
-    width: 100%;
+    width: 95%;
     border: unset;
     border-bottom: 1px solid var(--color-sky-blue);
     border-radius: 0.5em;
@@ -85,7 +88,6 @@
 
 .search-button-wrapper .btn-reset {
     all:unset;
-    width: 100%;
     text-align: center;
     font-size: 1em;
     font-weight: 500;
