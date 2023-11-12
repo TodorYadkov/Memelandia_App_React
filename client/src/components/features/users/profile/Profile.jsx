@@ -7,7 +7,6 @@ import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
 
 import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
-import NoContentMessage from '../../../shared/no-content/NoContentMessage';
 import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
 import EditProfileModal from '../edit-profile/EditProfileModal';
@@ -181,7 +180,9 @@ export default function Profile() {
                                 <h2 className={styles['profile-memes-heading']}>Favorite Memes</h2>
                                 {(serverMessage?.errorMeme && !isLoadingUser) && <Message type="error" message={serverMessage.errorMeme} />}
 
-                                {myFavoriteMemes?.length !== 0 ? myFavoriteMemes.map(m => <CardMeme key={m._id} {...m} />) : <NoContentMessage />}
+                                {myFavoriteMemes?.length !== 0
+                                    ? myFavoriteMemes.map(m => <CardMeme key={m._id} {...m} />)
+                                    : <h3 className={styles['no-favorite-memes-h3']}><span>Your collection is waiting!</span> No favorite memes have been added yet.</h3>}
                             </>
                         }
 

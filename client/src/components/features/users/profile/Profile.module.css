@@ -133,6 +133,23 @@
     margin-bottom: 1em;
 }
 
+.no-favorite-memes-h3 {
+    color: var(--color-text);
+    text-align: center;
+    font-weight: 500;
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: rgb(255, 255, 255, 0.2);
+    text-shadow:
+        1px 1px var(--color-light-gray),
+        2px 2px var(--color-light-gray);
+    box-shadow: 4px 4px 12px 1px rgb(255, 255, 255, 0.5), 14px 14px 16px 0 rgba(0, 0, 0, 0.15);
+}
+
+.no-favorite-memes-h3>span {
+    display: block;
+}
+
 /* Statistic */
 .profile-stat-container {
     display: flex;
