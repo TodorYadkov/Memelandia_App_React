@@ -1,45 +1,72 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSearchParams } from 'react-router-dom';
 
 import styles from './ListMemes.module.css';
 import { endpoint } from '../../../core/environments/constants';
 import { MEME_CATEGORY, MEME_FIELD } from '../memeFieldConstants';
+import { scrollToTop } from '../../../utils/scrollToTop';
 
 import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 
 export default function ListMemes() {
-    const [endpointMemes, setEndpointMemes] = useState(endpoint.getMemeBySearch('', ''));   // Use to get all memes with no search criteria
+    const [searchParams, setSearchParams] = useSearchParams();                                          // Use to handle query params
+
+    const [endpointMemes, setEndpointMemes] = useState(() => {                                          // Use to initial endpoint state to get memes with or without search query parameters
+        if (searchParams.get('name') || searchParams.get('category')) {
+            const memeName = searchParams.get('name') ? searchParams.get('name') : '';
+            const category = searchParams.get('category') ? searchParams.get('category') : '';
+
+            return endpoint.getMemeBySearch(memeName, category);                                        // Return endpoint with search query params
+        }
+
+        return endpoint.getAllMemes;                                                                    // Return endpoint to get all memes   
+    });
 
     // Use react-hook-form https://react-hook-form.com/docs/useform/register
-    const { register, handleSubmit, reset, formState: { errors, isValid, touchedFields } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors, isValid, touchedFields }, setValue } = useForm({
         mode: 'onBlur',
-        reValidateMode: 'onBlur',
-        defaultValues: {
-            [MEME_FIELD.name]: '',
-            [MEME_FIELD.category]: '',
-        }
+        reValidateMode: 'onBlur'
     });
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Memeboard';
-    }, []);
+        document.title = 'Memeboard';                                                                   // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
-    // Get data from the search form
-    const submitHandler = (searchCriteria) => {
-        // Trim user input
-        const memeName = searchCriteria.name.trim();
+        if (searchParams.get('name') || searchParams.get('category')) {                                 // If the meme list is invoked with query parameters
+            const query = {                                                                             // Create an object with query parameters and select the desired category
+                name: searchParams.get('name') ? searchParams.get('name') : '',
+                category: searchParams.get('category') ? searchParams.get('category') : ''
+            };
+
+            submitHandler(query);                                                                       // Execute query
+
+            // Set form default values to show the user the correct values on the form
+            setValue(MEME_FIELD.name, query.name);                                                      // Get from query name
+            setValue(MEME_FIELD.category, query.category);                                              // Get from query category
+        }
+
+    }, [searchParams]);
+
+    const submitHandler = (searchCriteria) => {                                                         // Get data from the search form
+        const memeName = searchCriteria.name.trim();                                                    // Trim user input
         const category = searchCriteria.category;
-        // Adding user input to the search query
-        setEndpointMemes(endpoint.getMemeBySearch(memeName, category));
+
+        setEndpointMemes(endpoint.getMemeBySearch(memeName, category));                                 // Adding user input to the search query
+
+        if (Object.values(searchCriteria).some(c => c)) {                                               // Set search params query (when the search criteria are empty string auto reset form)
+            setSearchParams(searchCriteria);
+
+        } else {
+            setSearchParams({});                                                                        // Set no query params in the browser address bar
+            setEndpointMemes(endpoint.getAllMemes);                                                     // Set new endpoint to get all memes from the server with no query string
+        }
     };
 
-    // Reset search form
-    const resetForm = () => {
-        // Reset from react-hook-library
-        reset();
-        // Get all memes from the server with an empty query string
-        setEndpointMemes(endpoint.getMemeBySearch('', ''));
+    const resetForm = () => {                                                                           // Reset search form
+        reset();                                                                                        // Reset from react-hook-library
+        setEndpointMemes(endpoint.getAllMemes);                                                         // Get all memes from the server with an empty query string
+        setSearchParams({});                                                                            // Reset address bar state
     };
 
     return (
