@@ -2,6 +2,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: 0.25em;
+      cursor: default;
       color: var(--color-text);
       border-radius: 2em;
       overflow: hidden;
@@ -26,14 +28,43 @@
           4px 4px var(--color-text),
           5px 5px var(--color-text),
           6px 6px var(--color-text);
+  }
 
+  .user-card-header>h1 span {
+      display: inline-block;
+      transition: transform 0.8s ease-in-out;
+  }
+
+  .user-card-header>h1 span:hover {
+      transform: scale(0.9);
   }
 
   .user-card-content {
       display: flex;
       align-items: center;
-      gap: 2em;
+      gap: 1em;
   }
+
+  .user-rating {
+      display: flex;
+      align-items: center;
+  }
+
+  .user-card-content span {
+      display: inline-block;
+      transition: transform 0.8s ease-in-out;
+  }
+
+  .user-card-content:nth-child(2) i {
+      color: var(--color-white);
+      transition: transform 0.8s ease-in-out;
+  }
+
+  .user-card-content span:hover,
+  .user-card-content:nth-child(2) i:hover {
+      transform: scale(1.3);
+  }
+
 
 
   /* .user-card-heading,
