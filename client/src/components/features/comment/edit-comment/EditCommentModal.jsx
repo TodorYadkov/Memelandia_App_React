@@ -12,7 +12,7 @@ import Message from '../../../shared/messages/Message';
 
 export default function EditCommentModal({ modalHandler, commentDetails, setUpdatedCommentHandler }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
 
@@ -23,10 +23,8 @@ export default function EditCommentModal({ modalHandler, commentDetails, setUpda
         defaultValues: { 'comment': commentDetails.comment }
     });
 
-    // Update comment
-    const submitHandler = (userInput) => {
-        // Trim user input
-        const trimmedInput = trimInputData(userInput);
+    const submitHandler = (userInput) => {                                                              // Update comment
+        const trimmedInput = trimInputData(userInput);                                                  // Trim user input
 
         setIsLoading(true);
         api.put(endpoint.updateComment(commentDetails._id), trimmedInput)

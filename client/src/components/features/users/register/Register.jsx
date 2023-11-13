@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -8,6 +9,7 @@ import { useApi } from '../../../core/hooks/useApi';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
 import { trimInputData } from '../../../utils/trimInputData';
+import { scrollToTop } from '../../../utils/scrollToTop';
 
 import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
@@ -15,9 +17,9 @@ import Loading from '../../../shared/loader/Loading';
 export default function Register() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' });  // Use to display various messages from the server
-    const [isPasswordVisible, setPasswordVisible] = useState(false);    // Show/hidden password in password input field
-    const [isRePasswordVisible, setRePasswordVisible] = useState(false); // Show/hidden rePassword in rePassword input field
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false);                                    // Show/hidden password in password input field
+    const [isRePasswordVisible, setRePasswordVisible] = useState(false);                                // Show/hidden rePassword in rePassword input field
 
     const api = useApi();
     const navigate = useNavigate();
@@ -37,49 +39,41 @@ export default function Register() {
     });
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Register page';
+        document.title = 'Register page';                                                               // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
-        // Get second meme to display in the registration form
         setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
-            .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[1]))
+            .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[1]))     // Get second meme to display in the registration form
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
 
-    // Submit form
-    const submitHandler = (userInput) => {
-        // Trim user input
-        const trimmedInput = trimInputData(userInput);
-        // Exclude rePass field 
-        const { rePass, ...verifiedUserData } = trimmedInput;
+    const submitHandler = (userInput) => {                                                              // Submit Register form
+        const trimmedInput = trimInputData(userInput);                                                  // Trim user input 
+        const { rePass, ...verifiedUserData } = trimmedInput;                                           // Exclude rePass field
 
         setIsLoading(true);
         api.post(endpoint.register, verifiedUserData)
             .then(userData => {
-                // Create new session in local storage
-                addUserSession(userData);
-                // Reset form after submit
-                reset();
-                // Redirect to catalog (memeboard)
-                navigate('/memes/catalog', { replace: true });
+                addUserSession(userData);                                                               // Create new session in local storage
+                reset();                                                                                // Reset form after submit
+                
+                navigate('/memes/catalog', { replace: true });                                          // Redirect to catalog (memeboard)
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
-    // Show hide password
-    const toggleViewPassword = (e) => {
-        // Check which field is clicked
-        if (e.target.classList.contains(styles['icon-password'])) {
-            // Show hide password
-            setPasswordVisible(!isPasswordVisible);
+    const toggleViewPassword = (e) => {                                                                 // Show hide password
+        if (e.target.classList.contains(styles['icon-password'])) {                                     // Check which field is clicked
+            
+            setPasswordVisible(!isPasswordVisible);                                                     // Show hide password
             document.getElementById(USER_FIELD.password).type = isPasswordVisible ? 'password' : 'text';
 
         } else if (e.target.classList.contains(styles['icon-re-pass'])) {
-            // Show hide confirm password
-            setRePasswordVisible(!isRePasswordVisible);
+            
+            setRePasswordVisible(!isRePasswordVisible);                                                 // Show hide confirm password
             document.getElementById('rePass').type = isRePasswordVisible ? 'password' : 'text';
         }
     };

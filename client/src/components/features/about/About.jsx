@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 
 import styles from './About.module.css';
+import { scrollToTop } from '../../utils/scrollToTop';
 
 export default function About() {
 
     useEffect(() => {
-        // Add page title
-        document.title = 'About page';
+        document.title = 'About page';                                                                  // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
+        
     }, []);
 
     return (

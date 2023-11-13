@@ -3,8 +3,8 @@ import styles from './Loading.module.css';
 
 export default function Loading({ width, height }) {
 
-    const widthNew = width || '200px';
-    const heightNew = height || '200px';
+    const widthNew = width || '200px';                                                                  // Use to resize the spinner
+    const heightNew = height || '200px';                                                                // Use to resize the spinner
 
     return (
         <svg className={styles['pencil']} viewBox="0 0 200 200" width={widthNew} height={heightNew} xmlns="http://www.w3.org/2000/svg">

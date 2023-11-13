@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
 import styles from './Profile.module.css';
@@ -5,6 +6,7 @@ import { useApi } from '../../../core/hooks/useApi';
 import { useModal } from '../../../core/hooks/useModal';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
+import { scrollToTop } from '../../../utils/scrollToTop';
 
 import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 import Message from '../../../shared/messages/Message';
@@ -14,66 +16,63 @@ import CardMeme from '../../meme/card-meme/CardMeme';
 import Rating from '../../rating/Rating';
 
 export default function Profile() {
-    const [myFavoriteMemes, setMyFavoriteMemes] = useState([]);                             // Use to show user favorite meme
-    const [isShownMyFavoriteMemes, setIsShownMyFavoriteMemes] = useState(false);            // Use to change which meme to show
-    const [userDetails, setUserDetails] = useState({});                                     // Use to show user details
-    const [userHasId, setUserHasId] = useState(false);                                      // Used when the user has no ID. After receiving it, I take all the memes from the server
-    const [isLoadingUser, setIsLoadingUser] = useState(false);                              // Use when load data from user (show spinner on different place)
-    const [isLoadingMeme, setIsLoadingMeme] = useState(false);                              // Use when load data from meme (show spinner on different place)
-    const [serverMessage, setServerMessage] = useState({ errorUser: '', errorMeme: '' });   // Use to display various messages from the server in different place
-    const [endPointForUserMemes, setEndPointForUserMemes] = useState('');                   // Use to get all the user's memes from the server
+    const [myFavoriteMemes, setMyFavoriteMemes] = useState([]);                                         // Use to show user favorite meme
+    const [isShownMyFavoriteMemes, setIsShownMyFavoriteMemes] = useState(false);                        // Use to change which meme to show
+    const [userDetails, setUserDetails] = useState({});                                                 // Use to show user details
+    const [userHasId, setUserHasId] = useState(false);                                                  // Used when the user has no ID. After receiving it, I take all the memes from the server
+    const [isLoadingUser, setIsLoadingUser] = useState(false);                                          // Use when load data from user (show spinner on different place)
+    const [isLoadingMeme, setIsLoadingMeme] = useState(false);                                          // Use when load data from meme (show spinner on different place)
+    const [serverMessage, setServerMessage] = useState({ errorUser: '', errorMeme: '' });               // Use to display various messages from the server in different place
+    const [endPointForUserMemes, setEndPointForUserMemes] = useState('');                               // Use to get all the user's memes from the server
 
     const api = useApi();
     const { getUserDetails } = useAuthContext();
-    const [isShownModal, setIsShownModal] = useModal();                                     // Show hide modal for edit user profile
+    const [isShownModal, setIsShownModal] = useModal();                                                 // Show hide modal for edit user profile
 
     useEffect(() => {
-        // Add page title
-        document.title = `Profile of ${getUserDetails['username'] ? getUserDetails['username'] : userDetails.username}`;
+        document.title = `Profile of ${getUserDetails['username']                                       // Add page title
+            ? getUserDetails['username']
+            : userDetails.username}`;
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
-        // If the user has refreshed their browser, get their data from the server
-        if (getUserDetails['_id']) {
-            setUserDetails(getUserDetails); // Get user details from context (in memory)
+        if (getUserDetails['_id']) {                                                                    // If the user has refreshed their browser, get their data from the server
+            setUserDetails(getUserDetails);                                                             // Get user details from context (in memory)
         } else {
-            getUserData('user');            // Get user details from server
+            getUserData('user');                                                                        // Get user details from server
         }
 
-        // Create an endpoint with userId, to get all user memes from the server. If not userId in context data get after request to the DB
-        if (getUserDetails['_id'] || userHasId) {
-
-            const endPointWithUserID = endpoint.getMemeForUserById(getUserDetails['_id'] ? getUserDetails['_id'] : userDetails._id); // Get user ID from different places
+        if (getUserDetails['_id'] || userHasId) {                                                       // Create an endpoint with userId, to get all user memes from the server.                                                       
+                                                                                                        // If not userId in context data get after request to the DB
+            const endPointWithUserID = endpoint.getMemeForUserById(getUserDetails['_id']                // Get user ID from different places
+                ? getUserDetails['_id']
+                : userDetails._id);
             setEndPointForUserMemes(endPointWithUserID);
         }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userHasId]);
 
-    // Get and show favorite memes
-    const showFavoriteMemes = () => {
-        getUserData('meme'); // Pass 'meme' as a argument to indicate loading meme data
+    const showFavoriteMemes = () => {                                                                   // Get and show favorite memes
+        getUserData('meme');                                                                            // Pass 'meme' as a argument to indicate loading meme data
         toggleMemes();
     };
 
-    // Show or hide which memes to show (favorites or user created)
-    const toggleMemes = () => {
+    const toggleMemes = () => {                                                                         // Show or hide which memes to show (favorites or user created)
         setIsShownMyFavoriteMemes(!isShownMyFavoriteMemes);
     };
 
-    // Get user data to invoke - valid argument are "user" and "meme"
-    const getUserData = (currentState) => {
-        // Use the correct loading state to show the spinner in a different places
-        const setLoadingState = currentState === 'user' ? setIsLoadingUser : setIsLoadingMeme;
+    const getUserData = (currentState) => {                                                             // Get user data to invoke - valid argument are "user" and "meme"
+        const setLoadingState = currentState === 'user' ? setIsLoadingUser : setIsLoadingMeme;          // Use the correct loading state to show the spinner in a different places
 
         setLoadingState(true);
         api.get(endpoint.getUserById)
             .then(userData => {
                 setUserDetails(userData);
-                currentState === 'user' && setUserHasId(true);                      // Use when the user has no ID. Set a new status to true to get all of the user's memes
-                currentState === 'meme' && setMyFavoriteMemes(userData.favorite);   // Save user's favorite memes in state
+                currentState === 'user' && setUserHasId(true);                                          // Use when the user has no ID. Set a new status to true to get all of the user's memes
+                currentState === 'meme' && setMyFavoriteMemes(userData.favorite);                       // Save user's favorite memes in state
             })
             .catch(error => currentState === 'meme'
-                ? setServerMessage({ errorMeme: error.message })                    // Use this to display a message below the user's data
-                : setServerMessage({ errorUser: error.message })                    // Use this to display a message in the user's details
+                ? setServerMessage({ errorMeme: error.message })                                        // Use this to display a message below the user's data
+                : setServerMessage({ errorUser: error.message })                                        // Use this to display a message in the user's details
             )
             .finally(() => setLoadingState(false));
     };

@@ -9,15 +9,14 @@ import Message from '../../../shared/messages/Message';
 
 export default function Logout() {
     const [isLoading, setIsLoading] = useState(true);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
     const navigate = useNavigate();
     const { clearUserSession } = useAuthContext();
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Logout page';
+        document.title = 'Logout page';                                                                 // Add page title
 
         api.get(endpoint.logout)
             .then(data => clearUserSession())

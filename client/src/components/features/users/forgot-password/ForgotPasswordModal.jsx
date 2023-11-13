@@ -15,16 +15,16 @@ import Message from '../../../shared/messages/Message';
 
 export default function ForgotPasswordModal({ modalHandler }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
-    const [isPasswordVisibleModal, setPasswordVisibleModal] = useState(false); // Show hidden password in password input field
-    const [isValidUser, setIsValidUser] = useState(false); // Enable - disables the password input field
-    const [isActiveInputUsername, setActiveInputUsername] = useState(true); // Switch which login to use user email or username
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
+    const [isPasswordVisibleModal, setPasswordVisibleModal] = useState(false);                          // Show hidden password in password input field
+    const [isValidUser, setIsValidUser] = useState(false);                                              // Enable - disables the password input field
+    const [isActiveInputUsername, setActiveInputUsername] = useState(true);                             // Switch which login to use user email or username
 
     const api = useApi();
     const navigate = useNavigate();
     const { addUserSession } = useAuthContext();
 
-    // React-hook-form
+    // Use react-hook-form https://react-hook-form.com/docs/useform/register
     const { register, handleSubmit, watch, reset, formState: { errors, isValid, touchedFields, isSubmitting } } = useForm({
         mode: 'onChange',
         reValidateMode: 'onChange',
@@ -35,31 +35,26 @@ export default function ForgotPasswordModal({ modalHandler }) {
             [USER_FIELD.password]: '',
         }
     });
-    // Use react-hook-form to monitor all required server validation values before submitting the entire form
-    const watchFields = watch([USER_FIELD.username, USER_FIELD.email, USER_FIELD.securityQuestion]);
 
-    // Validate username or email before submitting entire form --> (onBlur)
-    const serverUserValidation = (e) => {
-        // Get values in object
-        const fieldToValidate = {
+    const watchFields = watch([USER_FIELD.username, USER_FIELD.email, USER_FIELD.securityQuestion]);    // Use react-hook-form to monitor all required server validation values before submitting the entire form
+
+    const serverUserValidation = (e) => {                                                               // Validate username or email before submitting entire form --> (onBlur)
+        const fieldToValidate = {                                                                       // Get values in object
             [USER_FIELD.username]: watchFields[0],
             [USER_FIELD.email]: watchFields[1],
             [USER_FIELD.securityQuestion]: watchFields[2]
         };
 
-        // Create object with state of each values is valid or not
-        const isValid = {
+        const isValid = {                                                                               // Create object with state of each values is valid or not
             [USER_FIELD.username]: false,
             [USER_FIELD.email]: false,
             [USER_FIELD.securityQuestion]: false
         };
 
-        // Validate user input - trim and check for empty field
-        const verifiedInput = Object.entries(fieldToValidate).reduce((acc, inputField) => {
+        const verifiedInput = Object.entries(fieldToValidate).reduce((acc, inputField) => {             // Validate user input - trim and check for empty field
             const [inputFieldName, inputFieldValue] = inputField;
 
-            // Validate user input
-            if (inputFieldValue === '') {
+            if (inputFieldValue === '') {                                                               // Validate user input
                 return acc;
 
             } else if ((inputFieldName === USER_FIELD.securityQuestion) && (inputFieldValue.length >= 6 && inputFieldValue.length <= 50)) {
@@ -76,72 +71,59 @@ export default function ForgotPasswordModal({ modalHandler }) {
 
         }, {});
 
-        // Check if only one field is filled (email or username)
-        // This is necessary if the interface for some reason accepts both inputs
-        if (isValid[USER_FIELD.username] && isValid[USER_FIELD.email]) {
-            isValid[USER_FIELD.username] = false;
+        if (isValid[USER_FIELD.username] && isValid[USER_FIELD.email]) {                                // Check if only one field is filled (email or username)
+            isValid[USER_FIELD.username] = false;                                                       // This is necessary if the interface for some reason accepts both inputs
             delete verifiedInput[USER_FIELD.username];
         }
 
-        // Send a request to the server if the input is correct
-        if (isValid[USER_FIELD.securityQuestion] && (isValid[USER_FIELD.username] || isValid[USER_FIELD.email])) {
+        if (isValid[USER_FIELD.securityQuestion]
+            && (isValid[USER_FIELD.username] || isValid[USER_FIELD.email])) {                           // Send a request to the server if the input is correct
 
             setIsLoading(true);
             api.put(endpoint.forgottenPass, verifiedInput)
                 .then(response => {
-                    // Check that the current user exists and the security question is correct
-                    if (response?.canChangePassword) {
+                    if (response?.canChangePassword) {                                                  // Check that the current user exists and the security question is correct
                         setServerMessage({ success: response.message });
-                        setIsValidUser(true); // Enable password field
+                        setIsValidUser(true);                                                           // Enable password field
                     }
                 })
                 .catch(error => {
                     setServerMessage({ error: error.message });
-                    setIsValidUser(false); // Disable password field
+                    setIsValidUser(false);                                                              // Disable password field
                 })
                 .finally(() => setIsLoading(false));
         }
     };
 
-    // Submit form
-    const submitHandler = (userInput) => {
-        // Trim user input and check for empty field
-        const trimmedInput = trimInputData(userInput);
+    const submitHandler = (userInput) => {                                                              // Submit form
+        const trimmedInput = trimInputData(userInput);                                                  // Trim user input and check for empty field
 
         setIsLoading(true);
         api.put(endpoint.forgottenPass, trimmedInput)
             .then(userData => {
-                // Create new session in local storage
-                addUserSession(userData);
-                // Reset form after submit
-                reset();
-                // Redirect to catalog (memeboard) - replace with new address in history
-                navigate('/memes/catalog', { replace: true });
+                addUserSession(userData);                                                               // Create new session in local storage
+                reset();                                                                                // Reset form after submit
+
+                navigate('/memes/catalog', { replace: true });                                          // Redirect to catalog (memeboard) - replace with new address in history
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
-    // Show hide password
-    const toggleViewPassword = (e) => {
-        // Check which field is clicked
-        if (e.target.classList.contains(styles['icon-password-modal'])) {
-            // Show hide password
+    const toggleViewPassword = (e) => {                                                                 // Show hide password
+        if (e.target.classList.contains(styles['icon-password-modal'])) {                               // Check which field is clicked
+
             setPasswordVisibleModal(!isPasswordVisibleModal);
             document.getElementById('password-modal').type = isPasswordVisibleModal ? 'password' : 'text';
         }
     };
 
-    // Select how to log with username or email
-    const changeUserInput = (e) => {
-        // Check which field is clicked
-        if (e.target.classList.contains(styles['switch-login'])) {
-            // Show or hide field
-            setActiveInputUsername(!isActiveInputUsername);
+    const changeUserInput = (e) => {                                                                    // Select how to log with username or email
+        if (e.target.classList.contains(styles['switch-login'])) {                                      // Check which field is clicked
+
+            setActiveInputUsername(!isActiveInputUsername);                                             // Show or hide field
         }
     };
-
-
 
     return (
         <div className="modal">

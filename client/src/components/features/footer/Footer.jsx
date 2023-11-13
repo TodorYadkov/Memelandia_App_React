@@ -1,10 +1,14 @@
+/* eslint-disable jsx-a11y/no-redundant-roles */
 import { useEffect, useState } from 'react';
+
 import styles from './Footer.module.css';
 
 export default function Footer() {
     const [currentYear, setCurrentYear] = useState(null);
+
     useEffect(() => {
-        setCurrentYear(state => state = new Date().getFullYear());
+        setCurrentYear(state => state = new Date().getFullYear());                                      // Get the current year dynamically
+
     }, []);
 
     return (

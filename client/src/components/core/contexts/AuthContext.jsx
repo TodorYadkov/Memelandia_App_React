@@ -1,12 +1,11 @@
+/* eslint-disable react/prop-types */
 import { createContext } from 'react';
 
 import { useSessionStorage } from '../hooks/useSessionStorage';
+                               
+export const AuthContext = createContext(null);                                                         // Create AuthContext
 
-// Create AuthContext
-export const AuthContext = createContext(null);
-// Crate auth provider to use in app only use AuthProvider around the routes
-// eslint-disable-next-line react/prop-types
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({ children }) => {                                                         // Crate auth provider (to use in app only use AuthProvider around the routes)
     const sessionManager = useSessionStorage();
 
     const contextValues = {

@@ -12,7 +12,7 @@ import Message from '../../../shared/messages/Message';
 
 export default function AddCommentModal({ modalHandler, memeId, setNewCommentHandler }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
 
@@ -24,8 +24,7 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
     });
 
     const submitHandler = (userInput) => {
-        // Trim user input
-        const trimmedInput = trimInputData(userInput);
+        const trimmedInput = trimInputData(userInput);                                                  // Trim user input
 
         setIsLoading(true);
         api.post(endpoint.addNewComment(memeId), trimmedInput)

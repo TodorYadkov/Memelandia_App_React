@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './NotFound404.module.css';
+import { scrollToTop } from '../../utils/scrollToTop';
 
 export default function NotFound404() {
+    useEffect(() => {
+        document.title = 'Not-found 404';                                                               // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
+        
+    }, []);
+
     return (
         <div className={`${styles['not-found']} max-width`}>
             <div className={styles['not-found-404']}>

@@ -28,26 +28,23 @@ export default function CardMeme({
     createdAt,
     updatedAt,
 }) {
-    const [userDetails, setUserDetails] = useState({});                             // Use to show user details
+    const [userDetails, setUserDetails] = useState({});                                                 // Use to show user details
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' });               // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
     const { isLoggedIn, getUserDetails, addUserSession, getUserToken } = useAuthContext();
 
     useEffect(() => {
-
-        // If the user has refreshed their browser, get their data from the server
-        if (getUserDetails['_id'] && isLoggedIn) {
-            setUserDetails(getUserDetails); // Get user details from context (in memory)
+        if (getUserDetails['_id'] && isLoggedIn) {                                                      // If the user has refreshed their browser, get their data from the server
+            setUserDetails(getUserDetails);                                                             // Get user details from context (in memory)
 
         } else if (isLoggedIn) {
             setIsLoading(true);
             api.get(endpoint.getUserById)
                 .then(userData => {
                     setUserDetails(userData);
-                    // Store user data for optimized next request, don't get details from server again
-                    addUserSession({
+                    addUserSession({                                                                    // Store user data for optimized next request, don't get details from server again
                         accessToken: getUserToken,
                         userDetails: { ...userData }
                     });
@@ -58,8 +55,7 @@ export default function CardMeme({
 
     }, []);
 
-    // Get state of the current user
-    const currentUser = {
+    const currentUser = {                                                                               // Get state of the current user
         isLogged: isLoggedIn,
         isOwner: userDetails?._id === author?._id,
     };

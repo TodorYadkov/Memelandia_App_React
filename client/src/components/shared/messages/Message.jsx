@@ -1,13 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+
 import styles from './Message.module.css';
 
-// Possible type: simple, success, error, warning
-export default function Message({ type, message }) {
-    const [isShowMessage, setIsShowMessage] = useState(true);
+export default function Message({ type, message }) {                                                    // Possible type: simple, success, error, warning
+    const [isShowMessage, setIsShowMessage] = useState(true);                                           // Set state of the message
 
-    const closeHandler = () => {
-        // Hide message
+    const closeHandler = () => {                                                                         // Hide message
         setIsShowMessage(false);
     };
 

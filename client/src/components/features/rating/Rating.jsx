@@ -1,6 +1,6 @@
+/* eslint-disable react/prop-types */
 import styles from './Rating.module.css';
 
-// eslint-disable-next-line react/prop-types
 export default function Rating({ rating }) {
 
     return (

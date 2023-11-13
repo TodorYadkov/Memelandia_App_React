@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -7,13 +8,14 @@ import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { USER_FIELD } from '../userFieldConstants';
 import { trimInputData } from '../../../utils/trimInputData';
 import { endpoint } from '../../../core/environments/constants';
+
 import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
 
-/* eslint-disable react/prop-types */
+
 export default function EditProfileModal({ userDetails, setUserDetails, modalHandler }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
     const { addUserSession, getUserToken } = useAuthContext();
@@ -30,17 +32,15 @@ export default function EditProfileModal({ userDetails, setUserDetails, modalHan
         }
     });
 
-    const submitHandler = (userData) => {
-        // Trim user input
-        const trimmedInput = trimInputData(userData);
+    const submitHandler = (userData) => {                                                               // On edit
+        const trimmedInput = trimInputData(userData);                                                   // Trim user input
 
         setIsLoading(true);
         api.put(endpoint.updateUser, trimmedInput)
             .then(updatedData => {
                 setServerMessage({ success: 'Information changed successfully.' });
                 setUserDetails(updatedData);
-                // Set the update data for the entire application to be current
-                addUserSession({
+                addUserSession({                                                                        // Set the update data for the entire application to be current
                     accessToken: getUserToken,
                     userDetails: { ...updatedData }
                 });

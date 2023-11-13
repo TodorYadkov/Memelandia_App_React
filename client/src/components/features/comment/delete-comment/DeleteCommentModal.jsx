@@ -9,14 +9,13 @@ import Loading from '../../../shared/loader/Loading';
 import { endpoint } from '../../../core/environments/constants';
 
 export default function DeleteCommentModal({ modalHandler, commentDetails, setDeletedCommentHandler }) {
-    const [isDeleted, setIsDeleted] = useState(false);                              // Use to disable the delete button after deleting a comment
+    const [isDeleted, setIsDeleted] = useState(false);                                                  // Use to disable the delete button after deleting a comment
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
 
-    // Delete comment
-    const deleteHandler = () => {
+    const deleteHandler = () => {                                                                       // Delete comment
         setIsLoading(true);
         api.delete(endpoint.deleteComment(commentDetails._id))
             .then(deletedComment => {

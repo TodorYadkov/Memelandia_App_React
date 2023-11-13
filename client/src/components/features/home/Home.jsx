@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import styles from './Home.module.css';
 import { useApi } from '../../core/hooks/useApi';
 import { endpoint } from '../../core/environments/constants';
+import { scrollToTop } from '../../utils/scrollToTop';
 
 import CardMeme from '../meme/card-meme/CardMeme';
 import Jokes from '../jokes/Jokes';
@@ -13,15 +14,15 @@ import NoContentMessage from '../../shared/no-content/NoContentMessage';
 export default function Home() {
     const [topMemes, setTopMemes] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Home';
-        setIsLoading(true);
+        document.title = 'Home';                                                                        // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
+        setIsLoading(true);
         api.get(endpoint.getTopRatedMemes)
             .then(topThreeMemes => setTopMemes(topThreeMemes))
             .catch(error => setServerMessage({ error: error.message }))

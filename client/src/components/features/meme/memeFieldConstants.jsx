@@ -4,8 +4,7 @@ export const MEME_FIELD = {
     category: 'category',
 };
 
-// Category for memes
-export const MEME_CATEGORY = ['Funny', 'Sports', 'Politics', 'Science',
+export const MEME_CATEGORY = ['Funny', 'Sports', 'Politics', 'Science',                                 // Category for memes
     'Technology', 'Food', 'Travel', 'Music', 'Movies',
     'Gaming', 'Literature', 'Nature', 'Art', 'History',
     'Fashion', 'Fitness', 'Animals', 'Celebrities',

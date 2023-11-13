@@ -8,6 +8,7 @@ import { useApi } from '../../../core/hooks/useApi';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
 import { trimInputData } from '../../../utils/trimInputData';
+import { scrollToTop } from '../../../utils/scrollToTop';
 
 import { USER_FIELD } from '../userFieldConstants';
 import ForgotPasswordModal from '../forgot-password/ForgotPasswordModal';
@@ -18,10 +19,10 @@ import { useModal } from '../../../core/hooks/useModal';
 export default function Login() {
     const [currentTopMeme, setCurrentTopMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' });      // Use to display various messages from the server
-    const [isPasswordVisible, setPasswordVisible] = useState(false);        // Show hidden password in password input field
-    const [isActiveInputUsername, setActiveInputUsername] = useState(true); // Switch which login to use user email or username
-    const [isShownModal, setIsShownModal] = useModal();                     // Show hide modal for forgotten password
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
+    const [isPasswordVisible, setPasswordVisible] = useState(false);                                    // Show hidden password in password input field
+    const [isActiveInputUsername, setActiveInputUsername] = useState(true);                             // Switch which login to use user email or username
+    const [isShownModal, setIsShownModal] = useModal();                                                 // Show hide modal for forgotten password
 
     const api = useApi();
     const navigate = useNavigate();
@@ -38,52 +39,43 @@ export default function Login() {
     });
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Login page';
+        document.title = 'Login page';                                                                  // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
-        // Get first meme to display in the login form
         setIsLoading(true);
-        api.get(endpoint.getTopRatedMemes)
-            .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[0]))
+        api.get(endpoint.getTopRatedMemes)                                                      
+            .then(topThreeMemes => topThreeMemes.length > 1 && setCurrentTopMeme(topThreeMemes[0]))     // Get first meme to display in the login form
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     }, []);
 
-    // Submit form
-    const submitHandler = (userInput) => {
-        // Trim user input and check for empty field
-        const trimmedInput = trimInputData(userInput);
+    const submitHandler = (userInput) => {                                                              // Submit login form
+        const trimmedInput = trimInputData(userInput);                                                  // Trim user input and check for empty field
 
         setIsLoading(true);
         api.post(endpoint.login, trimmedInput)
             .then(userData => {
-                // Create new session in local storage
-                addUserSession(userData);
-                // Reset form after submit
-                reset();
-                // Redirect to catalog (memeboard) - replace with new address in history
-                navigate('/memes/catalog', { replace: true });
+                addUserSession(userData);                                                               // Create new session in local storage
+                reset();                                                                                // Reset form after submit
+                
+                navigate('/memes/catalog', { replace: true });                                          // Redirect to catalog (memeboard) - replace with new address in history
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
-    // Show hide password
-    const toggleViewPassword = (e) => {
-        // Check which field is clicked
-        if (e.target.classList.contains(styles['icon-password'])) {
-            // Show hide password
+    const toggleViewPassword = (e) => {                                                                 // Show hide password
+        if (e.target.classList.contains(styles['icon-password'])) {                                     // Check which field is clicked
+            
             setPasswordVisible(!isPasswordVisible);
             document.getElementById(USER_FIELD.password).type = isPasswordVisible ? 'password' : 'text';
         }
     };
 
-    // Select how to log with username or email
-    const changeUserInput = (e) => {
-        // Check which field is clicked
-        if (e.target.classList.contains(styles['switch-login'])) {
-            // Show or hide field
-            setActiveInputUsername(!isActiveInputUsername);
+    const changeUserInput = (e) => {                                                                    // Select how to log with username or email
+        if (e.target.classList.contains(styles['switch-login'])) {                                      // Check which field is clicked
+            
+            setActiveInputUsername(!isActiveInputUsername);                                             // Show or hide field
         }
     };
 

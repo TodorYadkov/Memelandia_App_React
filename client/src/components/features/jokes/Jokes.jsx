@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
 
 import styles from './Jokes.module.css';
+
 import Loading from '../../shared/loader/Loading';
 import Message from '../../shared/messages/Message';
 
 export default function Jokes() {
     const [jokeObj, setJokeObj] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
-    const jokeUrl = import.meta.env.VITE_JOKE_URL;
-    const getJoke = () => {
+    useEffect(() => {
+        // getJoke(); // TODO: uncomment this when all the other things are ready to not make many request to external api
+    }, []);
+
+    const jokeUrl = import.meta.env.VITE_JOKE_URL;                                                      // Get the url to the api from the environment     
+    const getJoke = () => {                                                                             // Get joke function
         setIsLoading(true);
-        // This api returns an error as a response, and the way to get the error message is in the response, not in the catch block
-        fetch(jokeUrl)
-            .then(response => response.json())
+        fetch(jokeUrl)                                                                                  // This api returns an error as a response, 
+            .then(response => response.json())                                                          // and the way to get the error message is in the response, not in the catch block
             .then(dataJoke => {
                 if (dataJoke?.error) {
                     setServerMessage({ error: dataJoke.message });
@@ -25,10 +29,6 @@ export default function Jokes() {
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
-
-    useEffect(() => {
-        // getJoke(); // TODO: uncomment this when all the other things are ready to not make many request to external api
-    }, []);
 
     const clickHandler = () => {
         getJoke();

@@ -15,30 +15,28 @@ import EditCommentModal from '../edit-comment/EditCommentModal';
 import DeleteCommentModal from '../delete-comment/DeleteCommentModal';
 
 export default function ListComments({ memeInfo }) {
-    const [allComments, setAllComments] = useState([]);                                     // Use to show all comments              
-    const [commentDetails, setCommentDetails] = useState({});                               // Use to show details for one comment              
-    const [userDetails, setUserDetails] = useState({});                                     // Use of customer details to access various functionalities
+    const [allComments, setAllComments] = useState([]);                                                 // Use to show all comments              
+    const [commentDetails, setCommentDetails] = useState({});                                           // Use to show details for one comment              
+    const [userDetails, setUserDetails] = useState({});                                                 // Use of customer details to access various functionalities
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' });                      // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
-    const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                 // Show hide modal for add comment
-    const [isShownEditCommentModal, setIsShownEditCommentModal] = useModal();               // Show hide modal for edit comment
-    const [isShownDeleteCommentModal, setIsShownDeleteCommentModal] = useModal();           // Show hide modal for delete comment
+    const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                             // Show hide modal for add comment
+    const [isShownEditCommentModal, setIsShownEditCommentModal] = useModal();                           // Show hide modal for edit comment
+    const [isShownDeleteCommentModal, setIsShownDeleteCommentModal] = useModal();                       // Show hide modal for delete comment
     const { isLoggedIn, getUserDetails, addUserSession, getUserToken } = useAuthContext();
 
     useEffect(() => {
-        // If the user has refreshed their browser, get their data from the server
-        if (getUserDetails['_id'] && isLoggedIn) {
-            setUserDetails(getUserDetails); // Get user details from context (in memory)
+        if (getUserDetails['_id'] && isLoggedIn) {                                                      // If the user has refreshed their browser, get their data from the server
+            setUserDetails(getUserDetails);                                                             // Get user details from context (in memory)
 
         } else if (isLoggedIn) {
             setIsLoading(true);
             api.get(endpoint.getUserById)
                 .then(userData => {
                     setUserDetails(userData);
-                    // Store user data for optimized next request, don't get details from server again
-                    addUserSession({
+                    addUserSession({                                                                    // Store user data for optimized next request, don't get details from server again
                         accessToken: getUserToken,
                         userDetails: { ...userData }
                     });
@@ -51,36 +49,31 @@ export default function ListComments({ memeInfo }) {
 
     }, []);
 
-    // Get all comments for meme
-    const getAllComments = () => {
+    const getAllComments = () => {                                                                      // Get all comments for meme
+        
         setIsLoading(true);
-
         api.get(endpoint.getAllCommentsForMeme(memeInfo._id))
             .then(comments => setAllComments(comments))
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
     };
 
-    // Get one comment and show a edit modal
-    const editCommentHandler = (comment) => {
-        // If the modal is shown not set again comment
-        if (!isShownEditCommentModal) {
+    const editCommentHandler = (comment) => {                                                           // Get one comment and show a edit modal
+        if (!isShownEditCommentModal) {                                                                 // If the modal is shown not set again comment
             setCommentDetails(comment);
             setIsShownEditCommentModal();
         }
-        // Hide modal
-        setIsShownEditCommentModal();
+        
+        setIsShownEditCommentModal();                                                                   // Hide modal
     };
 
-    // Get one comment and show a delete modal
-    const deleteCommentHandler = (comment) => {
-        // If the modal is shown not set again comment
-        if (!isShownDeleteCommentModal) {
+    const deleteCommentHandler = (comment) => {                                                         // Get one comment and show a delete modal
+        if (!isShownDeleteCommentModal) {                                                               // If the modal is shown not set again comment
             setCommentDetails(comment);
             setIsShownDeleteCommentModal();
         }
-        // Hide modal
-        setIsShownDeleteCommentModal();
+        
+        setIsShownDeleteCommentModal();                                                                 // Hide modal
     };
 
     return (

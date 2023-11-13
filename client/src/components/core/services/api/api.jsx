@@ -1,43 +1,36 @@
 import { host } from '../../environments/constants';
 
 async function api(method, clearUserSession, endpoint, accessToken, data) {
-    const url = host + endpoint;
-    // Additional options for fetch
-    const options = {
+    const url = host + endpoint;                                                                        // Url to request server
+    const options = {                                                                                   // Additional options for fetch
         method,
         headers: {},
     };
    
-    // Check for data
-    if (data) {
+    if (data) {                                                                                         // Check for data
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
 
-    // Check for accessToken
-    if (accessToken) {
+    if (accessToken) {                                                                                   // Check for accessToken
         options.headers['X-Authorization'] = accessToken;
     }
 
-    // Create a request to the server
-    const response = await fetch(url, options);
-    // Check if the response is correct
-    if (response.ok === false) {
-        // If the token is invalid, the server returns 401 (unauthorized) and to prevent a software lock, clear the token from localStorage
-        if (response.status === 401) {
-            clearUserSession();
+    const response = await fetch(url, options);                                                         // Create a request to the server
+    if (response.ok === false) {                                                                        // Check if the response is correct
+
+        if (response.status === 401) {                                                                  // If the token is invalid, the server returns 401 (unauthorized) 
+            clearUserSession();                                                                         // and to prevent a software lock, clear the token from localStorage
         }
 
-        // The error that occurs must be caught in the component
-        const error = await response.json();
-        throw error;
+        const error = await response.json();                                                            // The error that occurs must be caught in the component
+        throw error;        
     }
 
-    return response.json();
+    return response.json();                                                                             // Return data to the component
 }
 
-// Create factory function to bind needed argument to call api
-export const apiRequest = (clearUserSession, accessToken) => {
+export const apiRequest = (clearUserSession, accessToken) => {                                          // Create factory function to bind needed argument to call api
 
     return {
         get: (endpoint) => api('GET', clearUserSession, endpoint, accessToken),

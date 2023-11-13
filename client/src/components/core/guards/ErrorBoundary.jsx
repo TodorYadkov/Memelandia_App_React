@@ -12,12 +12,12 @@ export class ErrorBoundary extends React.Component {
     }
 
     static getDerivedStateFromError(error) {
-        // Update state so the next render will show the fallback UI.
-        return { hasError: true };
+                            
+        return { hasError: true };                                                                      // Update state so the next render will show the fallback UI.
     }
 
     componentDidCatch(error, info) {
-        console.log('React info for crash: ', info); // Can be used for logging errors
+        console.log('React info for crash: ', info);                                                    // Can be used for logging errors
         console.error('React ErrorBoundary message: ', error);
     }
 
