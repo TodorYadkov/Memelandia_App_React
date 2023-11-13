@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import styles from './DetailsMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
+import { scrollToTop } from '../../../utils/scrollToTop';
 
 import CardMeme from '../card-meme/CardMeme';
 import Loading from '../../../shared/loader/Loading';
@@ -21,6 +22,9 @@ export default function DetailsMeme() {
     useEffect(() => {
         // Add page title
         document.title = 'Details';
+
+        // Scroll to the top of the page
+        scrollToTop();
 
         setIsLoading(true);
         api.get(endpoint.getMemeById(memeId))
