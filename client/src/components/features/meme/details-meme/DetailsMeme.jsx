@@ -12,19 +12,17 @@ import Message from '../../../shared/messages/Message';
 import ListComments from '../../comment/list-comments/ListComments';
 
 export default function DetailsMeme() {
+    const [allComments, setAllComments] = useState([]);                                                 // Use to show all comments
     const [currentMeme, setCurrentMeme] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '' }); // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
-    const { memeId } = useParams('memeId');                             // Get memeId from query params
+    const { memeId } = useParams('memeId');                                                             // Get memeId from query params
 
     useEffect(() => {
-        // Add page title
-        document.title = 'Details';
-
-        // Scroll to the top of the page
-        scrollToTop();
+        document.title = 'Details';                                                                     // Add page title
+        scrollToTop();                                                                                  // Scroll to the top of the page
 
         setIsLoading(true);
         api.get(endpoint.getMemeById(memeId))
@@ -42,11 +40,11 @@ export default function DetailsMeme() {
                 ? <Loading />
                 : <>
                     <div className={styles['details-card']}>
-                        {currentMeme?._id && <CardMeme {...currentMeme} />}
+                        {currentMeme?._id && <CardMeme {...currentMeme} setNewCommentHandler={setAllComments} />}
 
                     </div>
                     <div className={styles['details-comments']}>
-                        {currentMeme?._id && <ListComments memeInfo={currentMeme} />}
+                        {currentMeme?._id && <ListComments memeInfo={currentMeme} allComments={allComments} setAllComments={setAllComments} />}
 
                     </div>
                 </>
