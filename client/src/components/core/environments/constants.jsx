@@ -10,7 +10,7 @@ const endpoint = {
     addRemoveFavoriteMeme: (memeId) => `users/favorite/${memeId}`,                                      // get
     getTopRatedMemes: 'memes/three-top-rated',                                                          // get
     getAllMemes: 'memes?',                                                                              // get  ---> (page, limit) => `memes?page=${page}&limit=${limit}`
-    getMemeBySearch: (memeName, category) => `memes/search?name=${memeName}&category=${category}&`,     // get   ---> (memeName, category, page, limit) => `memes/search?name=${memeName}&category=${category}&page=${page}&limit=${limit}`
+    getMemeBySearch: (memeName, category) => `memes/search?name=${memeName}&category=${category}&`,     // get  ---> (memeName, category, page, limit) => `memes/search?name=${memeName}&category=${category}&page=${page}&limit=${limit}`
     getMemeById: (memeId) => `memes/get-one/${memeId}`,                                                 // get
     getMemeForUserById: (userId) => `memes/for-user/${userId}?`,                                        // get  ---> (userId, page, limit) => `memes/for-user/${userId}?page=${page}&limit=${limit}`
     addNewMeme: 'memes/create',                                                                         // post
