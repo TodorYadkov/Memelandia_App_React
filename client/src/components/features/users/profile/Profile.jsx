@@ -42,7 +42,7 @@ export default function Profile() {
         }
 
         if (getUserDetails['_id'] || userHasId) {                                                       // Create an endpoint with userId, to get all user memes from the server.                                                       
-                                                                                                        // If not userId in context data get after request to the DB
+            // If not userId in context data get after request to the DB
             const endPointWithUserID = endpoint.getMemeForUserById(getUserDetails['_id']                // Get user ID from different places
                 ? getUserDetails['_id']
                 : userDetails._id);
@@ -164,8 +164,23 @@ export default function Profile() {
                     </>
                 }
                 <div className={styles['profile-footer']}>
-                    <p className={styles['profile-join']}>Joined: {new Date(userDetails?.createdAt).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
-                    <p className={styles['profile-update']}>Updated: {new Date(userDetails?.updatedAt).toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                    <p className={styles['profile-join']}>Joined: {new Date(userDetails?.createdAt).toLocaleString('en-US',
+                        {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false
+                        })}</p>
+                    <p className={styles['profile-update']}>Updated: {new Date(userDetails?.updatedAt).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: false
+                    })}</p>
                 </div>
             </div>
 
