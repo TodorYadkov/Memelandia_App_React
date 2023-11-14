@@ -30,11 +30,22 @@
 }
 
 .card-author-name {
+    cursor: default;
     margin-bottom: -0.25em;
 }
 
 .card-author-name * {
     margin-left: 0.15em;
+}
+
+.card-author-name sup {
+    display: inline-block;
+    font-size: 0.6em;
+    transition: transform 0.3s ease-in-out;
+}
+
+.card-author-name sup:hover {
+    transform: scale(1.1);
 }
 
 .category a:hover,
@@ -71,9 +82,6 @@
     padding: 0em 1em;
 }
 
-.like>i {
-    color: var(--color-light-orange);
-}
 
 .dislike>i {
     color: var(--color-dark-purple);
@@ -81,4 +89,9 @@
 
 .favorite>i {
     color: var(--color-pink);
+}
+
+.btn-add-comment {
+    all: unset;
+    cursor: pointer;
 }
