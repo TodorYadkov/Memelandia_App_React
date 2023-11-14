@@ -1,129 +1,107 @@
-  .user-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25em;
-      cursor: default;
-      color: var(--color-text);
-      border-radius: 2em;
-      overflow: hidden;
-      background-color: rgb(255, 255, 255, 0.5);
-      box-shadow: 0 6px 12px 6px rgb(0, 0, 0, 0.3);
-      padding: 1em;
-      margin-bottom: 2em;
-  }
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    cursor: default;
+    color: var(--color-text);
+    border-radius: 2em;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255, 0.5);
+    box-shadow: 0 6px 12px 6px rgb(0, 0, 0, 0.3);
+    padding: 1em;
+    margin-bottom: 2em;
+}
 
-  .user-card-header>h1 {
-      margin: 0;
-      font-size: 2.5em;
-      -webkit-text-stroke: 1px;
-      -webkit-text-stroke-color: var(--color-text);
-      -webkit-text-fill-color: var(--color-sky-blue);
-      text-align: center;
-      font-weight: 500;
-      text-shadow:
-          1px 1px var(--color-text),
-          2px 2px var(--color-text),
-          3px 3px var(--color-text),
-          4px 4px var(--color-text),
-          5px 5px var(--color-text),
-          6px 6px var(--color-text);
-  }
+.user-card-header>h1 {
+    margin: 0;
+    font-size: 2.5em;
+    -webkit-text-stroke: 1px;
+    -webkit-text-stroke-color: var(--color-text);
+    -webkit-text-fill-color: var(--color-sky-blue);
+    text-align: center;
+    font-weight: 500;
+    text-shadow:
+        1px 1px var(--color-text),
+        2px 2px var(--color-text),
+        3px 3px var(--color-text),
+        4px 4px var(--color-text),
+        5px 5px var(--color-text),
+        6px 6px var(--color-text);
+}
 
-  .user-card-header>h1 span {
-      display: inline-block;
-      transition: transform 0.8s ease-in-out;
-  }
+.user-card-header>h1 span {
+    display: inline-block;
+    transition: transform 0.8s ease-in-out;
+}
 
-  .user-card-header>h1 span:hover {
-      transform: scale(0.9);
-  }
+.user-card-header>h1 span:hover {
+    transform: scale(0.9);
+}
 
-  .user-card-content {
-      display: flex;
-      align-items: center;
-      gap: 1em;
-  }
+.user-card-content {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
 
-  .user-rating {
-      display: flex;
-      align-items: center;
-  }
+.user-rating {
+    display: flex;
+    align-items: center;
+}
 
-  .user-card-content span {
-      display: inline-block;
-      transition: transform 0.8s ease-in-out;
-  }
+.user-card-content span {
+    display: inline-block;
+    transition: transform 0.8s ease-in-out;
+}
 
-  .user-card-content:nth-child(2) i {
-      color: var(--color-white);
-      transition: transform 0.8s ease-in-out;
-  }
+.user-card-content:nth-child(2) i {
+    color: var(--color-white);
+    transition: all 0.8s ease-in-out;
+}
 
-  .user-card-content span:hover,
-  .user-card-content:nth-child(2) i:hover {
-      transform: scale(1.3);
-  }
+.user-card-content-span:hover,
+.user-card-content:nth-child(2) i:hover {
+    font-weight: bold;
+    color: var(--color-hover);
+    transform: scale(1.3);
+}
 
+.no-content-user {
+    cursor: default;
+    text-align: center;
+    font-weight: bold;
+    color: var(--color-text);
+    border-radius: 1em;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255, 0.5);
+    box-shadow: 0 6px 12px 6px rgb(0, 0, 0, 0.3);
+    padding: 1em;
+    transition: all 1.2s;
+    margin-bottom: 2em;
+}
 
+.no-content-user:hover {
+    background-color: var(--color-input-active);
+    box-shadow: 0 6px 12px 6px rgb(255, 255, 255, 0.3);
+}
 
-  /* .user-card-heading,
-  .user-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1em;
-      padding-inline: 1em;
-      background-color: var(--color-sky-blue);
-  }
+.no-content-user i {
+    color: var(--color-sky-blue);
+    transition: color 0.8s;
+}
 
-  .profile-heading>h1 {
-      font-size: 2em;
-      margin: 0.25em;
-      text-align: center;
-      transition: color 1s;
-  }
+.no-content-user i:hover {
+    color: var(--color-red);
+    animation: pulse 0.5s infinite alternate;
+}
 
-  .profile-heading>h1:hover {
-      color: var(--color-white);
-      cursor: default;
-  }
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
 
-  .profile-header {
-      align-items: center;
-      padding-inline: 1em;
-  }
-
-
-  .profile-footer {
-      padding: 1em;
-      color: var(--color-light-gray);
-  }
-
-
-  .profile-memes-heading {
-      text-align: center;
-      font-weight: bold;
-      text-decoration: underline;
-      text-underline-offset: 0.25em;
-      text-decoration-thickness: 0.05em;
-      text-decoration-style: wavy;
-      padding: 1em;
-      border-radius: 0.5em;
-      background-color: rgb(255, 255, 255, 0.2);
-      box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
-      margin-bottom: 1em;
-  }
-
-  .no-favorite-memes-h3 {
-      color: var(--color-text);
-      text-align: center;
-      font-weight: 500;
-      padding: 1em;
-      border-radius: 0.5em;
-      background-color: rgb(255, 255, 255, 0.2);
-      text-shadow:
-          1px 1px var(--color-light-gray),
-          2px 2px var(--color-light-gray);
-      box-shadow: 4px 4px 12px 1px rgb(255, 255, 255, 0.5), 14px 14px 16px 0 rgba(0, 0, 0, 0.15);
-  } */
+    100% {
+        transform: scale(1.4);
+    }
+}
