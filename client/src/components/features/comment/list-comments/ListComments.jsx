@@ -14,8 +14,7 @@ import AddCommentModal from '../add-comment/AddCommentModal';
 import EditCommentModal from '../edit-comment/EditCommentModal';
 import DeleteCommentModal from '../delete-comment/DeleteCommentModal';
 
-export default function ListComments({ memeInfo }) {
-    const [allComments, setAllComments] = useState([]);                                                 // Use to show all comments              
+export default function ListComments({ memeInfo, allComments, setAllComments }) {           
     const [commentDetails, setCommentDetails] = useState({});                                           // Use to show details for one comment              
     const [userDetails, setUserDetails] = useState({});                                                 // Use of customer details to access various functionalities
     const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +49,6 @@ export default function ListComments({ memeInfo }) {
     }, []);
 
     const getAllComments = () => {                                                                      // Get all comments for meme
-        
         setIsLoading(true);
         api.get(endpoint.getAllCommentsForMeme(memeInfo._id))
             .then(comments => setAllComments(comments))
@@ -63,7 +61,7 @@ export default function ListComments({ memeInfo }) {
             setCommentDetails(comment);
             setIsShownEditCommentModal();
         }
-        
+
         setIsShownEditCommentModal();                                                                   // Hide modal
     };
 
@@ -72,7 +70,7 @@ export default function ListComments({ memeInfo }) {
             setCommentDetails(comment);
             setIsShownDeleteCommentModal();
         }
-        
+
         setIsShownDeleteCommentModal();                                                                 // Hide modal
     };
 
