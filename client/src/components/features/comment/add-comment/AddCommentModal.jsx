@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './AddCommentModal.module.css';
 import { useApi } from '../../../core/hooks/useApi';
@@ -15,6 +16,7 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
+    const navigate = useNavigate();
 
     // Use react-hook-form https://react-hook-form.com/docs/useform/register
     const { register, handleSubmit, formState: { errors, isValid, touchedFields, isSubmitting, isSubmitted } } = useForm({
@@ -31,6 +33,8 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
             .then(newComment => {
                 setServerMessage({ success: 'Successfully added new comment! 😊' });
                 setNewCommentHandler && setNewCommentHandler(allComments => [...allComments, newComment]); // If new comment is added from details, add comment to the list
+
+                navigate(`/memes/details/${memeId}`);                                                   // After add new comment navigate to details
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
