@@ -164,39 +164,70 @@ async function updateUserById(userData, userId) {
 }
 
 const addRemoveFavorite = async (memeId, userId) => {
-    // Get current meme to add in favorite
-    const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
-    // Get author of the current meme
-    const memeAuthor = await User.findById(currentMeme.author._id);
-    // Get current user details
-    const currentUser = await User.findById(userId);
-    const result = {};
+    // Check if the current meme is already in favorite
+    const isFavorite = await User.exists({ _id: userId, favorite: memeId });
+
+    const result = {
+        message: '',
+        meme: {}
+    };
 
     // Check if the meme is already added in favorite
-    if (currentUser.favorite.includes(memeId)) {
+    if (isFavorite) {
         // Remove meme from favorite array
-        currentUser.favorite.splice(currentUser.favorite.indexOf(userId), 1);
+        await User.findByIdAndUpdate(
+            { _id: userId },
+            { $pull: { favorite: memeId } },
+            { timestamps: false });
+
         // Decrement rating values on meme
-        currentMeme.rating -= ratingValue.increment;
-        // Decrement rating values on author
-        memeAuthor.rating -= ratingValue.increment;
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            { $inc: { rating: -ratingValue.increment } },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id to decrement his rating
+        const authorId = updatedMeme.author._id;
+
+        // Decrement rating values on user author
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: -ratingValue.increment } },
+            { timestamps: false });
+
         // Add message
         result.message = 'Successfully removed favorite meme.'
 
     } else {
-        // Add new user in likes array
-        currentUser.favorite.push(memeId);
+        // Add meme to favorite array
+        await User.findByIdAndUpdate(
+            { _id: userId },
+            { $push: { favorite: memeId } },
+            { timestamps: false });
+
         // Increment rating values on meme
-        currentMeme.rating += ratingValue.increment;
-        // Increment rating values on author
-        memeAuthor.rating += ratingValue.increment;
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            { $inc: { rating: ratingValue.increment } },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id to increment his rating
+        const authorId = updatedMeme.author._id;
+
+        // Increment rating value on author
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: ratingValue.increment } },
+            { timestamps: false });
+
         // Add message
         result.message = 'Successfully added new favorite meme.'
     }
 
-    // Save documents
-    await Promise.all([currentMeme.save(), memeAuthor.save(), currentUser.save()]);
-
+    // Return updated user state
+    result.meme = await User.findById(userId);
     return result;
 };
 
