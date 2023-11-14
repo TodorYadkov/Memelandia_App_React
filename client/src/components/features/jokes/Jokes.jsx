@@ -13,7 +13,7 @@ export default function Jokes() {
     useEffect(() => {
         // getJoke(); // TODO: uncomment this when all the other things are ready to not make many request to external api
     }, []);
-
+    
     const jokeUrl = import.meta.env.VITE_JOKE_URL;                                                      // Get the url to the api from the environment     
     const getJoke = () => {                                                                             // Get joke function
         setIsLoading(true);
