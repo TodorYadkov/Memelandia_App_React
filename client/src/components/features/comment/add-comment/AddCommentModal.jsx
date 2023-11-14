@@ -13,7 +13,7 @@ import Message from '../../../shared/messages/Message';
 
 export default function AddCommentModal({ modalHandler, memeId, setNewCommentHandler }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
+    const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                         // Use to display various messages from the server
 
     const api = useApi();
     const navigate = useNavigate();
@@ -26,19 +26,18 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
     });
 
     const submitHandler = (userInput) => {
-        const trimmedInput = trimInputData(userInput);                                                  // Trim user input
+        const trimmedInput = trimInputData(userInput);                                                      // Trim user input
 
         setIsLoading(true);
         api.post(endpoint.addNewComment(memeId), trimmedInput)
             .then(newComment => {
                 setServerMessage({ success: 'Successfully added new comment! 😊' });
-                setNewCommentHandler && setNewCommentHandler(allComments => [...allComments, newComment]); // If new comment is added from details, add comment to the list
+                setNewCommentHandler && setNewCommentHandler(allComments => [...allComments, newComment]);  // If new comment is added from details, add comment to the list
 
-                navigate(`/memes/details/${memeId}`);                                                   // After add new comment navigate to details
+                navigate(`/memes/details/${memeId}`);                                                       // After add new comment navigate to details
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
-
     };
 
     return (
