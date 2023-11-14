@@ -11,7 +11,7 @@ import Loading from '../loader/Loading';
 import Message from '../messages/Message';
 import NoContentMessage from '../no-content/NoContentMessage';
 
-export const InfiniteScrollComponent = ({ endpoint, setFetchedMeme }) => {
+export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMeme }) => {
     const [memes, setMemes] = useState([]);                                                             // State of all memes to render
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });
@@ -46,9 +46,10 @@ export const InfiniteScrollComponent = ({ endpoint, setFetchedMeme }) => {
 
                 setTotalPages(serverData.totalPages);                                                   // Get total number of pages from the server
 
-                ((setFetchedMeme && currentPage === 1) && (serverData.memes.length > 0))                // This is utilized on the user's memes page to retrieve user details without making any additional server requests.
-                    && (setFetchedMeme({ ...serverData.memes[0].author, userMemesCount: serverData.userMemesCount }));
-
+                ((setUserDetailsFromFetchedMeme && currentPage === 1) && (serverData.memes.length > 0)) // This is utilized on the user's memes page to retrieve user details without making any additional server requests.
+                    && (setUserDetailsFromFetchedMeme(
+                        { ...serverData.memes[0].author, userMemesCount: serverData.userMemesCount }
+                    ));
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
