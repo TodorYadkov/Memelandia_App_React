@@ -1,0 +1,7 @@
+.btn-like {
+    all: unset;
+}
+
+.btn-like.liked>i {
+    color: var(--color-light-orange);
+}
