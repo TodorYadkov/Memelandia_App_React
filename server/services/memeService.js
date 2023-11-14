@@ -5,7 +5,7 @@ const { Comment } = require("../models/Comment");
 const { ratingValue } = require("../environments/constants");
 
 // Meme
-const getAllMemes = (page = 1, limit = 20) => Meme.find({}).skip((page - 1) * limit).limit(limit).populate('author', 'username');
+const getAllMemes = (page = 1, limit = 20) => Meme.find({}).sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).populate('author', 'username');
 
 const getThreeTopRatedMemes = () => Meme.find().sort({ rating: -1 }).limit(3).populate('author', 'username');
 
@@ -27,16 +27,14 @@ const getMemeBySearch = async (nameValue = '', categoryValue = '', page = 1, lim
 const getMemeById = async (memeId) => Meme.findById(memeId).populate('author', 'username'); // This is only used for server side checks
 
 const getMemeByIdWithIncrementView = async (memeId) => {
-    const currentMeme = await Meme.findById(memeId).populate('author', 'username');
-    // Increase views
-    currentMeme.views += 1;
-    await currentMeme.save();
+    // Increment views
+    await Meme.updateOne({ _id: memeId }, { $inc: { views: 1 } }, { timestamps: false });
 
-    return currentMeme;
+    return Meme.findById(memeId).populate('author', 'username');
 };
 
 const getAllMemesForUser = async (userId, page = 1, limit = 20) => {
-    const userMemes = await Meme.find({ author: userId }).skip((page - 1) * limit).limit(limit).populate('author', ['username', 'rating', 'createdAt']);
+    const userMemes = await Meme.find({ author: userId }).sort({ _id: -1 }).skip((page - 1) * limit).limit(limit).populate('author', ['username', 'rating', 'createdAt']);
     // Count the total number of user's documents
     const totalDocuments = await Meme.countDocuments({ author: userId });
 
@@ -56,76 +54,123 @@ const deleteMeme = async (memeId) => {
 
 const getMemeCountDocuments = () => Meme.countDocuments();
 
-// Meme like, dislike
+// Meme like
 const addRemoveLike = async (memeId, userId) => {
-    // Get current meme to like
-    const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
-    // Get author of the current meme
-    const memeAuthor = await User.findById(currentMeme.author._id);
-    const result = {};
+    // Check if the user is liked current meme
+    const isLiked = await Meme.exists({ _id: memeId, likes: userId });
 
-    // Check if the user is already liked
-    if (currentMeme.likes.includes(userId)) {
-        // Remove user from likes array
-        currentMeme.likes.splice(currentMeme.likes.indexOf(userId), 1);
-        // Decrement rating values on meme
-        currentMeme.rating -= ratingValue.increment;
-        // Decrement rating values on author
-        memeAuthor.rating -= ratingValue.increment;
-        // Add message
-        result.message = 'Successfully removed like.'
+    const result = {
+        message: '',
+        meme: {}
+    };
+
+    if (isLiked) {
+        // If already liked, remove user from likes array and decrement rating
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            {
+                $pull: { likes: userId },
+                $inc: { rating: -ratingValue.increment }
+            },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id to decrement his rating
+        const authorId = updatedMeme.author._id;
+
+        // Decrement the author rating by an already increment value
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: -ratingValue.increment } },
+            { timestamps: false });
+
+        result.message = 'Successfully removed like.';
 
     } else {
-        // Add new user in likes array
-        currentMeme.likes.push(userId);
-        // Increment rating values on meme
-        currentMeme.rating += ratingValue.increment;
-        // Increment rating values on author
-        memeAuthor.rating += ratingValue.increment;
-        // Add message
-        result.message = 'Successfully added new like.'
+        // If not liked, add user to likes array and increment rating
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            {
+                $push: { likes: userId },
+                $inc: { rating: ratingValue.increment }
+            },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id
+        const authorId = updatedMeme.author._id;
+
+        // Increment the author rating
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: ratingValue.increment } },
+            { timestamps: false });
+
+        result.message = 'Successfully added new like.';
     }
 
-    // Save documents
-    await Promise.all([currentMeme.save(), memeAuthor.save()]);
-
-    result.currentMeme = currentMeme;
+    // Return updated meme
+    result.meme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
     return result;
 };
 
+// Meme dislike
 const addRemoveDislike = async (memeId, userId) => {
-    // Get current meme to dislike
-    const currentMeme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
-    // Get author of the current meme
-    const memeAuthor = await User.findById(currentMeme.author._id);
-    const result = {};
+    // Check if the user is disliked current meme
+    const isDisliked = await Meme.exists({ _id: memeId, dislikes: userId });
 
-    // Check if the user is already disliked
-    if (currentMeme.dislikes.includes(userId)) {
-        // Remove user from dislikes array
-        currentMeme.dislikes.splice(currentMeme.dislikes.indexOf(userId), 1);
-        // Increment rating values on meme
-        currentMeme.rating += ratingValue.decrement;
-        // Increment rating values on author
-        memeAuthor.rating += ratingValue.decrement;
-        // Add message
+    const result = {
+        message: '',
+        meme: {}
+    };
+
+    if (isDisliked) {
+        // If already disliked, remove user from dislikes array and increment rating
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            {
+                $pull: { dislikes: userId },
+                $inc: { rating: ratingValue.decrement }
+            },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id to decrement his rating
+        const authorId = updatedMeme.author._id;
+
+        // Increment the author rating by an already decrement value
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: ratingValue.decrement } },
+            { timestamps: false });
+
         result.message = 'Successfully removed dislike.'
 
     } else {
-        // Add new user in dislikes array
-        currentMeme.dislikes.push(userId);
-        // Decrement rating values on meme
-        currentMeme.rating -= ratingValue.decrement;
-        // Decrement rating values on author
-        memeAuthor.rating -= ratingValue.decrement;
-        // Add message
-        result.message = 'Successfully added new dislike.'
+        // If not disliked, add user to dislikes array and decrement rating
+        const updatedMeme = await Meme.findByIdAndUpdate(
+            { _id: memeId },
+            {
+                $push: { dislikes: userId },
+                $inc: { rating: -ratingValue.decrement }
+            },
+            { timestamps: false })
+            .populate('author', ['_id', 'username']);
+
+        // Get author Id
+        const authorId = updatedMeme.author._id;
+
+        // Increment the author rating
+        await User.findOneAndUpdate(
+            { _id: authorId },
+            { $inc: { rating: -ratingValue.decrement } },
+            { timestamps: false });
+
+        result.message = 'Successfully added new dislike.';
     }
 
-    // Save documents
-    await Promise.all([currentMeme.save(), memeAuthor.save()]);
-
-    result.currentMeme = currentMeme;
+    // Return updated meme
+    result.meme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
     return result;
 };
 
@@ -140,7 +185,7 @@ const addComment = async (commentData, memeId, userId) => {
     return populatedComment;
 };
 
-const getAllComments = (memeId) => Comment.find({ memeId }).populate('userId', ['username', 'rating']);
+const getAllComments = (memeId) => Comment.find({ memeId }).sort({ _id: -1 }).populate('userId', ['username', 'rating']);
 
 const getCommentById = (commentId) => Comment.findById(commentId).populate('userId', ['username', 'rating']);
 
