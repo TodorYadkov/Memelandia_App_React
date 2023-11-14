@@ -29,8 +29,16 @@ export default function EditCommentModal({ modalHandler, commentDetails, setUpda
         setIsLoading(true);
         api.put(endpoint.updateComment(commentDetails._id), trimmedInput)
             .then(updatedComment => {
+                setUpdatedCommentHandler(allComments => {
+                    return allComments.map(comment => {
+                        if (comment._id === updatedComment._id) {                                       // Replace the updated comment with the new data
+                            return updatedComment;
+                        }
+                        return comment;
+                    });
+                });
+
                 setServerMessage({ success: 'Comment updated successfully! 👌' });
-                setUpdatedCommentHandler(allComments => [...allComments.filter(c => c._id !== updatedComment._id), updatedComment]); // Update comment in state
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
