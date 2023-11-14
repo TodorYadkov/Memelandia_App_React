@@ -55,7 +55,7 @@ export default function ListMemes() {
         setEndpointMemes(endpoint.getMemeBySearch(memeName, category));                                 // Adding user input to the search query
 
         if (Object.values(searchCriteria).some(c => c)) {                                               // Set search params query (when the search criteria are empty string auto reset form)
-            setSearchParams(searchCriteria);
+            setSearchParams({ name: memeName, category });
 
         } else {
             setSearchParams({});                                                                        // Set no query params in the browser address bar
