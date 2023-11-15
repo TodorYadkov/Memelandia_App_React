@@ -120,6 +120,7 @@
 }
 
 .profile-memes-heading {
+    cursor: default;
     text-align: center;
     font-weight: bold;
     text-decoration: underline;
