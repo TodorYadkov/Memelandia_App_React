@@ -26,7 +26,7 @@ export default function Profile() {
     const [endPointForUserMemes, setEndPointForUserMemes] = useState('');                               // Use to get all the user's memes from the server
 
     const api = useApi();
-    const { getUserDetails } = useAuthContext();
+    const { getUserDetails, addUserSession, getUserToken } = useAuthContext();
     const [isShownModal, setIsShownModal] = useModal();                                                 // Show hide modal for edit user profile
 
     useEffect(() => {
@@ -41,11 +41,10 @@ export default function Profile() {
             getUserData('user');                                                                        // Get user details from server
         }
 
-        if (getUserDetails['_id'] || userHasId) {                                                       // Create an endpoint with userId, to get all user memes from the server.                                                       
-            // If not userId in context data get after request to the DB
-            const endPointWithUserID = endpoint.getMemeForUserById(getUserDetails['_id']                // Get user ID from different places
-                ? getUserDetails['_id']
-                : userDetails._id);
+        if (getUserDetails['_id'] || userHasId) {                                                       // If not userId in context data get after request to the DB                                                                                                          
+            const endPointWithUserID = endpoint.getMemeForUserById(getUserDetails['_id']                // Create an endpoint with userId, to get all user memes from the server.      
+                ? getUserDetails['_id']                                                                 // Get user ID from context                                                           
+                : userDetails._id);                                                                     // Get user ID after request to the server
             setEndPointForUserMemes(endPointWithUserID);
         }
 
@@ -69,6 +68,10 @@ export default function Profile() {
                 setUserDetails(userData);
                 currentState === 'user' && setUserHasId(true);                                          // Use when the user has no ID. Set a new status to true to get all of the user's memes
                 currentState === 'meme' && setMyFavoriteMemes(userData.favorite);                       // Save user's favorite memes in state
+                addUserSession({                                                                        // Store global user data for optimized next request, don't get details from server again
+                    accessToken: getUserToken,
+                    userDetails: { ...userData }
+                });
             })
             .catch(error => currentState === 'meme'
                 ? setServerMessage({ errorMeme: error.message })                                        // Use this to display a message below the user's data
