@@ -14,7 +14,10 @@ import AddCommentModal from '../../comment/add-comment/AddCommentModal';
 import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
-import LikeMeme from '../../like/LikeMeme';
+import LikeMeme from '../like/LikeMeme';
+import DislikeMeme from '../dislike/DislikeMeme';
+import FavoriteMeme from '../favorite/FavoriteMeme';
+import ShareMemeModal from '../share-meme/ShareMemeModal';
 
 export default function CardMeme({
     _id,
@@ -33,14 +36,18 @@ export default function CardMeme({
     const [userDetails, setUserDetails] = useState({});                                                 // Use to show user details
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
-    const [likeState, setLikeState] = useState({                                                        // Use to keep a state of likes
-        likeArr: likes,                                                                                 // Use to add or remove from the state of a user after a request to the server
-        isUserAlreadyLiked: false                                                                       // Initial state of the user
+    const [isFavorite, setIsFavorite] = useState(false);                                                // Use to add to favorites for each user
+    const [likeDislikeState, setLikeDislikeState] = useState({                                          // Use to keep a state of likes and dislikes
+        likeArr: likes,                                                                                 // Use to add or remove likes from the state of a user after a request to the server
+        isUserAlreadyLiked: false,                                                                      // Initial like state of the user
+        dislikeArr: dislikes,                                                                           // Use to add or remove dislikes from the state of a user after a request to the server
+        isUserAlreadyDisliked: false                                                                    // Initial dislike state of the user
     });
 
     const api = useApi();
     const { isLoggedIn, getUserDetails, addUserSession, getUserToken } = useAuthContext();
     const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                             // Show hide modal for add comment
+    const [isShownShareModal, setIsShownShareModal] = useModal();                                       // Show hide modal for share meme
 
     useEffect(() => {
         if (getUserDetails['_id'] && isLoggedIn) {                                                      // If the user has refreshed their browser, get their data from the server
@@ -48,7 +55,7 @@ export default function CardMeme({
 
         } else if (isLoggedIn) {
             setIsLoading(true);
-            api.get(endpoint.getUserById)
+            api.get(endpoint.getUserById)                                                               // Get user details from server
                 .then(userData => {
                     setUserDetails(userData);
                     addUserSession({                                                                    // Store user data for optimized next request, don't get details from server again
@@ -60,7 +67,19 @@ export default function CardMeme({
                 .finally(() => setIsLoading(false));
         }
 
-        setLikeState(state => ({ ...state, isUserAlreadyLiked: likes.includes(userDetails._id) }));     // Check for the status of the current user, whether he has liked the current card
+        setLikeDislikeState(state => {                                                                  // Set State for likes and dislikes
+            const currentState = {
+                ...state,
+                isUserAlreadyLiked: likes.includes(userDetails._id),                                    // Check for the status of the current user, whether he has liked the current card
+                isUserAlreadyDisliked: dislikes.includes(userDetails._id)                               // Check for the status of the current user, whether he has disliked the current card
+            };
+
+            return currentState;
+        });
+
+        if (userDetails?.favorite) {
+            setIsFavorite(userDetails.favorite.some(m => m._id === _id));                              // Use to set the state of the favorite
+        }
 
     }, [userDetails]);
 
@@ -92,8 +111,8 @@ export default function CardMeme({
                 <div className={styles['card-meme-info']}>
                     <p className={styles['category']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
                     <p className={styles['info']}><i className="fa-regular fa-eye"></i> {views}</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likeState.likeArr.length}</p>
-                    <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {dislikes.length}</p>
+                    <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likeDislikeState.likeArr.length}</p>
+                    <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {likeDislikeState.dislikeArr.length}</p>
 
                     <Rating rating={rating} />
                 </div>
@@ -114,26 +133,34 @@ export default function CardMeme({
                         </>
                         :
                         <>
-                            <LikeMeme memeId={_id} likeState={likeState} setLikeState={setLikeState} />
-                            <p><a className={`btn ${styles['dislike']}`} href="#"><i className="fa-solid fa-thumbs-down"></i></a></p>
+                            <LikeMeme memeId={_id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
+                            <DislikeMeme memeId={_id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
                             <p><button onClick={setIsShownAddCommentModal} className={styles['btn-add-comment']}><i className="btn fa-solid fa-message"></i></button></p>
-                            <p><a className={`btn ${styles['favorite']}`} href="#"><i className="fa-solid fa-heart"></i></a></p>
+                            <FavoriteMeme memeId={_id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} setUserDetails={setUserDetails} />
                         </>
                     }
 
-                    <label htmlFor="modal-toggle-share" className={`btn ${styles['share']} ${styles['modal-button']}`}><i
-                        className="fa-solid fa-share-nodes"></i></label>
+                    <p><button onClick={setIsShownShareModal} className={`${styles['btn-share']} ${styles['modal-button']}`}><i className="btn fa-solid fa-share-nodes"></i></button></p>
                 </footer>
 
                 : null
             }
 
-            {isShownAddCommentModal &&
+            {isShownAddCommentModal && (
                 <AddCommentModal
                     memeId={_id}
                     modalHandler={setIsShownAddCommentModal}
-                    {...(setNewCommentHandler && { setNewCommentHandler })} />
-            }
+                    {...(setNewCommentHandler && { setNewCommentHandler })}
+                />
+            )}
+
+            {isShownShareModal && (
+                <ShareMemeModal
+                    modalHandler={setIsShownShareModal}
+                    imageUrl={imageUrl}
+                />
+            )}
+
         </article>
     );
 }
