@@ -155,7 +155,6 @@ async function getUserById(userId) {
     return { ...user, commentsCount };
 }
 
-
 async function updateUserById(userData, userId) {
     // Update user details, run validators and return update data
     const user = await User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true, select: '-password -securityQuestion' }).lean();
@@ -175,16 +174,16 @@ const addRemoveFavorite = async (memeId, userId) => {
     // Check if the meme is already added in favorite
     if (isFavorite) {
         // Remove meme from favorite array
-        await User.findByIdAndUpdate(
+        await User.findOneAndUpdate(
             { _id: userId },
             { $pull: { favorite: memeId } },
-            { timestamps: false });
+            { runValidators: true, timestamps: false });
 
         // Decrement rating values on meme
-        const updatedMeme = await Meme.findByIdAndUpdate(
+        const updatedMeme = await Meme.findOneAndUpdate(
             { _id: memeId },
             { $inc: { rating: -ratingValue.increment } },
-            { timestamps: false })
+            { runValidators: true, timestamps: false })
             .populate('author', ['_id', 'username']);
 
         // Get author Id to decrement his rating
@@ -194,23 +193,23 @@ const addRemoveFavorite = async (memeId, userId) => {
         await User.findOneAndUpdate(
             { _id: authorId },
             { $inc: { rating: -ratingValue.increment } },
-            { timestamps: false });
+            { runValidators: true, timestamps: false });
 
         // Add message
         result.message = 'Successfully removed favorite meme.'
 
     } else {
         // Add meme to favorite array
-        await User.findByIdAndUpdate(
+        await User.findOneAndUpdate(
             { _id: userId },
             { $push: { favorite: memeId } },
-            { timestamps: false });
+            { runValidators: true, timestamps: false });
 
         // Increment rating values on meme
-        const updatedMeme = await Meme.findByIdAndUpdate(
+        const updatedMeme = await Meme.findOneAndUpdate(
             { _id: memeId },
             { $inc: { rating: ratingValue.increment } },
-            { timestamps: false })
+            { runValidators: true, timestamps: false })
             .populate('author', ['_id', 'username']);
 
         // Get author Id to increment his rating
@@ -220,14 +219,14 @@ const addRemoveFavorite = async (memeId, userId) => {
         await User.findOneAndUpdate(
             { _id: authorId },
             { $inc: { rating: ratingValue.increment } },
-            { timestamps: false });
+            { runValidators: true, timestamps: false });
 
         // Add message
         result.message = 'Successfully added new favorite meme.'
     }
 
-    // Return updated user state
-    result.meme = await User.findById(userId);
+    // Return message and favorite meme
+    result.meme = await Meme.findById(memeId).populate('author', ['_id', 'username']);
     return result;
 };
 
