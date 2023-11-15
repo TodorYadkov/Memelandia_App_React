@@ -1,0 +1,8 @@
+.btn-favorite {
+    all: unset;
+    cursor: pointer;
+}
+
+.btn-favorite.favorite>i {
+    color: var(--color-pink);
+}
