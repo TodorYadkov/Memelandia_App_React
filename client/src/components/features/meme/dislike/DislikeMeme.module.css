@@ -1,0 +1,8 @@
+.btn-dislike {
+    all: unset;
+    cursor: pointer;
+}
+
+.btn-dislike.disliked>i {
+    color: var(--color-dark-purple);
+}
