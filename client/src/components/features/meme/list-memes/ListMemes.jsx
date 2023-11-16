@@ -8,6 +8,7 @@ import { MEME_CATEGORY, MEME_FIELD } from '../memeFieldConstants';
 import { scrollToTop } from '../../../utils/scrollToTop';
 
 import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
+import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function ListMemes() {
     const [searchParams, setSearchParams] = useSearchParams();                                          // Use to handle query params
@@ -114,7 +115,9 @@ export default function ListMemes() {
 
                 {<InfiniteScrollComponent endpoint={endpointMemes} />}
 
-            </div >
+            </div>
+
+            <ScrollToTopButton />
         </section >
     );
 }
