@@ -7,6 +7,7 @@ import styles from './AddCommentModal.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { trimInputData } from '../../../utils/trimInputData';
 import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
@@ -17,6 +18,7 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
 
     const api = useApi();
     const navigate = useNavigate();
+    const { addUserSession, getUserDetails, getUserToken } = useAuthContext();
 
     // Use react-hook-form https://react-hook-form.com/docs/useform/register
     const { register, handleSubmit, formState: { errors, isValid, touchedFields, isSubmitting, isSubmitted } } = useForm({
@@ -33,6 +35,13 @@ export default function AddCommentModal({ modalHandler, memeId, setNewCommentHan
             .then(newComment => {
                 setServerMessage({ success: 'Successfully added new comment! 😊' });
                 setNewCommentHandler && setNewCommentHandler(allComments => [...allComments, newComment]);  // If new comment is added from details, add comment to the list
+                addUserSession({                                                                            // addUserSession is a function that update state
+                    accessToken: getUserToken,                                                              // Accepts an object with accessToken and userDetails
+                    userDetails: {
+                        ...getUserDetails,
+                        commentsCount: getUserDetails.commentsCount + 1                                     // Increment global state with one
+                    }
+                });
 
                 navigate(`/memes/details/${memeId}`);                                                       // After add new comment navigate to details
             })
