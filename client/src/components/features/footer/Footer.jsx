@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import styles from './Footer.module.css';
+import ScrollToTopButton from '../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function Footer() {
     const [currentYear, setCurrentYear] = useState(null);
@@ -45,6 +46,8 @@ export default function Footer() {
             <div className={styles['footer-copyright']}>
                 <p>© Todor Yadkov - Course Project &quot;Memelandia&quot; - 2023 - {currentYear && currentYear}</p>
             </div>
+            
+            <ScrollToTopButton />
         </footer >
     );
 }
