@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
         ref: 'Meme'
     }],
     rating: {
-        type: Number,
+        type: mongoose.Types.Decimal128,  // https://mongoosejs.com/docs/search.html?q=Decimal128%20
         required: [true, 'Rating is required.'],
         default: 0,
     },
@@ -58,6 +58,18 @@ const userSchema = new mongoose.Schema({
     // Enable the timestamps option createdAt, updatedAt
     { timestamps: true }
 );
+
+// Solution of problem is from https://github.com/Automattic/mongoose/issues/6268
+// transform: (doc, ret) => {...}; -> doc (the original Mongoose document) and ret (the transformed JSON representation).
+userSchema.set('toJSON', {
+    transform: (doc, ret) => {
+        if (ret.rating) {
+            ret.rating = parseFloat(ret.rating.toString());
+        }
+        
+        return ret;
+    },
+});
 
 const User = mongoose.model('User', userSchema);
 
