@@ -14,6 +14,7 @@ import Loading from '../../../shared/loader/Loading';
 import EditProfileModal from '../edit-profile/EditProfileModal';
 import CardMeme from '../../meme/card-meme/CardMeme';
 import Rating from '../../rating/Rating';
+import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function Profile() {
     const [myFavoriteMemes, setMyFavoriteMemes] = useState([]);                                         // Use to show user favorite meme
@@ -105,7 +106,7 @@ export default function Profile() {
 
                         <div className={styles['profile-stat']}>
                             <div className={styles['profile-stat-container']}>
-
+                                {/* Rating */}
                                 <div className={styles['box']}>
                                     <div className={styles['shadow']}></div>
                                     <div className={styles['content']}>
@@ -121,7 +122,39 @@ export default function Profile() {
                                         </div>
                                     </div>
                                 </div>
-
+                                {/* Count Memes */}
+                                <div className={styles['box']}>
+                                    <div className={styles['shadow']}></div>
+                                    <div className={styles['content']}>
+                                        <div className={styles['percent']} data-text="Memes" style={{ '--num': userDetails?.memesCount > 100 ? 100 : userDetails?.memesCount }}>
+                                            <div className={styles['dot']}></div>
+                                            <svg>
+                                                <circle cx="70" cy="70" r="70"></circle>
+                                                <circle cx="70" cy="70" r="70"></circle>
+                                            </svg>
+                                        </div>
+                                        <div className={styles['number']}>
+                                            <h2>{userDetails?.memesCount > 100 ? 100 : userDetails?.memesCount}<span>%</span></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Count Post */}
+                                <div className={styles['box']}>
+                                    <div className={styles['shadow']}></div>
+                                    <div className={styles['content']}>
+                                        <div className={styles['percent']} data-text="Post" style={{ '--num': userDetails?.commentsCount > 100 ? 100 : userDetails?.commentsCount }}>
+                                            <div className={styles['dot']}></div>
+                                            <svg>
+                                                <circle cx="70" cy="70" r="70"></circle>
+                                                <circle cx="70" cy="70" r="70"></circle>
+                                            </svg>
+                                        </div>
+                                        <div className={styles['number']}>
+                                            <h2>{userDetails?.commentsCount > 100 ? 100 : userDetails?.commentsCount}<span>%</span></h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* Count Fav */}
                                 <div className={styles['box']}>
                                     <div className={styles['shadow']}></div>
                                     <div className={styles['content']}>
@@ -138,21 +171,6 @@ export default function Profile() {
                                     </div>
                                 </div>
 
-                                <div className={styles['box']}>
-                                    <div className={styles['shadow']}></div>
-                                    <div className={styles['content']}>
-                                        <div className={styles['percent']} data-text="Post" style={{ '--num': userDetails?.commentsCount > 100 ? 100 : userDetails?.commentsCount }}>
-                                            <div className={styles['dot']}></div>
-                                            <svg>
-                                                <circle cx="70" cy="70" r="70"></circle>
-                                                <circle cx="70" cy="70" r="70"></circle>
-                                            </svg>
-                                        </div>
-                                        <div className={styles['number']}>
-                                            <h2>{userDetails?.commentsCount > 100 ? 100 : userDetails?.commentsCount}<span>%</span></h2>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -215,6 +233,8 @@ export default function Profile() {
 
             </div >
 
+            <ScrollToTopButton />
+            
             {isShownModal && <EditProfileModal userDetails={userDetails} setUserDetails={setUserDetails} modalHandler={setIsShownModal} />}
         </section >
     );
