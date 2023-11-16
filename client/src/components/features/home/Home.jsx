@@ -10,6 +10,7 @@ import Jokes from '../jokes/Jokes';
 import Loading from '../../shared/loader/Loading';
 import Message from '../../shared/messages/Message';
 import NoContentMessage from '../../shared/no-content/NoContentMessage';
+import ScrollToTopButton from '../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function Home() {
     const [topMemes, setTopMemes] = useState([]);
@@ -60,6 +61,8 @@ export default function Home() {
             </div>
 
             <Jokes />
+            
+            <ScrollToTopButton />
 
         </section >
     );
