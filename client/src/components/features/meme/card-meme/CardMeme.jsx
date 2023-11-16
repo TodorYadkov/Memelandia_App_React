@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './CardMeme.module.css';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { useApi } from '../../../core/hooks/useApi';
-import { endpoint } from '../../../core/environments/constants';
-import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
 import { useModal } from '../../../core/hooks/useModal';
+import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
+import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
 
 import Rating from '../../rating/Rating';
-import AddCommentModal from '../../comment/add-comment/AddCommentModal';
-import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
 import LikeMeme from '../like/LikeMeme';
 import DislikeMeme from '../dislike/DislikeMeme';
 import FavoriteMeme from '../favorite/FavoriteMeme';
 import ShareMemeModal from '../share-meme/ShareMemeModal';
+import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
+import AddCommentModal from '../../comment/add-comment/AddCommentModal';
 
 export default function CardMeme({
     _id,
@@ -88,8 +88,12 @@ export default function CardMeme({
         isOwner: userDetails?._id === author?._id,
     };
 
+    const handleContextMenu = (e) => {                                                                  // Disable context menu with preventDefault
+        e.preventDefault();
+    };
+
     return (
-        <article className={styles['card']}>
+        <article onContextMenu={handleContextMenu} className={styles['card']}>
             {isLoading && <Loading />}
             {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
