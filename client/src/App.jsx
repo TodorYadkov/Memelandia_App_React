@@ -17,7 +17,7 @@ import Register from './components/features/users/register/Register';
 import ListUserMemes from './components/features/meme/list-user-memes/ListUserMemes';
 import Logout from './components/features/users/logout/Logout';
 import NotFound404 from './components/features/not-found-404/NotFound404';
-
+import CreateMeme from './components/features/meme/create-meme/CreateMeme';
 
 function App() {
 
@@ -49,8 +49,8 @@ function App() {
 
                             {/* Private meme routes */}
                             <Route element={<RoutGuardAuthenticated />}>
-                                {/*<Route path='create' element={< />} />
-                                <Route path='edit/:memeId' element={< />} />
+                                <Route path='create' element={<CreateMeme />} />
+                                {/*<Route path='edit/:memeId' element={< />} />
                                 <Route path='delete/:memeId' element={< />} /> */}
                             </Route>
                         </Route>
