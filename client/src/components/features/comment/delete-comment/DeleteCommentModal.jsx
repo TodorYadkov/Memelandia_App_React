@@ -3,10 +3,11 @@ import { useState } from 'react';
 
 import styles from './DeleteCommentModal.module.css';
 import { useApi } from '../../../core/hooks/useApi';
+import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
-import { endpoint } from '../../../core/environments/constants';
 
 export default function DeleteCommentModal({ modalHandler, commentDetails, setDeletedCommentHandler }) {
     const [isDeleted, setIsDeleted] = useState(false);                                                  // Use to disable the delete button after deleting a comment
@@ -14,14 +15,24 @@ export default function DeleteCommentModal({ modalHandler, commentDetails, setDe
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
 
     const api = useApi();
+    const { addUserSession, getUserDetails, getUserToken } = useAuthContext();
 
     const deleteHandler = () => {                                                                       // Delete comment
         setIsLoading(true);
         api.delete(endpoint.deleteComment(commentDetails._id))
             .then(deletedComment => {
-                setIsDeleted(true); // Disable delete button
+                setIsDeleted(true);                                                                     // Disable delete button
                 setServerMessage({ success: 'Comment is successfully deleted! 😪' });
-                setDeletedCommentHandler(allComments => [...allComments.filter(c => c._id !== deletedComment.deletedComment._id)]); // Delete comment from a state
+                setDeletedCommentHandler(allComments => (                                               // Delete comment from a locale state
+                    [...allComments.filter(c => c._id !== deletedComment.deletedComment._id)]
+                ));
+                addUserSession({                                                                        // addUserSession is a function that update state
+                    accessToken: getUserToken,                                                          // Accepts an object with accessToken and userDetails
+                    userDetails: {
+                        ...getUserDetails,
+                        commentsCount: getUserDetails.commentsCount - 1                                 // Decrement global state with one
+                    }
+                });
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
