@@ -1,0 +1,19 @@
+.scroll-to-top-button {
+    all: unset;
+    cursor: pointer;
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+
+.scroll-to-top-button>i {
+    color: rgb(255, 255, 255, 0.5);
+}
+
+.visible {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
