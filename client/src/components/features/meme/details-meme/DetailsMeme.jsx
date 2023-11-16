@@ -5,6 +5,7 @@ import styles from './DetailsMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
 import { scrollToTop } from '../../../utils/scrollToTop';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import CardMeme from '../card-meme/CardMeme';
 import Loading from '../../../shared/loader/Loading';
@@ -19,6 +20,7 @@ export default function DetailsMeme() {
 
     const api = useApi();
     const { memeId } = useParams('memeId');                                                             // Get memeId from query params
+    const { isLoggedIn } = useAuthContext();
 
     useEffect(() => {
         document.title = 'Details';                                                                     // Add page title
@@ -43,10 +45,14 @@ export default function DetailsMeme() {
                         {currentMeme?._id && <CardMeme {...currentMeme} setNewCommentHandler={setAllComments} />}
 
                     </div>
-                    <div className={styles['details-comments']}>
-                        {currentMeme?._id && <ListComments memeInfo={currentMeme} allComments={allComments} setAllComments={setAllComments} />}
+                    {
+                        isLoggedIn && (
+                            <div className={styles['details-comments']}>
+                                {currentMeme?._id && <ListComments memeInfo={currentMeme} allComments={allComments} setAllComments={setAllComments} />}
 
-                    </div>
+                            </div>
+                        )
+                    }
                 </>
             }
 
