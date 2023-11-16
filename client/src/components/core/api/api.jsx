@@ -1,4 +1,4 @@
-import { host } from '../../environments/constants';
+import { host } from '../environments/constants';
 
 async function api(method, clearUserSession, endpoint, accessToken, data) {
     const url = host + endpoint;                                                                        // Url to request server
