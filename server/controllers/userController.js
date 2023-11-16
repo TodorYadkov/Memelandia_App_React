@@ -100,7 +100,7 @@ router.get('/favorite/:memeId', isAuth, preload(getMemeById), isNotOwner, async 
 
         const userId = req.user._id;
         const memeId = req.params.memeId;
-        const result = await addRemoveFavorite(memeId, userId); // Return an object with message which action is enabled
+        const result = await addRemoveFavorite(memeId, userId); // Return an object with message which action is enabled and favorite meme
 
         res.status(200).json(result);
     } catch (error) {
