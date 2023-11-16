@@ -7,6 +7,7 @@ import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/Infinit
 import { scrollToTop } from '../../../utils/scrollToTop';
 
 import Rating from '../../rating/Rating';
+import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function ListUserMemes() {
     const [currenEndPointForUserMemes, setCurrenEndPointForUserMemes] = useState('');                   // Use to save an endpoint for the current user
@@ -51,6 +52,8 @@ export default function ListUserMemes() {
                 :
                 <h3 className={styles['no-content-user']}>This user has no memes added yet! <i className="fa-solid fa-heart-crack"></i></h3>
             }
+
+            <ScrollToTopButton />
             {currenEndPointForUserMemes && <InfiniteScrollComponent endpoint={currenEndPointForUserMemes} setUserDetailsFromFetchedMeme={setUserDetailsFromFetchedMeme} />}
         </div>
     );
