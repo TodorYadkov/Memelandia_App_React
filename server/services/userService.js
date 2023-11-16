@@ -27,13 +27,20 @@ async function userRegister(userData) {
     const hashedSecurityQuestion = await bcrypt.hash(userData.securityQuestion, ROUNDS_BCRYPT);
 
     // Create new user
-    const user = await User.create({ ...userData, password: hashedPassword, securityQuestion: hashedSecurityQuestion });
+    const userObject = await User.create({ ...userData, password: hashedPassword, securityQuestion: hashedSecurityQuestion });
+
+    // Convert the user to a plain JavaScript object using toJSON 
+    // (Convert Decimal128 instances to numbers (converting here because after create bypasses Mongoose methods, including toJSON in mongoose schema))
+    const user = userObject.toJSON();
+
+    // The number of comments and memes for the current user to display on their profile
+    const [memesCount, commentsCount] = await Promise.all([
+        Meme.countDocuments({ author: user._id }),
+        Comment.countDocuments({ userId: user._id }),
+    ]);
 
     // Create token
     const userToken = await generateToken(user);
-
-    // The number of comments for the current user to display on their profile
-    const commentsCount = await Comment.countDocuments({ userId: user._id });
 
     // Return user info
     return {
@@ -48,7 +55,8 @@ async function userRegister(userData) {
             favorite: user.favorite,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
-            commentsCount: commentsCount
+            memesCount: memesCount,
+            commentsCount: commentsCount,
         }
     };
 }
@@ -56,23 +64,30 @@ async function userRegister(userData) {
 async function userLogin(userData) {
 
     // Check if the user exist
-    const user = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
+    const userObject = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
 
-    if (!user) {
+    if (!userObject) {
         throw new Error('Invalid username or password!');
     }
 
     // Validate password
-    const matchPassword = await bcrypt.compare(userData.password, user.password);
+    const matchPassword = await bcrypt.compare(userData.password, userObject.password);
     if (!matchPassword) {
         throw new Error('Invalid username or password!');
     }
 
+    // Convert the user to a plain JavaScript object using toJSON 
+    // (Convert Decimal128 instances to numbers (converting here because after findOne bypasses Mongoose methods, including toJSON in mongoose schema))
+    const user = userObject.toJSON();
+
+    // The number of comments and memes for the current user to display on their profile
+    const [memesCount, commentsCount] = await Promise.all([
+        Meme.countDocuments({ author: user._id }),
+        Comment.countDocuments({ userId: user._id }),
+    ]);
+
     // Create token
     const userToken = await generateToken(user);
-
-    // The number of comments for the current user to display on their profile
-    const commentsCount = await Comment.countDocuments({ userId: user._id });
 
     // Return user info
     return {
@@ -87,7 +102,8 @@ async function userLogin(userData) {
             favorite: user.favorite,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
-            commentsCount: commentsCount
+            memesCount: memesCount,
+            commentsCount: commentsCount,
         }
     };
 }
@@ -97,13 +113,13 @@ async function userLogin(userData) {
 async function forgottenPassword(userData) {
 
     // Check if the user exist
-    const user = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
-    if (!user) {
+    const userObject = await User.findOne({ $or: [{ email: userData?.email }, { username: userData?.username }] });
+    if (!userObject) {
         throw new Error('Invalid credentials!');
     }
 
     // Validate security question
-    const matchSecurityQuestion = await bcrypt.compare(userData.securityQuestion, user.securityQuestion);
+    const matchSecurityQuestion = await bcrypt.compare(userData.securityQuestion, userObject.securityQuestion);
     if (!matchSecurityQuestion) {
         throw new Error('Invalid credentials!');
     }
@@ -116,14 +132,21 @@ async function forgottenPassword(userData) {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(userData.password, ROUNDS_BCRYPT);
-    user.password = hashedPassword;
-    await user.save();
+    userObject.password = hashedPassword;
+    await userObject.save();
+
+    // Convert the user to a plain JavaScript object using toJSON 
+    // (Convert Decimal128 instances to numbers (converting here because after findOne bypasses Mongoose methods, including toJSON in mongoose schema))
+    const user = userObject.toJSON();
+
+    // The number of comments and memes for the current user to display on their profile
+    const [memesCount, commentsCount] = await Promise.all([
+        Meme.countDocuments({ author: user._id }),
+        Comment.countDocuments({ userId: user._id }),
+    ]);
 
     // Create token
     const userToken = await generateToken(user);
-
-    // The number of comments for the current user to display on their profile
-    const commentsCount = await Comment.countDocuments({ userId: user._id });
 
     // Return user info
     return {
@@ -138,7 +161,8 @@ async function forgottenPassword(userData) {
             favorite: user.favorite,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
-            commentsCount: commentsCount
+            memesCount: memesCount,
+            commentsCount: commentsCount,
         }
     };
 }
@@ -151,15 +175,33 @@ async function userLogout(userToken) {
 async function getUserById(userId) {
     // Select all without password (-password)
     const user = await User.findById(userId).select('-password -securityQuestion').populate('favorite').lean();
-    const commentsCount = await Comment.countDocuments({ userId });
-    return { ...user, commentsCount };
+    const [memesCount, commentsCount] = await Promise.all([
+        Meme.countDocuments({ author: userId }),
+        Comment.countDocuments({ userId }),
+    ]);
+
+    // Convert Decimal128 instances to numbers (converting here  because lean() bypasses Mongoose methods, including toJSON in mongoose schema)
+    if (user.rating) {
+        user.rating = parseFloat(user.rating.toString());
+    }
+
+    return { ...user, memesCount, commentsCount };
 }
 
 async function updateUserById(userData, userId) {
     // Update user details, run validators and return update data
     const user = await User.findByIdAndUpdate(userId, userData, { runValidators: true, new: true, select: '-password -securityQuestion' }).lean();
-    const commentsCount = await Comment.countDocuments({ userId });
-    return { ...user, commentsCount };
+    const [memesCount, commentsCount] = await Promise.all([
+        Meme.countDocuments({ author: userId }),
+        Comment.countDocuments({ userId }),
+    ]);
+
+    // Convert Decimal128 instances to numbers (converting here  because lean() bypasses Mongoose methods, including toJSON in mongoose schema)
+    if (user.rating) {
+        user.rating = parseFloat(user.rating.toString());
+    }
+
+    return { ...user, memesCount, commentsCount };
 }
 
 const addRemoveFavorite = async (memeId, userId) => {
