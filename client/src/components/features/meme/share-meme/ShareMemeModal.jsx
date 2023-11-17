@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import styles from './ShareMemeModal.module.css';
 
@@ -10,6 +10,7 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
     const [newShortUrl, setNewShortUrl] = useState(imageUrl);                                           // Use to give a new short URL to the user, default is main imageUrl
+    const inputRef = useRef(null);
 
     const apiShortenUrl = import.meta.env.VITE_SHORTEN_URL;                                             // Get shorten URL from environment
 
@@ -25,6 +26,9 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
         //     })                                             
         //     .catch(error => setServerMessage({ error: error.message }))                                 // Set error if there is another error
         //     .finally(() => setIsLoading(false));
+
+        const input = inputRef.current;                                                                 // Get ref to the input with link                                                                              
+        input.select();                                                                                 // Select all the content inside the input
 
     }, []);
 
@@ -52,7 +56,7 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
                             ? <Loading />
                             :
                             <div className={styles['modal-content-actions']}>
-                                <input className={styles['input']} type="text" defaultValue={newShortUrl} readOnly />
+                                <input ref={inputRef} className={styles['input']} type="text" defaultValue={newShortUrl} readOnly />
                                 <button onClick={copyFromClipboard} className={`${styles['btn']} ${styles['btn-copy']}`}><i className="fa-regular fa-copy"></i> Copy</button>
                             </div>
                         }
