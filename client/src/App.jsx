@@ -5,19 +5,19 @@ import { AuthProvider } from './components/core/contexts/AuthContext';
 import { RouteGuardPublic } from './components/core/guards/RouteGuardPublic';
 import { RoutGuardAuthenticated } from './components/core/guards/RouteGuardAuthenticated';
 
-import About from './components/features/about/About';
-import Footer from './components/features/footer/Footer';
-import Header from './components/features/header/Header';
 import Home from './components/features/home/Home';
-import DetailsMeme from './components/features/meme/details-meme/DetailsMeme';
-import ListMemes from './components/features/meme/list-memes/ListMemes';
+import About from './components/features/about/About';
+import Header from './components/features/header/Header';
+import Footer from './components/features/footer/Footer';
 import Login from './components/features/users/login/Login';
+import Logout from './components/features/users/logout/Logout';
 import Profile from './components/features/users/profile/Profile';
 import Register from './components/features/users/register/Register';
-import ListUserMemes from './components/features/meme/list-user-memes/ListUserMemes';
-import Logout from './components/features/users/logout/Logout';
+import ListMemes from './components/features/meme/list-memes/ListMemes';
 import NotFound404 from './components/features/not-found-404/NotFound404';
 import CreateMeme from './components/features/meme/create-meme/CreateMeme';
+import DetailsMeme from './components/features/meme/details-meme/DetailsMeme';
+import ListUserMemes from './components/features/meme/list-user-memes/ListUserMemes';
 
 function App() {
 
