@@ -10,3 +10,5 @@ export const MEME_CATEGORY = ['Funny', 'Sports', 'Politics', 'Science',         
     'Fashion', 'Fitness', 'Animals', 'Celebrities',
     'Hobbies', 'Educational', 'Inspirational',
     'Relationships', 'Humor', 'Other'];
+
+export const MEME_INPUT_COUNT = 2;
