@@ -101,16 +101,24 @@ const validateUserUpdateUserSchema = joi.object({
     })
 });
 
+// Custom validation from base64
+const isBase64 = (value, helpers) => {
+    if (!/^data:image\/\w+;base64,/.test(value)) {
+        return helpers.error('any.invalid');
+    }
+    return value;
+};
+
 // Validate input on create, update meme
 const validateMemeSchema = joi.object({
     name: joi.string().trim().min(2).max(30).required().messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
-        'string.max': 'Name must not exceed fifty characters',
+        'string.max': 'Name must not exceed thirty characters',
         'any.required': 'Name is required'
     }),
 
-    imageUrl: joi.string().trim().regex(/^https?:\/\/.+/).messages({
+    imageUrl: joi.string().allow(null).trim().regex(/^https?:\/\/.+/).messages({
         'string.base': 'Image URL must be a string',
         'string.pattern.base': 'Image URL must start with http:// or https://',
     }),
@@ -119,8 +127,8 @@ const validateMemeSchema = joi.object({
         'string.base': 'Category must be a string',
         'any.required': 'Category is required',
         'any.only': '{#label} is not supported. Supported values are: ' + category.join(', ')
-    })
-
+    }),
+    imageData: joi.string().custom(isBase64, 'Base64 validation').required(),
 });
 
 const validateCommentSchema = joi.object({
