@@ -149,10 +149,9 @@
 }
 
 .form-buttons {
+    margin-top: 2em;
     align-items: center;
     display: flex;
-
-    margin-top: 2em;
 }
 
 .btn.btn-login {
