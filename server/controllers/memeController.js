@@ -3,6 +3,7 @@ const router = require('express').Router();
 const { preload } = require('../middlewares/preload');
 const { isAuth, isOwner, isNotOwner } = require('../middlewares/guards');
 const { validateMemeSchema, validateCommentSchema } = require('../util/validationSchemes');
+const uploadImageImgBB = require('../util/uploadImageImgBB');
 const {
     getAllMemes,
     getThreeTopRatedMemes,
@@ -90,6 +91,7 @@ router.get('/get-one/:memeId', async (req, res, next) => {
 // Get all memes for user with pagination - Not logged
 router.get('/for-user/:userId', async (req, res, next) => {
     try {
+
         const userId = req.params.userId;
         // From front-end send request with query params "page" and "limit"
         const page = parseInt(req.query.page) || 1;    // Get current page
@@ -112,12 +114,22 @@ router.get('/for-user/:userId', async (req, res, next) => {
 // Create meme - Logged
 router.post('/create', isAuth, async (req, res, next) => {
     try {
+
         const memeData = req.body;
+        // Image data must be base64
+        const imageData = req.body.imageData;
+
         // Validate user input
         await validateMemeSchema.validateAsync(memeData);
 
+        // Upload image to ImgBB
+        const imgbbResponse = await uploadImageImgBB(imageData);
+
+        // Get imageUrl from response
+        const imageUrl = imgbbResponse.data.data.url;
+
         const userId = req.user._id;
-        const newMeme = await addMeme(userId, memeData);
+        const newMeme = await addMeme(userId, { ...memeData, imageUrl });
 
         res.status(201).json(newMeme);
     } catch (error) {
