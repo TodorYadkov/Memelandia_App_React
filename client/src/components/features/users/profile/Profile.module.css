@@ -371,8 +371,8 @@
 .btn.btn-favorite,
 .btn.btn-user {
     font-size: 1.2em;
-    background-color: var(--color-sky-blue);
-    color: var(--color-text);
+    color: var(--color-white);
+    background-color: var(--color-header-footer);
     padding: 0.25em 0.5em;
     border-radius: 0.5em;
     border: none;
@@ -383,5 +383,5 @@
 .btn.btn-favorite:hover,
 .btn.btn-user:hover {
     transform: scale(1.2);
-    color: var(--color-white);
+    color: var(--color-hover);
 }
