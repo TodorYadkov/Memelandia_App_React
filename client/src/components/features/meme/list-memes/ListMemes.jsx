@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import styles from './ListMemes.module.css';
+import { scrollToTop } from '../../../utils/scrollToTop';
 import { endpoint } from '../../../core/environments/constants';
 import { MEME_CATEGORY, MEME_FIELD } from '../memeFieldConstants';
-import { scrollToTop } from '../../../utils/scrollToTop';
 
-import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';
+import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 
 export default function ListMemes() {
     const [searchParams, setSearchParams] = useSearchParams();                                          // Use to handle query params
@@ -42,7 +42,7 @@ export default function ListMemes() {
 
             submitHandler(query);                                                                       // Execute query
 
-            // Set form default values to show the user the correct values on the form
+                                                                                                        // Set form default values to show the user the correct values on the form
             setValue(MEME_FIELD.name, query.name);                                                      // Get from query name
             setValue(MEME_FIELD.category, query.category);                                              // Get from query category
         }
