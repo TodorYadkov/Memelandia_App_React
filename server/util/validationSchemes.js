@@ -128,7 +128,9 @@ const validateMemeSchema = joi.object({
         'any.required': 'Category is required',
         'any.only': '{#label} is not supported. Supported values are: ' + category.join(', ')
     }),
-    imageData: joi.string().custom(isBase64, 'Base64 validation').required(),
+
+    imageData: joi.string().allow(null).custom(isBase64, 'Base64 validation'),
+
 });
 
 const validateCommentSchema = joi.object({
