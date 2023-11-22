@@ -11,12 +11,13 @@
     --color-light-orange: #ffe4c4;
     --color-sky-blue: #3498db;
     --color-blue: #0176e8;
+    --color-dark-blue: #034480;
     --color-dark-purple: #450baa;
     --color-white: #ffffff;
     --color-pink: #e60d64;
     --color-light-green: #598e3f;
     --color-green: #008000;
     --color-red: #ff0000;
-    --color-gray: rgb(208, 208, 208);
+    --color-gray: #d0d0d0;
     --color-red-dark: #b52525;
 }
