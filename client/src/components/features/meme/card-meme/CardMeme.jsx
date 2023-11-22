@@ -15,28 +15,33 @@ import Message from '../../../shared/messages/Message';
 import LikeMeme from '../like/LikeMeme';
 import DislikeMeme from '../dislike/DislikeMeme';
 import FavoriteMeme from '../favorite/FavoriteMeme';
+import EditMemeModal from '../edit-meme/EditMemeModal';
 import ShareMemeModal from '../share-meme/ShareMemeModal';
 import DeleteMemeModal from '../delete-meme/DeleteMemeModal';
 import AddCommentModal from '../../comment/add-comment/AddCommentModal';
 
 export default function CardMeme({
-    _id,
-    name,
-    author,
-    category,
-    dislikes,
-    imageUrl,
-    likes,
-    rating,
-    views,
-    createdAt,
-    updatedAt,
+    _id,                                                                                                // Meme property
+    name,                                                                                               // Meme property
+    author,                                                                                             // Meme property
+    category,                                                                                           // Meme property
+    dislikes,                                                                                           // Meme property
+    imageUrl,                                                                                           // Meme property
+    likes,                                                                                              // Meme property
+    rating,                                                                                             // Meme property
+    views,                                                                                              // Meme property
+    createdAt,                                                                                          // Meme property
+    updatedAt,                                                                                          // Meme property
     setNewCommentHandler,                                                                               // Optional handler, when adding a new comment, updates list of all comments (state)
+    onDeleteMeme,                                                                                       // Use to rerender parent component when some meme is deleted
 }) {
     const [userDetails, setUserDetails] = useState({});                                                 // Use to show user details
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
     const [isFavorite, setIsFavorite] = useState(false);                                                // Use to add to favorites for each user
+    const [memeDetails, setMemeDetails] = useState({                                                    // Set current meme details in state
+        _id, name, author, category, dislikes, imageUrl, likes, rating, views, createdAt, updatedAt
+    });
     const [likeDislikeState, setLikeDislikeState] = useState({                                          // Use to keep a state of likes and dislikes
         likeArr: likes,                                                                                 // Use to add or remove likes from the state of a user after a request to the server
         isUserAlreadyLiked: false,                                                                      // Initial like state of the user
@@ -48,6 +53,8 @@ export default function CardMeme({
     const { isLoggedIn, getUserDetails, addUserSession, getUserToken } = useAuthContext();
     const [isShownAddCommentModal, setIsShownAddCommentModal] = useModal();                             // Show hide modal for add comment
     const [isShownShareModal, setIsShownShareModal] = useModal();                                       // Show hide modal for share meme
+    const [isShownDeleteModal, setIsShownDeleteModal] = useModal();                                     // Show hide modal for edit meme
+    const [isShownEditModal, setIsShownEditModal] = useModal();                                         // Show hide modal for edit meme
 
     useEffect(() => {
         if (getUserDetails['_id'] && isLoggedIn) {                                                      // If the user has refreshed their browser, get their data from the server
@@ -78,7 +85,7 @@ export default function CardMeme({
         });
 
         if (userDetails?.favorite) {
-            setIsFavorite(userDetails.favorite.some(m => m._id === _id));                              // Use to set the state of the favorite
+            setIsFavorite(userDetails.favorite.some(m => m._id === _id));                               // Use to set the state of the favorite
         }
 
     }, [userDetails]);
@@ -98,32 +105,35 @@ export default function CardMeme({
             {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 
             <header className={styles['card-header']}>
-                <h4><Link to={`/memes/details/${_id}`}>{name}</Link></h4>
+                <h4><Link to={`/memes/details/${memeDetails._id}`}>{memeDetails.name}</Link></h4>
 
                 <p className={styles['card-author-name']}>
                     <span>By:</span>
                     <Link
-                        to={`/memes/user-memes/${author._id}`}
+                        to={`/memes/user-memes/${memeDetails.author._id}`}
                         className={styles['card-author-link']}>
-                        <i className="fa-solid fa-at"></i> {author.username}
+                        <i className="fa-solid fa-at"></i> {memeDetails.author.username}
                     </Link>
                     <span>,</span>
-                    <time>{createdAt !== updatedAt ? formatDateToTimeAgo(updatedAt) : formatDateToTimeAgo(createdAt)}</time>
-                    {createdAt !== updatedAt ? <sup>(edited)</sup> : <span>ago</span>}
+                    <time>{memeDetails.createdAt !== memeDetails.updatedAt
+                        ? formatDateToTimeAgo(memeDetails.updatedAt)
+                        : formatDateToTimeAgo(memeDetails.createdAt)
+                    }</time>
+                    {memeDetails.createdAt !== memeDetails.updatedAt ? <sup>(edited)</sup> : <span>ago</span>}
                 </p>
 
                 <div className={styles['card-meme-info']}>
-                    <p className={styles['category']}>Category: <Link to={`/memes/catalog?category=${category}`}>{category}</Link></p>
-                    <p className={styles['info']}><i className="fa-regular fa-eye"></i> {views}</p>
+                    <p className={styles['category']}>Category: <Link to={`/memes/catalog?category=${memeDetails.category}`}>{memeDetails.category}</Link></p>
+                    <p className={styles['info']}><i className="fa-regular fa-eye"></i> {memeDetails.views}</p>
                     <p className={styles['info']}><i className="fa-regular fa-thumbs-up"></i> {likeDislikeState.likeArr.length}</p>
                     <p className={styles['info']}><i className="fa-regular fa-thumbs-down"></i> {likeDislikeState.dislikeArr.length}</p>
 
-                    <Rating rating={rating} />
+                    <Rating rating={memeDetails.rating} />
                 </div>
             </header>
             <div className={styles['card-img-wrapper']}>
 
-                <Link to={`/memes/details/${_id}`}><img src={imageUrl} alt={name} /></Link>
+                <Link to={`/memes/details/${memeDetails._id}`}><img src={memeDetails.imageUrl} alt={memeDetails.name} /></Link>
             </div>
 
             {currentUser?.isLogged
@@ -132,19 +142,19 @@ export default function CardMeme({
                     {currentUser?.isOwner
                         ?
                         <>
-                            <p><a className={`btn ${styles['edit']}`} href="#"><i className="fa-solid fa-pen-to-square"></i></a></p>
-                            <label htmlFor="modal-toggle-meme-delete" className={`btn ${styles['delete']} ${styles['modal-button']}`}><i className="fa-solid fa-trash"></i></label>
+                            <button onClick={setIsShownEditModal} className={styles['btn-edit-meme']}><i className="btn fa-solid fa-pen-to-square"></i></button>
+                            <button onClick={setIsShownDeleteModal} className={styles['btn-delete-meme']}><i className="btn fa-solid fa-trash"></i></button>
                         </>
                         :
                         <>
-                            <LikeMeme memeId={_id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
-                            <DislikeMeme memeId={_id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
-                            <p><button onClick={setIsShownAddCommentModal} className={styles['btn-add-comment']}><i className="btn fa-solid fa-message"></i></button></p>
-                            <FavoriteMeme memeId={_id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} setUserDetails={setUserDetails} />
+                            <LikeMeme memeId={memeDetails._id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
+                            <DislikeMeme memeId={memeDetails._id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
+                            <button onClick={setIsShownAddCommentModal} className={styles['btn-add-comment']}><i className="btn fa-solid fa-message"></i></button>
+                            <FavoriteMeme memeId={memeDetails._id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} setUserDetails={setUserDetails} />
                         </>
                     }
 
-                    <p><button onClick={setIsShownShareModal} className={`${styles['btn-share']} ${styles['modal-button']}`}><i className="btn fa-solid fa-share-nodes"></i></button></p>
+                    <button onClick={setIsShownShareModal} className={styles['btn-share']}><i className="btn fa-solid fa-share-nodes"></i></button>
                 </footer>
 
                 : null
@@ -152,7 +162,7 @@ export default function CardMeme({
 
             {isShownAddCommentModal && (
                 <AddCommentModal
-                    memeId={_id}
+                    memeId={memeDetails._id}
                     modalHandler={setIsShownAddCommentModal}
                     {...(setNewCommentHandler && { setNewCommentHandler })}
                 />
@@ -161,7 +171,23 @@ export default function CardMeme({
             {isShownShareModal && (
                 <ShareMemeModal
                     modalHandler={setIsShownShareModal}
-                    imageUrl={imageUrl}
+                    imageUrl={memeDetails.imageUrl}
+                />
+            )}
+
+            {isShownEditModal && (
+                <EditMemeModal
+                    modalHandler={setIsShownEditModal}
+                    memeDetails={memeDetails}
+                    setMemeDetails={setMemeDetails}
+                />
+            )}
+
+            {isShownDeleteModal && (
+                <DeleteMemeModal
+                    modalHandler={setIsShownDeleteModal}
+                    memeDetails={memeDetails}
+                    onDeleteMeme={onDeleteMeme}
                 />
             )}
 
