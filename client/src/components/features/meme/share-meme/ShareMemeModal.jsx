@@ -16,16 +16,16 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
 
     useEffect(() => {                                                                                   // Use an external URL shortener API - https://is.gd/apishorteningreference.php
         const currentUrl = apiShortenUrl + imageUrl;                                                    // Add a URL to be shortened
-        // setIsLoading(true);  // TODO: uncomment this when all the other things are ready to not make many request to external api
-        // fetch(currentUrl)                                                                               // Send request with original URL
-        //     .then(response => response.json())                                                          // Returned data is in JSON format
-        //     .then(data => {                                                                             // Get data from the API
-        //         data['errormessage']                                                                    
-        //             ? setServerMessage({ error: data.errormessage })                                    // The API returns an error message in the response and I capture it here                                    
-        //             : setNewShortUrl(data.shorturl);                                                    // Get short URL
-        //     })                                             
-        //     .catch(error => setServerMessage({ error: error.message }))                                 // Set error if there is another error
-        //     .finally(() => setIsLoading(false));
+        setIsLoading(true);
+        fetch(currentUrl)                                                                               // Send request with original URL
+            .then(response => response.json())                                                          // Returned data is in JSON format
+            .then(data => {                                                                             // Get data from the API
+                data['errormessage']
+                    ? setServerMessage({ error: data.errormessage })                                    // The API returns an error message in the response and I capture it here                                    
+                    : setNewShortUrl(data.shorturl);                                                    // Get short URL
+            })
+            .catch(error => setServerMessage({ error: error.message }))                                 // Set error if there is another error
+            .finally(() => setIsLoading(false));
 
         const input = inputRef.current;                                                                 // Get ref to the input with link                                                                              
         input.select();                                                                                 // Select all the content inside the input
@@ -53,12 +53,13 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
                         </div>
 
                         {isLoading
-                            ? <Loading />
-                            :
-                            <div className={styles['modal-content-actions']}>
-                                <input ref={inputRef} className={styles['input']} type="text" defaultValue={newShortUrl} readOnly />
-                                <button onClick={copyFromClipboard} className={`${styles['btn']} ${styles['btn-copy']}`}><i className="fa-regular fa-copy"></i> Copy</button>
-                            </div>
+                            ? <Loading width={'80px'} height={'80px'} />
+                            : (
+                                <div className={styles['modal-content-actions']}>
+                                    <input ref={inputRef} className={styles['input']} type="text" defaultValue={newShortUrl} readOnly />
+                                    <button onClick={copyFromClipboard} className={`${styles['btn']} ${styles['btn-copy']}`}><i className="fa-regular fa-copy"></i> Copy</button>
+                                </div>
+                            )
                         }
 
                     </div>
