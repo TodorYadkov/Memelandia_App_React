@@ -41,7 +41,8 @@ function App() {
                             <Route path='/logout' element={<Logout />} />
                             <Route path='/profile' element={<Profile />} />
                         </Route>
-                        {/* Main meme route */}
+
+                        {/* Main meme route - logged in and not */}
                         <Route path='/memes/' element={<Outlet />}>
                             <Route path='catalog' element={<ListMemes />} />
                             <Route path='user-memes/:userId' element={<ListUserMemes />} />
@@ -50,8 +51,6 @@ function App() {
                             {/* Private meme routes */}
                             <Route element={<RoutGuardAuthenticated />}>
                                 <Route path='create' element={<CreateMeme />} />
-                                {/*<Route path='edit/:memeId' element={< />} />
-                                <Route path='delete/:memeId' element={< />} /> */}
                             </Route>
                         </Route>
 
