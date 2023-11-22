@@ -82,6 +82,8 @@
     padding: 0em 1em;
 }
 
+.btn-edit-meme,
+.btn-delete-meme,
 .btn-add-comment,
 .btn-share {
     all: unset;
