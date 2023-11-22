@@ -5,6 +5,7 @@ import styles from './CreateMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { MEME_INPUT_COUNT } from '../memeFieldConstants';
 import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import MemeForm from './create-components/MemeForm';
 import Message from '../../../shared/messages/Message';
@@ -24,6 +25,7 @@ export default function CreateMeme() {
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server 
 
     const api = useApi();                                                                               // Custom api requester
+    const { addUserSession, getUserDetails, getUserToken } = useAuthContext();
 
     useEffect(() => {
         if (newMemeDataUrl) {                                                                           // Check if has new screenshot create meme on the server and upload the image on the cloud
@@ -39,6 +41,13 @@ export default function CreateMeme() {
                 .then(newMemeData => {
                     setServerMessage({ success: 'You have successfully added a new meme 😊' });         // Set success message if the request is ok
                     resetForm();                                                                        // Reset the form and stay on the same page if the user wants to create more memes
+                    addUserSession({                                                                    // addUserSession is a function that update state
+                        accessToken: getUserToken,                                                      // Accepts an object with accessToken and userDetails
+                        userDetails: {                                                                  // Destructuring and modify only memesCount
+                            ...getUserDetails,
+                            memesCount: getUserDetails.memesCount + 1                                   // Increment user global state with one
+                        }
+                    });
                 })
                 .catch(error => setServerMessage({ error: error.message }))
                 .finally(() => setIsLoading(false));
