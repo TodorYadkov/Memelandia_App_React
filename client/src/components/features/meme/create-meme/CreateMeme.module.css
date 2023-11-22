@@ -1,0 +1,316 @@
+/* Global */
+.section-create {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+}
+
+/* CreateMemeHeader CSS */
+.section-create-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    cursor: default;
+    padding: 1em;
+    border-radius: 0.5em;
+    background-color: rgb(255, 255, 255, 0.2);
+    box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
+    margin-bottom: 2em;
+}
+
+.section-create-header h1 {
+    color: var(--color-white);
+    text-shadow:
+        1px 1px 1px var(--color-text),
+        2px 2px 1px var(--color-text),
+        3px 3px 1px var(--color-text),
+        4px 4px 1px var(--color-text);
+    text-align: center;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    text-decoration-thickness: 0.05em;
+    text-decoration-style: wavy;
+    transition: all 1.5s ease-in-out;
+}
+
+.section-create-header h1:hover {
+    transform: scale(1.05);
+    color: var(--color-text);
+    text-shadow:
+        1px 1px 1px var(--color-white),
+        2px 2px 1px var(--color-white),
+        3px 3px 1px var(--color-white),
+        4px 4px 1px var(--color-white);
+}
+
+.section-create-header img {
+    width: 8%;
+    height: 8%;
+    transition: transform 0.8s ease-in-out;
+}
+
+.section-create-header img:hover {
+    transform: scale(1.3);
+}
+
+/* Image Display CSS */
+.create-meme {
+    display: flex;
+}
+
+.create-image {
+    flex: 0 0 60%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 75vh;
+    border-bottom-left-radius: 0.25em;
+    border-top-left-radius: 0.25em;
+    background: radial-gradient(circle, #0077ea, #1f4f96, #1b2949, #000);
+    margin-bottom: 2em;
+}
+
+.image-wrapper {
+    width: 100%;
+    height: 75vh;
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: 100%;
+}
+
+.create-actions {
+    flex: 0 0 calc(40% - 2em);
+    padding: 1em;
+    border-bottom-right-radius: 0.25em;
+    border-top-right-radius: 0.25em;
+    background-color: var(--color-light-gray);
+    margin-bottom: 2em;
+}
+
+.create-image span {
+    display: block;
+    position: absolute;
+    width: 90%;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    /* Safari and older versions of Chrome */
+    -moz-user-select: none;
+    /* Firefox */
+    -ms-user-select: none;
+    /* Internet Explorer/Edge */
+    user-select: none;
+}
+
+@media (max-width: 1000px) {
+    .create-meme {
+        flex-direction: column;
+    }
+}
+
+.create-image-select-template-heading {
+    font-weight: bold;
+    font-size: 2em;
+    width: 80%;
+    margin: 1em auto;
+    padding: 1em;
+    background-color: rgb(255, 255, 255, 0.2);
+    border-radius: 0.5em;
+    color: var(--color-white);
+    text-align: center;
+}
+
+/* MemeForm CSS */
+.form,
+.control {
+    display: flex;
+    flex-direction: column;
+    gap: 0em;
+    position: relative;
+}
+
+.label {
+    visibility: hidden;
+}
+
+.label.font-size {
+    display: none;
+}
+
+.label.color {
+    visibility: visible;
+    cursor: pointer;
+    transition: all 0.8s ease-in-out;
+}
+
+.label.color:hover {
+    transform: scale(1.3);
+    color: var(--color-hover);
+}
+
+.input {
+    width: 80%;
+    margin: 0 auto;
+    border: unset;
+    border-bottom: 1px solid var(--color-sky-blue);
+    border-radius: 0.5em;
+    box-shadow: 0 4px 4px 2px rgb(0, 0, 0, 0.3);
+    padding: 0.25em 0.5em;
+    background-color: var(--color-light-gray);
+    transition: background-color 0.3s ease-in-out;
+}
+
+.input.meme-text {
+    width: calc(80% - 7.5em);
+    padding-inline-end: 8em;
+}
+
+.input.select {
+    width: 84%;
+}
+
+.input:focus {
+    background-color: var(--color-input-active);
+    box-shadow: inset 0 0 0 1px var(--color-sky-blue);
+}
+
+.input.valid,
+.input.valid:focus {
+    border: 2px solid var(--color-green);
+}
+
+.input.invalid,
+.input.invalid:focus {
+    border: 2px solid var(--color-red);
+}
+
+.input::placeholder {
+    color: var(--color-text);
+}
+
+.input-options {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.2em;
+    max-width: 40%;
+    position: absolute;
+    top: 50%;
+    right: 10%;
+}
+
+.input-font-size {
+    cursor: pointer;
+    width: 25%;
+    margin-right: 0.1em;
+}
+
+.input-color {
+    visibility: hidden;
+    width: 0;
+}
+
+.error-message {
+    width: 82%;
+    margin: 0 auto;
+    margin-bottom: -1.8em;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: var(--color-red);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='15' height='15' fill='none' stroke='%23df382c'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23df382c' stroke='none'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.error-message>span {
+    display: block;
+    margin-left: 1.25em;
+}
+
+.control.last-element {
+    margin-bottom: 1.5em;
+}
+
+@media (max-width: 600px) {
+    .error-message {
+        width: 90%;
+        background-image: initial;
+    }
+
+    .input-options {
+        transform: translateY(-20%);
+    }
+}
+
+/* Form buttons */
+.form-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.forms-buttons-ua,
+.forms-buttons-cdu {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+}
+
+.btn-create {
+    all: unset;
+    cursor: pointer;
+    background-color: var(--color-header-footer);
+    padding: 0.25em 1.6em;
+    border-radius: 0.5em;
+    transition: transform 0.8s ease-in-out;
+}
+
+.btn-create>i {
+    color: var(--color-white);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.upload-input {
+    display: none;
+}
+
+.btn-create:disabled {
+    background-color: var(--color-body);
+}
+
+.btn-create:hover:not(:disabled) {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
+
+/* Confirm clear modal */
+.modal-clear-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.modal-clear-content .btn-clear {
+    all: unset;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-red-dark);
+    padding: 0.5em 1.25em;
+    margin: 0 auto;
+    border-radius: 0.5em;
+    transition: transform 0.8s ease-in-out;
+}
+
+.btn-clear:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
