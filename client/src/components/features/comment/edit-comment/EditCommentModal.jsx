@@ -34,6 +34,7 @@ export default function EditCommentModal({ modalHandler, commentDetails, setUpda
                         if (comment._id === updatedComment._id) {                                       // Replace the updated comment with the new data
                             return updatedComment;
                         }
+                        
                         return comment;
                     });
                 });
