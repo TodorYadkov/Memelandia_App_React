@@ -86,6 +86,12 @@ export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMem
         }
     };
 
+    const handleDeleteMeme = (deletedMemeId) => {                                                       // Delete meme from a locale state
+        setMemes(allMemes => (                                                                          // From CardMeme component, return the Id of the deleted meme
+            [...allMemes.filter(c => c._id !== deletedMemeId)]                                          // Get all memes without deleted meme id
+        ));
+    };
+
     return (
         <>
             {isLoading && <Loading />}
@@ -94,7 +100,7 @@ export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMem
 
             {!serverMessage?.error && !isLoading
                 ? memes.length !== 0
-                    ? memes.map((meme) => <CardMeme key={meme._id} {...meme} />)
+                    ? memes.map((meme) => <CardMeme key={meme._id} {...meme} onDeleteMeme={handleDeleteMeme} />)
                     : endpoint.includes('search?') ? <h2 className={styles['not-found']}>No Found Results</h2> : <NoContentMessage />
                 : null
             }
