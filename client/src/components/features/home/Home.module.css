@@ -4,79 +4,6 @@
     gap: 2em;
 }
 
-.welcome {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-    padding: 1em;
-    border-radius: 5em;
-    background-color: rgb(255, 255, 255, 0.2);
-    box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
-    transition: box-shadow 2s, background-color 2s;
-    margin-bottom: 6em;
-}
-
-.welcome:hover {
-    box-shadow: 0 0 16px 16px rgb(255, 255, 255, 0.5), inset 0 0 6px 2px rgba(89, 142, 62, 0.2);
-    background-color: rgb(255, 255, 255, 0.4);
-}
-
-.welcome-text {
-    flex: 60%;
-    text-align: center;
-    font-weight: bold;
-    color: var(--color-text);
-    text-decoration: underline;
-    cursor: default;
-    text-shadow: 3px 3px 6px rgb(0, 0, 0, 0.5);
-    transition: text-shadow 2s, transform 2s ease-in-out;
-}
-
-.welcome:hover>.welcome-text {
-    text-shadow: 6px 6px 4px rgb(0, 0, 0, 0.5);
-    transform: scale(1.05);
-}
-
-.welcome-text>span:first-child {
-    text-decoration: underline;
-    color: var(--color-sky-blue);
-}
-
-.welcome-text>span:last-child {
-    text-decoration: underline;
-    font-weight: 400;
-    color: var(--color-pink);
-}
-
-.welcome-text,
-.welcome-text>span:first-child,
-.welcome-text>span:last-child {
-    text-underline-offset: 0.15em;
-    text-decoration-thickness: 2px;
-}
-
-.welcome-img-wrapper {
-    position: relative;
-}
-
-.welcome-image-default,
-.welcome-image-on-hover {
-    flex: 40%;
-}
-
-.welcome-image-on-hover {
-    display: none;
-}
-
-.welcome-img-wrapper:hover .welcome-image-default {
-    display: none;
-}
-
-.welcome-img-wrapper:hover .welcome-image-on-hover {
-    display: block;
-}
-
 .top-rated-memes {
     display: flex;
     flex-direction: column;
@@ -91,30 +18,12 @@
     cursor: default;
     color: var(--color-text);
     background-color: rgb(255, 255, 255, 0.2);
-    font-size: 3em;
+    font-size: 3.8em;
     font-weight: bold;
     text-align: center;
     letter-spacing: 2px;
     border-radius: 0.5em;
     padding: 0.25em;
-    text-shadow:
-        1px -1px var(--color-text),
-        2px -2px var(--color-text),
-        3px -3px var(--color-text),
-        4px -4px var(--color-text),
-        5px -5px var(--color-text),
-        6px -6px var(--color-text),
-        7px -7px var(--color-text),
-        8px -8px var(--color-text);
-    box-shadow: 4px 4px 12px 1px rgb(255, 255, 255, 0.5), 14px 14px 16px 0 rgba(0, 0, 0, 0.15);
-    -webkit-text-stroke: 1px;
-    margin-bottom: 1em;
-    transition: all 1s ease-in-out;
-}
-
-.top-rated-memes>h2:hover {
-    color: var(--color-text);
-    font-size: 3.8em;
     text-shadow:
         1px 1px var(--color-text),
         2px 2px var(--color-text),
@@ -125,6 +34,24 @@
         7px 7px var(--color-text),
         8px 8px var(--color-text);
     box-shadow: 12px 12px 12px 1px rgb(255, 255, 255, 0.7), 18px 18px 16px 0 rgba(0, 0, 0, 0.25);
+    -webkit-text-stroke: 1px;
+    margin-bottom: 1em;
+    transition: all 1s ease-in-out;
+}
+
+.top-rated-memes>h2:hover {
+    color: var(--color-text);
+    font-size: 3em;
+    text-shadow:
+        1px -1px var(--color-text),
+        2px -2px var(--color-text),
+        3px -3px var(--color-text),
+        4px -4px var(--color-text),
+        5px -5px var(--color-text),
+        6px -6px var(--color-text),
+        7px -7px var(--color-text),
+        8px -8px var(--color-text);
+    box-shadow: 4px 4px 12px 1px rgb(255, 255, 255, 0.5), 14px 14px 16px 0 rgba(0, 0, 0, 0.15);
 }
 
 .top-rated-memes .span {
@@ -149,7 +76,7 @@
 }
 
 .top-rated-memes .span:nth-child(3) {
-    -webkit-text-fill-color: var(--color-light-green);
+    -webkit-text-fill-color: var(--color-green);
     text-decoration: underline;
     text-decoration-style: wavy;
     text-underline-offset: 10px;

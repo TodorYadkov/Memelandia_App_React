@@ -13,7 +13,8 @@ import NoContentMessage from '../../shared/no-content/NoContentMessage';
 import ScrollToTopButton from '../../shared/scroll-to-top-button/ScrollToTopButton';
 
 export default function Home() {
-    const [topMemes, setTopMemes] = useState([]);
+    const [topMemes, setTopMemes] = useState([]);                                                       // Use to save top three rated memes
+    const [hasDeletedMeme, setHasDeletedMeme] = useState(false);                                        // Use when some meme is delete to rerender the component                                        
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
@@ -28,17 +29,15 @@ export default function Home() {
             .then(topThreeMemes => setTopMemes(topThreeMemes))
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
-    }, []);
+
+    }, [hasDeletedMeme]);
+
+    const handleDeleteMeme = () => {                                                                    // When there is a deleted meme re-render the component
+        setHasDeletedMeme(!hasDeletedMeme);                                                             // This is where the component needs to be re-rendered because there should only be three top rated memes
+    };
 
     return (
         <section className={`${styles['home']} max-width`}>
-            <div className={styles['welcome']}>
-                <h1 className={styles['welcome-text']}>Welcome to <span>Meme</span><span>Landia</span></h1>
-                <div className={styles['welcome-img-wrapper']}>
-                    <img className={styles['welcome-image-default']} src="/assets/pepe-the-frog.png" alt="Pepe the Frog meme" />
-                    <img className={styles['welcome-image-on-hover']} src="/assets/pepe-the-frog-time.png" alt="Pepe the Frog meme" />
-                </div>
-            </div>
             <div className={styles['top-rated-memes']}>
                 <h2>
                     <span className={styles['span']}>Top</span>
@@ -54,14 +53,14 @@ export default function Home() {
                     !serverMessage?.error && !isLoading
                         ? topMemes.length === 0
                             ? <NoContentMessage />
-                            : topMemes.map(m => <CardMeme key={m._id} {...m} />)
+                            : topMemes.map(m => <CardMeme key={m._id} {...m} onDeleteMeme={handleDeleteMeme} />)
                         : null
                 }
 
             </div>
 
             <Jokes />
-            
+
             <ScrollToTopButton />
 
         </section >
