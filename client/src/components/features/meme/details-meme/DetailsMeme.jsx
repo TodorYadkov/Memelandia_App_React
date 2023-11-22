@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './DetailsMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
@@ -14,11 +14,12 @@ import ListComments from '../../comment/list-comments/ListComments';
 
 export default function DetailsMeme() {
     const [allComments, setAllComments] = useState([]);                                                 // Use to show all comments
-    const [currentMeme, setCurrentMeme] = useState({});
+    const [currentMeme, setCurrentMeme] = useState({});                                                 // Save details for the current meme
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     const api = useApi();
+    const navigate = useNavigate();
     const { memeId } = useParams('memeId');                                                             // Get memeId from query params
     const { isLoggedIn } = useAuthContext();
 
@@ -33,6 +34,10 @@ export default function DetailsMeme() {
             .finally(() => setIsLoading(false));
     }, []);
 
+    const handleDeleteMeme = () => {                                                                    // On delete meme redirect to catalog page (memeboard)
+        navigate('/memes/catalog', { replace: true });
+    };
+
     return (
         <section className={`${styles['details']} max-width`}>
 
@@ -42,7 +47,7 @@ export default function DetailsMeme() {
                 ? <Loading />
                 : <>
                     <div className={styles['details-card']}>
-                        {currentMeme?._id && <CardMeme {...currentMeme} setNewCommentHandler={setAllComments} />}
+                        {currentMeme?._id && <CardMeme {...currentMeme} setNewCommentHandler={setAllComments} onDeleteMeme={handleDeleteMeme} />}
 
                     </div>
                     {
