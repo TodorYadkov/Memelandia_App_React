@@ -9,7 +9,14 @@ export default function Header() {
 
             <div className={styles['wave']}>
 
-                <img className={styles['pirate-img']} src="/assets/pirate-ship.svg" alt="Header pirate ship" />
+                <div className={styles['content']}>
+                    <h2 className={styles['welcome-text']}>Welcome to <span>Meme</span><span>Landia</span></h2>
+                    <h2 className={styles['welcome-text']}>Welcome to <span>Meme</span><span>Landia</span></h2>
+                </div>
+
+                <div className={styles['ship-wrapper']}>
+                    <img className={styles['pirate-img']} src="/assets/pirate-ship.svg" alt="Header pirate ship" />
+                </div>
 
                 <div className={styles['emoji-wrapper']}>
                     <div className={styles['emoji-group']}>
@@ -41,6 +48,12 @@ export default function Header() {
                         <img className={styles['emoji']} src="/assets/emoji-omg.svg" alt="Emoji" />
                         <p className={styles['emoji-text']}>OMG</p>
                     </div>
+                </div>
+
+                <div className={styles['ocean']}>
+                    <div className={styles['ocean-wave']}></div>
+                    <div className={styles['ocean-wave']}></div>
+                    <div className={styles['ocean-wave']}></div>
                 </div>
 
                 <img className={styles['wave-img-pink']} src="/assets/header-wave-pink.svg" alt="Header wave pink" />
