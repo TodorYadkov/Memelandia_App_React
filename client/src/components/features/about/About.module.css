@@ -56,7 +56,7 @@
 .about-vision,
 .about-offer,
 .about-join {
-    background-color: var(--color-light-gray);
+    background-color: rgb(255, 255, 255, 0.3);
     padding: 1em;
     border-radius: 1em;
     box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
@@ -135,7 +135,7 @@
 .about-heading:hover,
 .about-slogan:hover,
 .about-image-wrapper img:hover {
-    transform: scale(1.3);
+    transform: scale(1.1);
 }
 
 
