@@ -1,0 +1,39 @@
+.delete-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.btn-delete {
+    all: unset;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: 500;
+    color: var(--color-white);
+    background-color: var(--color-red-dark);
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    transition: transform 0.8s ease-in-out;
+}
+
+.btn-delete>i {
+    font-size: 1em;
+    color: var(--color-star);
+}
+
+.btn-delete:hover {
+    transform: scale(1.1);
+    color: var(--color-hover);
+}
+
+.btn-delete:disabled,
+.btn-delete:disabled>i {
+    color: var(--color-white);
+    background-color: var(--color-body);
+    cursor: not-allowed;
+}
+
+.btn-delete:hover:disabled {
+    transform: scale(1);
+}
