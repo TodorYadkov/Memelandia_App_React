@@ -88,7 +88,7 @@ export default function CardMeme({
             setIsFavorite(userDetails.favorite.some(m => m._id === _id));                               // Use to set the state of the favorite
         }
 
-    }, [userDetails]);
+    }, [userDetails, getUserDetails]);
 
     const currentUser = {                                                                               // Get state of the current user
         isLogged: isLoggedIn,
