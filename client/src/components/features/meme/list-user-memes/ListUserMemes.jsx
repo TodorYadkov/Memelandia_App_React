@@ -24,7 +24,9 @@ export default function ListUserMemes() {
         setCurrenEndPointForUserMemes(endpoint.getMemeForUserById(userId));                             // Set endpoint to get all the memes for the user
 
         setUserDetails(userDetailsFromFetchedMeme);                                                     // Set user details from InfiniteScrollComponent
-        userDetailsFromFetchedMeme?.username && setShowUserDetails(true);
+        userDetailsFromFetchedMeme?.memesCount > 0                                                      // Check if the current user has a memes
+            ? setShowUserDetails(true)
+            : setShowUserDetails(false);
 
     }, [userDetailsFromFetchedMeme]);
 
@@ -42,7 +44,7 @@ export default function ListUserMemes() {
                             <p>Rating: <span className={styles['user-card-content-span']}>{userDetails?.rating ? userDetails.rating : '0'}</span> points</p>
                         </div>
                         <p>
-                            <i className="fa-regular fa-images"></i> Number of Memes: <span className={styles['user-card-content-span']}>{userDetails?.userMemesCount ? userDetails?.userMemesCount : 0}</span>
+                            <i className="fa-regular fa-images"></i> Number of Memes: <span className={styles['user-card-content-span']}>{userDetails?.memesCount ? userDetails?.memesCount : 0}</span>
                         </p>
                     </div>
                     <div className={styles['user-card-footer']}>
@@ -54,6 +56,7 @@ export default function ListUserMemes() {
             }
 
             <ScrollToTopButton />
+            
             {currenEndPointForUserMemes && <InfiniteScrollComponent endpoint={currenEndPointForUserMemes} setUserDetailsFromFetchedMeme={setUserDetailsFromFetchedMeme} />}
         </div>
     );
