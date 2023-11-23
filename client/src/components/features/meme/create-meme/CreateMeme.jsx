@@ -81,6 +81,10 @@ export default function CreateMeme() {
         setFormValues((state) => ({ ...state, [name]: value }));                                        // Set new form values
     };
 
+    const handleDecreaseInputCount = () => {                                                            // Handler when remove text input                                                       
+        setInputCount(oldCount => oldCount - 1);                                                        // Decrement count of the current input fields
+    };
+
     const resetForm = (e) => {                                                                          // Reset form handler
         setFormValues({});                                                                              // Clear all values in the form
         setCurrentTemplate(null);                                                                       // Remove current template                                                                      
@@ -122,7 +126,7 @@ export default function CreateMeme() {
                     resetForm={resetForm}
                     submitHandler={submitHandler}
                     saveCurrentInputState={saveCurrentInputState}
-                    setInputCount={setInputCount}
+                    handleDecreaseInputCount={handleDecreaseInputCount}
                     onUserImageUpload={getTemplateHandler}
                     onDownload={handleDownload}
                     onCreate={handleCreate}
