@@ -11,7 +11,7 @@ import Loading from '../loader/Loading';
 import Message from '../messages/Message';
 import NoContentMessage from '../no-content/NoContentMessage';
 
-export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMeme }) => {
+export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMeme }) => {               // setUserDetailsFromFetchedMeme is optional, used to reduce server requests for fetching user data
     const [memes, setMemes] = useState([]);                                                             // State of all memes to render
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });
@@ -46,10 +46,12 @@ export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMem
 
                 setTotalPages(serverData.totalPages);                                                   // Get total number of pages from the server
 
-                ((setUserDetailsFromFetchedMeme && currentPage === 1) && (serverData.memes.length > 0)) // This is utilized on the user's memes page to retrieve user details without making any additional server requests.
-                    && (setUserDetailsFromFetchedMeme(
-                        { ...serverData.memes[0].author, userMemesCount: serverData.userMemesCount }
-                    ));
+                if ((setUserDetailsFromFetchedMeme && currentPage === 1)                                // This is utilized on the user's memes page to retrieve user details without making any additional server requests.
+                    && (serverData.memes.length > 0)) {                                                 // If the user has memes, get the first one, and from the server response, get the author and userMemesCount
+                    setUserDetailsFromFetchedMeme(
+                        { ...serverData.memes[0].author, memesCount: serverData.userMemesCount }
+                    );
+                }
             })
             .catch(error => setServerMessage({ error: error.message }))
             .finally(() => setIsLoading(false));
@@ -72,12 +74,11 @@ export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMem
 
         const threshold = 250;                                                                          // Define the threshold value before page end and where to trigger the next page
 
-        // Check if the user has scrolled close to the bottom of the page
         // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
         // https://developer.mozilla.org/en-US/docs/Web/API/Document/documentElement
         // https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTop
         // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetHeight
-        if (window.innerHeight
+        if (window.innerHeight                                                                          // Check if the user has scrolled close to the bottom of the page
             + document.documentElement.scrollTop
             + threshold
             >= document.documentElement.offsetHeight) {
@@ -90,6 +91,12 @@ export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMem
         setMemes(allMemes => (                                                                          // From CardMeme component, return the Id of the deleted meme
             [...allMemes.filter(c => c._id !== deletedMemeId)]                                          // Get all memes without deleted meme id
         ));
+
+        if (setUserDetailsFromFetchedMeme) {                                                            // If there is setUserDetailsFromFetchedMeme (this is from ListUserMemes), decrement the number of user memes
+            setUserDetailsFromFetchedMeme(oldState => (                                                 // Used to display the correct user meme count on the user's meme page
+                { ...oldState, memesCount: oldState.memesCount - 1 })                                   // Keep old state data and only change memesCount                              
+            );
+        }
     };
 
     return (
