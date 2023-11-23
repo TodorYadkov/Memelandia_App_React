@@ -8,13 +8,13 @@ import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
 import { scrollToTop } from '../../../utils/scrollToTop';
 
-import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
-import Message from '../../../shared/messages/Message';
-import Loading from '../../../shared/loader/Loading';
-import EditProfileModal from '../edit-profile/EditProfileModal';
-import CardMeme from '../../meme/card-meme/CardMeme';
 import Rating from '../../rating/Rating';
+import CardMeme from '../../meme/card-meme/CardMeme';
+import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
+import EditProfileModal from '../edit-profile/EditProfileModal';
 import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';
+import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
 
 export default function Profile() {
     const [myFavoriteMemes, setMyFavoriteMemes] = useState([]);                                         // Use to show user favorite meme
@@ -49,7 +49,7 @@ export default function Profile() {
             setEndPointForUserMemes(endPointWithUserID);
         }
 
-    }, [userHasId]);
+    }, [userHasId, getUserDetails]);
 
     const showFavoriteMemes = () => {                                                                   // Get and show favorite memes
         getUserData('meme');                                                                            // Pass 'meme' as a argument to indicate loading meme data
@@ -234,7 +234,7 @@ export default function Profile() {
             </div >
 
             <ScrollToTopButton />
-            
+
             {isShownModal && <EditProfileModal userDetails={userDetails} setUserDetails={setUserDetails} modalHandler={setIsShownModal} />}
         </section >
     );
