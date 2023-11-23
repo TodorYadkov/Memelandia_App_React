@@ -15,7 +15,7 @@ export default function MemeForm({
     resetForm,                                                                                          // Reset all states to initial
     submitHandler,                                                                                      // Send form data values to parent (CreateMeme)
     saveCurrentInputState,                                                                              // When the onChange event is trigger, dynamically saves data from each field
-    setInputCount,                                                                                      // Decrease a number of input fields                                                                                      
+    handleDecreaseInputCount,                                                                           // Decrease a number of input fields                                                                                      
     onUserImageUpload,                                                                                  // When user upload their image set this image like a template
     onDownload,                                                                                         // Set true, false to isDownload (in parent CreateMeme component)
     onCreate,                                                                                           // Set true, false to isCreate (in parent CreateMeme component)
@@ -322,7 +322,7 @@ export default function MemeForm({
                         <button
                             type="button"
                             className={`${styles['remove-text']} ${styles['btn-create']}`}
-                            onClick={() => setInputCount(oldCount => oldCount - 1)}
+                            onClick={handleDecreaseInputCount}
                             disabled={inputCount <= MEME_MIN_INPUT_COUNT}
                         ><i className="btn fa-solid fa-minus"></i></button>
 
