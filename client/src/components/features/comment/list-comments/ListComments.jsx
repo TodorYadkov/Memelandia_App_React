@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 
 import styles from './ListComments.module.css';
 import { useApi } from '../../../core/hooks/useApi';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
-import { endpoint } from '../../../core/environments/constants';
 import { useModal } from '../../../core/hooks/useModal';
+import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';

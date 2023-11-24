@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import styles from './ListUserMemes.module.css';
+import { scrollToTop } from '../../../utils/scrollToTop';
 import { endpoint } from '../../../core/environments/constants';
 import { InfiniteScrollComponent } from '../../../shared/infinite-scroll/InfiniteScrollComponent';
-import { scrollToTop } from '../../../utils/scrollToTop';
 
 import Rating from '../../rating/Rating';
 import ScrollToTopButton from '../../../shared/scroll-to-top-button/ScrollToTopButton';

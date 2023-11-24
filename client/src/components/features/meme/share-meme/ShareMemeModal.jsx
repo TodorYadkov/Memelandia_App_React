@@ -10,6 +10,7 @@ export default function ShareMemeModal({ modalHandler, imageUrl }) {
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '', success: '' });                     // Use to display various messages from the server
     const [newShortUrl, setNewShortUrl] = useState(imageUrl);                                           // Use to give a new short URL to the user, default is main imageUrl
+   
     const inputRef = useRef(null);
 
     const apiShortenUrl = import.meta.env.VITE_SHORTEN_URL;                                             // Get shorten URL from environment

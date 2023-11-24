@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 import styles from './Home.module.css';
 import { useApi } from '../../core/hooks/useApi';
-import { endpoint } from '../../core/environments/constants';
 import { scrollToTop } from '../../utils/scrollToTop';
+import { endpoint } from '../../core/environments/constants';
 
-import CardMeme from '../meme/card-meme/CardMeme';
 import Jokes from '../jokes/Jokes';
+import CardMeme from '../meme/card-meme/CardMeme';
 import Loading from '../../shared/loader/Loading';
 import Message from '../../shared/messages/Message';
 import NoContentMessage from '../../shared/no-content/NoContentMessage';

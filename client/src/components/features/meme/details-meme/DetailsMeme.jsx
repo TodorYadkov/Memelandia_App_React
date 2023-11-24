@@ -3,8 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import styles from './DetailsMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
-import { endpoint } from '../../../core/environments/constants';
 import { scrollToTop } from '../../../utils/scrollToTop';
+import { endpoint } from '../../../core/environments/constants';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import CardMeme from '../card-meme/CardMeme';

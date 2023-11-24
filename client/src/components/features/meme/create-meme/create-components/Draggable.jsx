@@ -4,22 +4,21 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 // This code is from:
 // https://engineering.salesforce.com/hooking-your-audience-using-drag-drop-in-react-6ba1118dab84/
 export default function Draggable({ children, }) {
+    const POSITION = { x: 10, y: 10 };                                                                  // Initial position on the element
 
-    const POSITION = { x: 10, y: 10 };
-
-    const [state, setState] = useState({
+    const [state, setState] = useState({                                                                // Initial state
         isDragging: false,
         origin: POSITION,
         translation: POSITION,
     });
 
-    const divElementRef = useRef(null);
+    const divElementRef = useRef(null);                                                                 // A reference to an element that can be dragged across the screen
 
-    const handleMouseDown = useCallback(({ clientX, clientY }) => {
+    const handleMouseDown = useCallback(({ clientX, clientY }) => {                                     // Mouse down event handler                                                                      
         startDragging(clientX, clientY);
     }, []);
 
-    const handleMouseMove = useCallback(({ clientX, clientY }) => {
+    const handleMouseMove = useCallback(({ clientX, clientY }) => {                                     // Mouse move event handler
         if (state.isDragging) {
             const translation = { x: clientX - state.origin.x, y: clientY - state.origin.y };
             setState((state) => ({
@@ -29,18 +28,18 @@ export default function Draggable({ children, }) {
         }
     }, [state.isDragging, state.origin]);
 
-    const handleMouseUp = useCallback(() => {
+    const handleMouseUp = useCallback(() => {                                                           // Mouse up event handler
         stopDragging();
     }, []);
 
-    const handleTouchStart = useCallback((event) => {
+    const handleTouchStart = useCallback((event) => {                                                   // Touch start event handler
         const touch = event.touches[0];
         if (touch) {
             startDragging(touch.clientX, touch.clientY);
         }
     }, []);
 
-    const handleTouchMove = useCallback((event) => {
+    const handleTouchMove = useCallback((event) => {                                                    // Touch move event handler
         const touch = event.touches[0];
         if (touch && state.isDragging) {
             const translation = { x: touch.clientX - state.origin.x, y: touch.clientY - state.origin.y };
@@ -52,12 +51,12 @@ export default function Draggable({ children, }) {
 
     }, [state.isDragging, state.origin]);
 
-    const handleTouchEnd = useCallback(() => {
+    const handleTouchEnd = useCallback(() => {                                                          // Touch end event handler
         stopDragging();
-        
+
     }, []);
 
-    const startDragging = (clientX, clientY) => {
+    const startDragging = (clientX, clientY) => {                                                       // Start dragging function
         const currentDivEl = divElementRef.current;
         const divRect = currentDivEl.getBoundingClientRect();
 
@@ -87,14 +86,14 @@ export default function Draggable({ children, }) {
         }));
     };
 
-    const stopDragging = () => {
+    const stopDragging = () => {                                                                        // Stop dragging function
         setState((state) => ({
             ...state,
             isDragging: false,
         }));
     };
 
-    useEffect(() => {
+    useEffect(() => {                                                                                   // Effect to add and remove event listeners based on the dragging state
         const clear = () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
@@ -114,7 +113,7 @@ export default function Draggable({ children, }) {
         return () => clear();
     }, [state.isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
-    const styles = useMemo(
+    const styles = useMemo(                                                                             // Styles memoized for performance
         () => ({
             cursor: state.isDragging ? '-webkit-grabbing' : '-webkit-grab',
             transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,

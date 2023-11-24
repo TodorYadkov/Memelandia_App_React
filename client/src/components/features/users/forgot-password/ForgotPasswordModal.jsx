@@ -1,14 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import styles from './ForgotPasswordModal.module.css';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { USER_FIELD } from '../userFieldConstants';
 import { useApi } from '../../../core/hooks/useApi';
-import { endpoint } from '../../../core/environments/constants';
 import { trimInputData } from '../../../utils/trimInputData';
+import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';

@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import styles from './EditProfileModal.module.css';
-import { useApi } from '../../../core/hooks/useApi';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { USER_FIELD } from '../userFieldConstants';
+import { useApi } from '../../../core/hooks/useApi';
 import { trimInputData } from '../../../utils/trimInputData';
 import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
-import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
 
 
 export default function EditProfileModal({ userDetails, setUserDetails, modalHandler }) {

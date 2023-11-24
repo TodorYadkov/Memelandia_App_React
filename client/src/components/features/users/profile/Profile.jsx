@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { useModal } from '../../../core/hooks/useModal';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
-import { endpoint } from '../../../core/environments/constants';
 import { scrollToTop } from '../../../utils/scrollToTop';
+import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 import Rating from '../../rating/Rating';
 import CardMeme from '../../meme/card-meme/CardMeme';

@@ -9,12 +9,12 @@ import { endpoint } from '../../../core/environments/constants';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import formatDateToTimeAgo from '../../../utils/formatDateToTimeAgo';
 
-import Rating from '../../rating/Rating';
-import Loading from '../../../shared/loader/Loading';
-import Message from '../../../shared/messages/Message';
 import LikeMeme from '../like/LikeMeme';
+import Rating from '../../rating/Rating';
 import DislikeMeme from '../dislike/DislikeMeme';
 import FavoriteMeme from '../favorite/FavoriteMeme';
+import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
 import EditMemeModal from '../edit-meme/EditMemeModal';
 import ShareMemeModal from '../share-meme/ShareMemeModal';
 import DeleteMemeModal from '../delete-meme/DeleteMemeModal';

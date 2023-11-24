@@ -5,8 +5,8 @@ import styles from './FavoriteMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
 
-import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
 export default function FavoriteMeme({ memeId, isFavorite, setIsFavorite }) {

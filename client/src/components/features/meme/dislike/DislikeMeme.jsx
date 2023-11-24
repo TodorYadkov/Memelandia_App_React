@@ -5,8 +5,8 @@ import styles from './DislikeMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { endpoint } from '../../../core/environments/constants';
 
-import Message from '../../../shared/messages/Message';
 import Loading from '../../../shared/loader/Loading';
+import Message from '../../../shared/messages/Message';
 
 export default function DislikeMeme({ memeId, likeDislikeState, setLikeDislikeState }) {
     const [isLoading, setIsLoading] = useState(false);

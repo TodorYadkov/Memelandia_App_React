@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import styles from './InfiniteScrollComponent.module.css';
-import { paginationLimit } from '../../core/environments/constants';
 import { useApi } from '../../core/hooks/useApi';
+import { paginationLimit } from '../../core/environments/constants';
 
-import CardMeme from '../../features/meme/card-meme/CardMeme';
 import Loading from '../loader/Loading';
 import Message from '../messages/Message';
+import CardMeme from '../../features/meme/card-meme/CardMeme';
 import NoContentMessage from '../no-content/NoContentMessage';
 
 export const InfiniteScrollComponent = ({ endpoint, setUserDetailsFromFetchedMeme }) => {               // setUserDetailsFromFetchedMeme is optional, used to reduce server requests for fetching user data

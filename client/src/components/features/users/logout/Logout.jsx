@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useApi } from '../../../core/hooks/useApi';
-import { useAuthContext } from '../../../core/hooks/useAuthContext';
 import { endpoint } from '../../../core/environments/constants';
+import { useAuthContext } from '../../../core/hooks/useAuthContext';
+
 import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
 
