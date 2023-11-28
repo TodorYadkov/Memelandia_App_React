@@ -40,7 +40,7 @@ export default function LikeMeme({ memeId, likeDislikeState, setLikeDislikeState
                 .catch(error => setServerMessage({ error: error.message }))
                 .finally(() => setIsLoading(false));
         } else {
-            Promise.all([                                                                               // Send two requests at the same time
+            Promise.all([                                                                               // Send two requests at the same time to add new like and remove dislike
                 likeDislikeState.dislikeHandler(),
                 likeDislikeState.likeHandler()
             ]);
