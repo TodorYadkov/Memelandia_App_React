@@ -90,8 +90,6 @@ export default function CardMeme({
             setIsFavorite(userDetails.favorite.some(favoriteMeme => favoriteMeme._id === _id));         // Use to set the state of the favorite
         }
 
-        console.log(likeDislikeState);
-
     }, [userDetails, getUserDetails]);
 
     const currentUser = {                                                                               // Get state of the current user
