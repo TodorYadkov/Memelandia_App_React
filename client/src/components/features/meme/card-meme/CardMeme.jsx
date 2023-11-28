@@ -77,16 +77,20 @@ export default function CardMeme({
         setLikeDislikeState(state => {                                                                  // Set State for likes and dislikes
             const currentState = {
                 ...state,
-                isUserAlreadyLiked: likes.includes(userDetails._id),                                    // Check for the status of the current user, whether he has liked the current card
-                isUserAlreadyDisliked: dislikes.includes(userDetails._id)                               // Check for the status of the current user, whether he has disliked the current card
+                isUserAlreadyLiked: likes.includes(userDetails._id)                                     // Check for the status of the current user, whether he has liked the current card from server
+                    || state.likeArr.includes(userDetails._id),                                         // from current state
+                isUserAlreadyDisliked: dislikes.includes(userDetails._id)                               // Check for the status of the current user, whether he has disliked the current card from server
+                    || state.dislikeArr.includes(userDetails._id)                                       // from current state    
             };
 
             return currentState;
         });
 
         if (userDetails?.favorite) {
-            setIsFavorite(userDetails.favorite.some(m => m._id === _id));                               // Use to set the state of the favorite
+            setIsFavorite(userDetails.favorite.some(favoriteMeme => favoriteMeme._id === _id));         // Use to set the state of the favorite
         }
+
+        console.log(likeDislikeState);
 
     }, [userDetails, getUserDetails]);
 
@@ -97,6 +101,10 @@ export default function CardMeme({
 
     const handleContextMenu = (e) => {                                                                  // Disable context menu with preventDefault
         e.preventDefault();
+    };
+
+    const handleClickFavorite = () => {
+        setIsFavorite(!isFavorite);
     };
 
     return (
@@ -132,7 +140,6 @@ export default function CardMeme({
                 </div>
             </header>
             <div className={styles['card-img-wrapper']}>
-
                 <Link to={`/memes/details/${memeDetails._id}`}><img src={memeDetails.imageUrl} alt={memeDetails.name} /></Link>
             </div>
 
@@ -150,7 +157,7 @@ export default function CardMeme({
                             <LikeMeme memeId={memeDetails._id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
                             <DislikeMeme memeId={memeDetails._id} likeDislikeState={likeDislikeState} setLikeDislikeState={setLikeDislikeState} />
                             <button onClick={setIsShownAddCommentModal} className={styles['btn-add-comment']}><i className="btn fa-solid fa-message"></i></button>
-                            <FavoriteMeme memeId={memeDetails._id} isFavorite={isFavorite} setIsFavorite={setIsFavorite} setUserDetails={setUserDetails} />
+                            <FavoriteMeme memeId={memeDetails._id} isFavorite={isFavorite} handleClickFavorite={handleClickFavorite} />
                         </>
                     }
 
