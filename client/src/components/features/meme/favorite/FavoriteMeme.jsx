@@ -9,7 +9,7 @@ import Loading from '../../../shared/loader/Loading';
 import Message from '../../../shared/messages/Message';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
-export default function FavoriteMeme({ memeId, isFavorite, setIsFavorite }) {
+export default function FavoriteMeme({ memeId, isFavorite, handleClickFavorite }) {
     const [isLoading, setIsLoading] = useState(false);
     const [serverMessage, setServerMessage] = useState({ error: '' });
 
@@ -20,7 +20,7 @@ export default function FavoriteMeme({ memeId, isFavorite, setIsFavorite }) {
         setIsLoading(true);
         api.get(endpoint.addRemoveFavoriteMeme(memeId))
             .then(serverData => {
-                setIsFavorite(!isFavorite);                                                             // Change state of the button of is favorite or no
+                handleClickFavorite();                                                                  // Change state of the button of is favorite or no
                 const updatedFavoriteList =                                                             // Save to variable updated favorite array
                     serverData.message === 'Successfully added new favorite meme.'                      // Check which action is enabled
                         ? [...getUserDetails.favorite, serverData.meme]                                 // Add current favorite meme to global state
@@ -41,6 +41,7 @@ export default function FavoriteMeme({ memeId, isFavorite, setIsFavorite }) {
     return (
         <>
             {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
+
             {!serverMessage?.error && (
                 <p>
                     {isLoading ? (
