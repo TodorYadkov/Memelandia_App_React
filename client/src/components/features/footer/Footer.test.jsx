@@ -1,0 +1,40 @@
+import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
+
+import Footer from './Footer';
+
+// Mock scrollToTop function
+vi.mock('../../utils/scrollToTop', () => ({
+    scrollToTop: vi.fn(),
+}));
+
+// Mock window.scrollTo
+beforeEach(() => {
+    window.scrollTo = vi.fn();
+});
+
+describe('Footer Component', () => {
+    it('renders the "Used Material" section', () => {
+        render(<Footer />);
+
+        const usedMaterialHeading = screen.getByText('Used Material');
+
+        expect(usedMaterialHeading).toBeInTheDocument();
+
+        // Add more assertions based on your component structure
+    });
+
+    it('renders the "About Me" section', () => {
+        render(<Footer />);
+        const aboutMeHeading = screen.getByText('About Me');
+        expect(aboutMeHeading).toBeInTheDocument();
+
+        // Add more assertions based on your component structure
+    });
+
+    it('renders the "Project Information" section', () => {
+        render(<Footer />);
+        const projectInfoHeading = screen.getByText('Project Information');
+        expect(projectInfoHeading).toBeInTheDocument();
+    });
+});
