@@ -4,5 +4,5 @@
 }
 
 .btn-dislike.disliked>i {
-    color: var(--color-dark-purple);
+    color: var(--color-red-disliked);
 }

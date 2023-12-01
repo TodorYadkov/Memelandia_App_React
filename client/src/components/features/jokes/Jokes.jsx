@@ -11,9 +11,10 @@ export default function Jokes() {
     const [serverMessage, setServerMessage] = useState({ error: '' });                                  // Use to display various messages from the server
 
     useEffect(() => {
-        // getJoke(); // TODO: uncomment this when all the other things are ready to not make many request to external api
+        getJoke();                                                                                      // Get all jokes
+
     }, []);
-    
+
     const jokeUrl = import.meta.env.VITE_JOKE_URL;                                                      // Get the url to the api from the environment     
     const getJoke = () => {                                                                             // Get joke function
         setIsLoading(true);
@@ -53,7 +54,7 @@ export default function Jokes() {
                     {
                         isLoading
                             ? <div className={styles['jokes-loader']}><Loading width={'35px'} height={'35px'} /></div>
-                            : <button onClick={clickHandler} className={`btn ${styles['more']}`}><i className="fa-solid fa-angles-right"></i></button>
+                            : <button onClick={clickHandler} className={styles['more']}><i className="btn fa-solid fa-angles-right"></i></button>
                     }
                 </div>
             </div>

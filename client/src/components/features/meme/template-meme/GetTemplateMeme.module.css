@@ -5,7 +5,7 @@
     padding: 1em;
     border-radius: 0.5em;
     background-color: rgb(255, 255, 255, 0.2);
-    box-shadow: 0 0 12px 6px rgb(255, 255, 255, 0.5);
+    box-shadow: 0 0 12px 2px rgb(255, 255, 255, 0.5);
 }
 
 .templates-heading h3 {
@@ -13,10 +13,6 @@
     text-align: center;
     font-size: 2em;
     font-weight: bolder;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-    text-decoration-thickness: 0.05em;
-    text-decoration-style: wavy;
 }
 
 .templates-image-wrapper {

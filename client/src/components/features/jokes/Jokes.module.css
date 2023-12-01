@@ -4,8 +4,6 @@
     justify-content: center;
     height: auto;
     color: var(--color-text);
-    background-color: var(--color-light-gray);
-    border: 2px solid var(--color-sky-blue);
     box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
     overflow: hidden;
     border-radius: 1em;
@@ -15,7 +13,7 @@
     display: flex;
     justify-content: center;
     gap: 2em;
-    background-color: var(--color-sky-blue);
+    background-color: var(--color-header-footer);
 }
 
 .jokes-wrapper-heading h3 {
@@ -24,7 +22,7 @@
     font-weight: bold;
     text-align: center;
     letter-spacing: 2px;
-    text-shadow: 1px 1px var(--color-text), 2px 2px var(--color-text), 3px 3px var(--color-text), 4px 4px var(--color-text), 5px 5px var(--color-text), 6px 6px var(--color-text);
+    text-shadow: 1px 1px var(--color-text), 2px 2px var(--color-text), 3px 3px var(--color-text);
     -webkit-text-fill-color: var(--color-white);
     -webkit-text-stroke: 1px;
     margin: 0.1em;
@@ -80,5 +78,6 @@
     padding: 0;
     border: 0;
     background-color: initial;
+    cursor: pointer;
     margin-right: 1em;
 }

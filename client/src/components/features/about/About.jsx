@@ -8,12 +8,12 @@ export default function About() {
     useEffect(() => {
         document.title = 'About page';                                                                  // Add page title
         scrollToTop();                                                                                  // Scroll to the top of the page
-        
+
     }, []);
 
     return (
         <section className={`${styles['about']} max-width`}>
-            <h1 className={styles['about-heading']}>About <span>Meme</span><span>Landia</span></h1>
+            <h1 className={styles['about-heading']}>About <span className={styles['about-heading-span']}><span>Meme</span><span>Landia</span></span></h1>
             <div className={styles['about-description']}>
                 <div className={styles['about-image-wrapper']}>
                     <img src="/assets/emoji-hi.svg" alt="Emoji hi" />
@@ -70,7 +70,7 @@ export default function About() {
                     language, and bring people closer together. Every meme shared is a step toward making the world
                     a better place, one smile at a time.</p>
             </div>
-            <p className={styles['about-slogan']}>&quot;Smile: Making the World a Better Place to Live&quot;</p>
+            <h2 className={styles['about-slogan']}>&quot;Smile: Making the World a Better Place to Live&quot;</h2>
         </section>
     );
 }

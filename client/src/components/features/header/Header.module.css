@@ -2,7 +2,7 @@
     cursor: default;
     position: relative;
     overflow: hidden;
-    background: var(--color-gradient-header);
+    background-color: #e9e0d4;
     max-width: 100%;
     height: auto;
 }
@@ -11,9 +11,7 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    font-family: 'Merienda', cursive;
     position: relative;
-    z-index: 1;
 }
 
 .content h2 {
@@ -25,50 +23,19 @@
 
 .content h2:nth-child(1) {
     color: transparent;
-    -webkit-text-stroke: 2px var(--color-dark-blue);
+    -webkit-text-stroke: 8px var(--color-white);
 }
 
 .content h2:nth-child(2) {
-    color: rgb(3, 68, 128, 0.8);
-    animation: animate 14s ease-in-out infinite;
+    color: var(--color-dark-blue);
 }
 
-.content h2:nth-child(1)>span:first-child {
-    text-shadow: none;
-    color: var(--color-sky-blue);
+.content h2:nth-child(2) span:nth-child(1) {
+    color: var(--color-blue);
 }
 
-.content h2:nth-child(1)>span:last-child {
-    text-shadow: none;
+.content h2:nth-child(2) span:nth-child(2) {
     color: var(--color-pink);
-}
-
-@keyframes animate {
-
-    0%,
-    100% {
-        clip-path: polygon(0% 45%,
-                16% 44%,
-                33% 50%,
-                54% 60%,
-                70% 61%,
-                84% 59%,
-                100% 52%,
-                100% 100%,
-                0% 100%);
-    }
-
-    50% {
-        clip-path: polygon(0% 60%,
-                15% 65%,
-                34% 66%,
-                51% 62%,
-                67% 50%,
-                84% 45%,
-                100% 46%,
-                100% 100%,
-                0% 100%);
-    }
 }
 
 .wave img {
@@ -162,8 +129,9 @@
 }
 
 .header-nav-background {
+    border-top: 1px solid rgba(192, 190, 190, 0.2);
     background-color: var(--color-header-footer);
-    padding-block: 0.25em;
+    padding-block: 1em;
 }
 
 .header-nav-wrapper {
@@ -174,12 +142,12 @@
 
 .site-logo {
     font-size: 1.8em;
-    font-weight: bold;
+    margin: -0.5em 0 0 0;
 }
 
 .site-logo a {
     text-decoration: none;
-    color: var(--color-sky-blue);
+    color: var(--color-blue);
     transition: color 2s;
 }
 
@@ -216,7 +184,7 @@
 }
 
 .ocean-wave {
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23003F7C'/%3E%3C/svg%3E");
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 88.7'%3E%3Cpath d='M800 56.9c-155.5 0-204.9-50-405.5-49.9-200 0-250 49.9-394.5 49.9v31.8h800v-.2-31.6z' fill='%23296c9a'/%3E%3C/svg%3E");
     position: absolute;
     width: 200%;
     height: 100%;
@@ -258,7 +226,7 @@
 
     .content h2:nth-child(1) {
         text-shadow: 1px 1px var(--color-white);
-        -webkit-text-stroke: 1px var(--color-sky-blue);
+        -webkit-text-stroke: 1px var(--color-primary);
     }
 
     .site-header .emoji-wrapper {

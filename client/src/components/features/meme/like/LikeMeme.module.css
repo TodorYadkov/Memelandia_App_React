@@ -4,5 +4,5 @@
 }
 
 .btn-like.liked>i {
-    color: var(--color-light-orange);
+    color: var(--color-green-liked);
 }

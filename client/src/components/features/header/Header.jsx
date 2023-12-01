@@ -56,15 +56,15 @@ export default function Header() {
                     <div className={styles['ocean-wave']}></div>
                 </div>
 
-                <img className={styles['wave-img-pink']} src="/assets/header-wave-pink.svg" alt="Header wave pink" />
+                <img className={styles['wave-img-pink']} src="/assets/header-wave-emoji.svg" alt="Header wave pink" />
                 <img className={styles['wave-img']} src="/assets/header-wave-small.svg" alt="Header wave" />
             </div>
 
             <div className={styles['header-nav-background']}>
                 <div className={`${styles['header-nav-wrapper']} container`}>
-                    <h2 className={styles['site-logo']}>
+                    <h4 className={styles['site-logo']}>
                         <NavLink to="/">Meme<span>Landia</span><span>world of memes</span></NavLink>
-                    </h2>
+                    </h4>
 
                     <Navigation />
 

@@ -54,6 +54,11 @@ h6 {
     font-weight: normal;
 }
 
+h1,
+h2 {
+    font-family: 'Merienda', cursive;
+}
+
 h1 {
     font-size: 3.0em;
 }

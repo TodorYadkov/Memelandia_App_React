@@ -13,7 +13,7 @@
 .modal-wrapper {
     display: flex;
     flex-direction: column;
-    background-color: var(--color-sky-blue);
+    background-color: var(--color-primary);
     border-radius: 0.5em;
     overflow: hidden;
 }
@@ -39,14 +39,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--color-sky-blue);
+    background-color: var(--color-primary);
     padding: 0.5em 1em;
 }
 
 .modal-footer::before {
     content: 'MemeLandia';
     display: inline-block;
-    color: transparent;
+    color: var(--color-text);
     letter-spacing: 1px;
     text-shadow: 1px 1px 1px rgb(255, 255, 255, 0.6);
 }

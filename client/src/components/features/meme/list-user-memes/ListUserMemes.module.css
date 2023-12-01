@@ -7,7 +7,6 @@
     color: var(--color-text);
     border-radius: 2em;
     overflow: hidden;
-    background-color: rgb(255, 255, 255, 0.5);
     box-shadow: 0 6px 12px 6px rgb(0, 0, 0, 0.3);
     padding: 1em;
     margin-bottom: 2em;
@@ -18,7 +17,7 @@
     font-size: 2.5em;
     -webkit-text-stroke: 1px;
     -webkit-text-stroke-color: var(--color-text);
-    -webkit-text-fill-color: var(--color-sky-blue);
+    -webkit-text-fill-color: var(--color-primary);
     text-align: center;
     font-weight: 500;
     text-shadow:
@@ -87,7 +86,7 @@
 }
 
 .no-content-user i {
-    color: var(--color-sky-blue);
+    color: var(--color-primary);
     transition: color 0.8s;
 }
 
