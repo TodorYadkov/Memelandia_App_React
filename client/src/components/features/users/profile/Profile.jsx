@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import { useApi } from '../../../core/hooks/useApi';
 import { useModal } from '../../../core/hooks/useModal';
-import { scrollToTop } from '../../../utils/scrollToTop';
 import { endpoint } from '../../../core/environments/constants';
 import { useAuthContext } from '../../../core/hooks/useAuthContext';
 
@@ -34,7 +33,6 @@ export default function Profile() {
         document.title = `Profile of ${getUserDetails['username']                                       // Add page title
             ? getUserDetails['username']
             : userDetails.username}`;
-        scrollToTop();                                                                                  // Scroll to the top of the page
 
         if (getUserDetails['_id']) {                                                                    // If the user has refreshed their browser, get their data from the server
             setUserDetails(getUserDetails);                                                             // Get user details from context (in memory)
