@@ -87,7 +87,9 @@ export default function CardMeme({
         });
 
         if (userDetails?.favorite) {
-            setIsFavorite(userDetails.favorite.some(favoriteMeme => favoriteMeme._id === _id));         // Use to set the state of the favorite
+            setIsFavorite(userDetails.favorite.some(favoriteMeme => (                                   // Use to set the state of the favorite
+                favoriteMeme._id === _id
+                || favoriteMeme === _id)));         
         }
 
     }, [userDetails, getUserDetails]);
