@@ -111,10 +111,10 @@ const isBase64 = (value, helpers) => {
 
 // Validate input on create, update meme
 const validateMemeSchema = joi.object({
-    name: joi.string().trim().min(2).max(30).required().messages({
+    name: joi.string().trim().min(2).max(50).required().messages({
         'string.base': 'Name must be a string',
         'string.min': 'Name must be at least two characters long',
-        'string.max': 'Name must not exceed thirty characters',
+        'string.max': 'Name must not exceed fifty characters',
         'any.required': 'Name is required'
     }),
 
