@@ -154,7 +154,7 @@ export default function MemeForm({
                             value={formValues['fsz-top'] || '22'}
                             onChange={saveCurrentInputState}
                             min="12"
-                            max="50"
+                            max="120"
                         />
 
                         <label
@@ -184,7 +184,6 @@ export default function MemeForm({
                         />
                     </div>
                 </div>
-
 
                 {inputCount > 2 && (Array(inputCount - MEME_INPUT_COUNT).fill('new_input').map((_, index) => (
                     <div key={index} className={styles['control']}>
@@ -216,7 +215,7 @@ export default function MemeForm({
                                 value={formValues[`fsz-${index + 1}`] || '22'}
                                 onChange={saveCurrentInputState}
                                 min="12"
-                                max="50"
+                                max="120"
                             />
 
                             <label
@@ -248,8 +247,7 @@ export default function MemeForm({
                     </div>
                 ))
                 )}
-
-
+            
                 <div className={`${styles['control']} ${styles['last-element']}`}>
                     <label
                         className={styles['label']}
@@ -278,7 +276,7 @@ export default function MemeForm({
                             value={formValues['fsz-bottom'] || '22'}
                             onChange={saveCurrentInputState}
                             min="12"
-                            max="50"
+                            max="120"
                         />
 
                         <label
