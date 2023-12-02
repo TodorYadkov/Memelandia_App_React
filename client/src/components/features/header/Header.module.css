@@ -3,6 +3,7 @@
     position: relative;
     overflow: hidden;
     background-color: #e9e0d4;
+    background-image: linear-gradient(0deg, #fad7a1, #f8be8b, #f5a47b, #f18973, #e96d71);
     max-width: 100%;
     height: auto;
 }
@@ -109,6 +110,7 @@
 .emoji-group .emoji {
     width: 50%;
     height: 50%;
+    filter: drop-shadow(0 0 2px black);
     transition: transform 0.8s ease-in-out;
 }
 
@@ -129,6 +131,7 @@
 }
 
 .header-nav-background {
+    /* border-top: 1px solid rgb(230, 13, 100); */
     border-top: 1px solid rgba(192, 190, 190, 0.2);
     background-color: var(--color-header-footer);
     padding-block: 1em;
