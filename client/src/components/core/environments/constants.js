@@ -1,4 +1,5 @@
-const host = 'http://localhost:3000/';
+// const host = 'http://localhost:3000/';
+const host = 'https://memelandia-server.vercel.app/';
 
 const endpoint = {
     register: 'users/register',                                                                         // post
