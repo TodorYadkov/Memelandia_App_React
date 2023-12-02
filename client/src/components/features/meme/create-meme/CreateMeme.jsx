@@ -28,6 +28,7 @@ export default function CreateMeme() {
     const { addUserSession, getUserDetails, getUserToken } = useAuthContext();
 
     useEffect(() => {
+        document.title = 'Create Meme';                                                                 // Add page title
         if (newMemeDataUrl) {                                                                           // Check if has new screenshot create meme on the server and upload the image on the cloud
             setIsLoading(true);
             const { name, category } = formValues;                                                      // Get only needed values from formValues
