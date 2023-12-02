@@ -12,5 +12,5 @@ export const MEME_CATEGORY = ['Funny', 'Sports', 'Politics', 'Science',
     'Relationships', 'Humor', 'Other'];
 
 export const MEME_INPUT_COUNT = 2;
-export const MEME_MAX_INPUT_COUNT = 6;
+export const MEME_MAX_INPUT_COUNT = 20;
 export const MEME_MIN_INPUT_COUNT = 2;
