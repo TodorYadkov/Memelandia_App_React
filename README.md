@@ -125,7 +125,7 @@ For a detailed analysis of dependencies, you can run dependency-cruiser in your 
 ![Home Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8e34e952-35e6-4188-b395-49d9b1427af8)
 
 #### Memeboard Page
-![Memeboard Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/9017ef36-f77f-425c-8c78-73639815d8dd)
+![Memeboard Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/e96a3d4c-cc9c-4fcb-99ed-6cfee8a073b4)
 
 #### Login Page
 ![Login Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/4b305d89-00cb-410f-85f1-7c3043a1009c)
