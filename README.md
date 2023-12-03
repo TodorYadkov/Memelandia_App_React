@@ -90,7 +90,6 @@ The following application architecture diagram is generated using [dependency-cr
 
    ![Architecture from dependency-cruiser](/client/dependency-graph.svg)
 
-**Key:**
 -   **Arrows:** Represent the direction of the dependencies (from → to).
 
 For a detailed analysis of dependencies, you can run dependency-cruiser in your project. To get started, visit the [dependency-cruiser on NPM](https://www.npmjs.com/package/dependency-cruiser)
