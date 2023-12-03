@@ -95,18 +95,49 @@ The following application architecture diagram is generated using [dependency-cr
 
 For a detailed analysis of dependencies, you can run dependency-cruiser in your project. To get started, visit the [dependency-cruiser on NPM](https://www.npmjs.com/package/dependency-cruiser)
 
-
-
 ## Screenshots
 
 ### Desktop
+#### Home Page
+![Home Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/9671b565-b2f8-4f60-851c-69719e3b5850)
 
--   ![Desktop Screenshot 1](path/to/desktop-screenshot-1.png)
--   ![Desktop Screenshot 2](path/to/desktop-screenshot-2.png)
--   ![Desktop Screenshot 3](path/to/desktop-screenshot-3.png)
+#### Memeboard Page
+![Memeboard Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8ea4e942-8282-47a8-94ec-e2a74c83160a)
+
+#### Login Page
+![Login Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/f70872aa-e273-4fa6-86f6-eac5547551a6)
+
+#### Register Page
+![Register Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/55c05f9e-0193-4a7c-8219-5ded0615cb82)
+
+#### About Page
+![About Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/66dc0888-1766-4c3a-a0cd-f37d7a995d84)
+
+#### Create Page
+![Create Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/12f74d18-484c-418c-9fc4-51b053b98cc7)
+
+#### Profile Page
+![Profile Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/61b9ed7f-725c-4f15-bfbf-83fd197de12d)
+
 
 ### Mobile
+#### Home Page
+![Home Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8e34e952-35e6-4188-b395-49d9b1427af8)
 
--   ![Mobile Screenshot 1](path/to/mobile-screenshot-1.png)
--   ![Mobile Screenshot 2](path/to/mobile-screenshot-2.png)
--   ![Mobile Screenshot 3](path/to/mobile-screenshot-3.png)
+#### Memeboard Page
+![Memeboard Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/2ffcb40d-a5a6-409b-82f0-58b0efd4970c)
+
+#### Login Page
+![Login Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/4b305d89-00cb-410f-85f1-7c3043a1009c)
+
+#### Register Page
+![Register Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/6e19e81d-2e9b-4139-9a40-c167200da652)
+
+#### About Page
+![About Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b2aabdec-e4f5-42f7-bac0-df7b825a7b94)
+
+#### Create Page
+![Create Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b81f8ddf-1a4b-4a29-b641-e1012b8027a5)
+
+#### Profile Page
+![Profile Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/7383d464-ba2d-46e3-8f70-31fb9c813037)
