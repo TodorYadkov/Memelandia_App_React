@@ -35,12 +35,8 @@
 }
 
 @media (max-width: 600px) {
-    .register-left {
-        display: none;
-    }
-
-    .register-right {
-        flex: 100%;
+    .register {
+        flex-direction: column-reverse;
     }
 }
 

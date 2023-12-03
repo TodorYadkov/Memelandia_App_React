@@ -35,12 +35,8 @@
 }
 
 @media (max-width: 600px) {
-    .login-left {
-        display: none;
-    }
-
-    .login-right {
-        flex: 100%;
+    .login {
+        flex-direction: column-reverse;
     }
 }
 
