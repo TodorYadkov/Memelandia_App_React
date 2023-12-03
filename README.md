@@ -10,6 +10,7 @@ Welcome to Memelandia, a platform that empowers users to create, share, and enga
 4. [Deployment](#deployment)
 5. [Application Architecture](#application-architecture)
 6. [Screenshots](#screenshots)
+7. [License](#license)
 
 ## Overview
 
@@ -140,3 +141,6 @@ For a detailed analysis of dependencies, you can run dependency-cruiser in your 
 
 #### Profile Page
 ![Profile Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/7383d464-ba2d-46e3-8f70-31fb9c813037)
+
+# License
+This project is licensed under the MIT License
