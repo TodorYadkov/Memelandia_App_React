@@ -39,7 +39,7 @@ export default function Home() {
     return (
         <section className={`${styles['home']} max-width`}>
             <div className={styles['top-rated-memes']}>
-                <h2> Top three rated memes</h2>
+                <h2><span>Top</span> <span>Three</span> <span>rated memes</span></h2>
 
                 {(serverMessage?.error && !isLoading) && <Message type="error" message={serverMessage.error} />}
 

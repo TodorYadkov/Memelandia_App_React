@@ -30,6 +30,19 @@
     transition: all 1s ease-in-out;
 }
 
+.top-rated-memes>h2 span:nth-child(1) {
+    color: var(--color-blue);
+}
+
+.top-rated-memes>h2 span:nth-child(2) {
+    color: var(--color-pink);
+}
+
+.top-rated-memes>h2 span:nth-child(3) {
+    display: block;
+    font-size: 0.7em;
+}
+
 .top-rated-memes>h2:hover {
     color: var(--color-white);
     text-shadow:
