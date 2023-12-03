@@ -88,7 +88,7 @@ To integrate ImgBB into your project:
 
 The following application architecture diagram is generated using [dependency-cruiser](https://github.com/sverweij/dependency-cruiser). It visually represents the dependencies within the project.
 
-    [![Dependency Graph](client/dependency-graph.svg)](client/dependency-graph.html)
+[![Dependency Graph](client/dependency-graph.svg)](client/dependency-graph.html)
 
 **Key:**
 -   **Arrows:** Represent the direction of the dependencies (from → to).
