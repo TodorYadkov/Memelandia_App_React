@@ -456,4 +456,4 @@ module.exports = {
     }
   }
 };
-// generated: dependency-cruiser@15.4.0 on 2023-11-23T15:05:45.793Z
+// generated: dependency-cruiser@15.4.0 on 2023-12-05T16:51:41.852Z
