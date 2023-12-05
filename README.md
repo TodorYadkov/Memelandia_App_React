@@ -92,8 +92,6 @@ The following application architecture diagram is generated using [dependency-cr
    ![Architecture from dependency-cruiser](/client/dependency-graph-main.svg)
    ![Memelandia_App_React_client_high-level-dependencies](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b5f29627-783a-4522-b2fe-96131c37c853)
 
--   **Arrows:** Represent the direction of the dependencies (from → to).
-
 For a detailed analysis of dependencies, you can run dependency-cruiser in your project. To get started, visit the [dependency-cruiser on NPM](https://www.npmjs.com/package/dependency-cruiser)
 
 ## Screenshots
