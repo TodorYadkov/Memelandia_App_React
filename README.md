@@ -11,6 +11,8 @@ Welcome to Memelandia, a platform that empowers users to create, share, and enga
 5. [Application Architecture](#application-architecture)
 6. [Screenshots](#screenshots)
 7. [License](#license)
+8. [Client Readme](https://github.com/TodorYadkov/Memelandia_App_React/blob/main/client/README.md) (Opens in a new tab)
+9. [Server Readme](https://github.com/TodorYadkov/Memelandia_App_React/blob/main/server/README.md) (Opens in a new tab)
 
 ## Overview
 
