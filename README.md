@@ -100,19 +100,19 @@ For a detailed analysis of dependencies, you can run dependency-cruiser in your 
 
 ### Desktop
 
-#### Home Page
+#### Home Page - Top three rated memes
 
 ![Home Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/9671b565-b2f8-4f60-851c-69719e3b5850)
 
-#### Memeboard Page
+#### Memeboard Page - Display the Latest Memes with infinite scroll pagination
 
 ![Memeboard Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8ea4e942-8282-47a8-94ec-e2a74c83160a)
 
-#### Login Page - Shows the highest rated meme
+#### Login Page - Display the highest rated meme
 
 ![Login Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/f70872aa-e273-4fa6-86f6-eac5547551a6)
 
-#### Register Page - Shows the second highest rated meme
+#### Register Page - Display the second highest rated meme
 
 ![Register Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/55c05f9e-0193-4a7c-8219-5ded0615cb82)
 
@@ -130,11 +130,11 @@ For a detailed analysis of dependencies, you can run dependency-cruiser in your 
 
 ### Mobile
 
-#### Home Page
+#### Home Page - Top three rated memes
 
 ![Home Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8e34e952-35e6-4188-b395-49d9b1427af8)
 
-#### Memeboard Page
+#### Memeboard Page - Display the Latest Memes with infinite scroll pagination
 
 ![Memeboard Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/e96a3d4c-cc9c-4fcb-99ed-6cfee8a073b4)
 
