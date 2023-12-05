@@ -20,21 +20,21 @@ describe('Footer Component', () => {
         const usedMaterialHeading = screen.getByText('Used Material');
 
         expect(usedMaterialHeading).toBeInTheDocument();
-
-        // Add more assertions based on your component structure
     });
 
     it('renders the "About Me" section', () => {
         render(<Footer />);
-        const aboutMeHeading = screen.getByText('About Me');
-        expect(aboutMeHeading).toBeInTheDocument();
 
-        // Add more assertions based on your component structure
+        const aboutMeHeading = screen.getByText('About Me');
+
+        expect(aboutMeHeading).toBeInTheDocument();
     });
 
     it('renders the "Project Information" section', () => {
         render(<Footer />);
+
         const projectInfoHeading = screen.getByText('Project Information');
+
         expect(projectInfoHeading).toBeInTheDocument();
     });
 });
