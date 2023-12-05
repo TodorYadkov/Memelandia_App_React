@@ -3,13 +3,11 @@ import { vi } from 'vitest';
 
 import Footer from './Footer';
 
-// Mock scrollToTop function
-vi.mock('../../utils/scrollToTop', () => ({
+vi.mock('../../utils/scrollToTop', () => ({                                                             // Mock scrollToTop function
     scrollToTop: vi.fn(),
 }));
 
-// Mock window.scrollTo
-beforeEach(() => {
+beforeEach(() => {                                                                                      // Mock window.scrollTo
     window.scrollTo = vi.fn();
 });
 

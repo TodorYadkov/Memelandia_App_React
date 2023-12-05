@@ -9,7 +9,7 @@ export default function formatDateToTimeAgo(isoDateString) {                    
     const days = Math.floor(hours / 24);                                                                // Convert time difference to days
     const years = Math.floor(days / 365);                                                               // Convert time difference to years
 
-    if (years > 0) {                                                                                     // Return time ago representation
+    if (years > 0) {                                                                                    // Return time ago representation
         return `${years} year${years === 1 ? '' : 's'}`;
 
     } else if (days > 0) {
