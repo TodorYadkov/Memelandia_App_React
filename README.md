@@ -89,57 +89,75 @@ To integrate ImgBB into your project:
 
 The following application architecture diagram is generated using [dependency-cruiser](https://github.com/sverweij/dependency-cruiser). It visually represents the dependencies within the project.
 
-   ![Architecture from dependency-cruiser](/client/dependency-graph-main.svg)
-   ![Memelandia_App_React_client_high-level-dependencies](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b5f29627-783a-4522-b2fe-96131c37c853)
+Explore the live flow of the Memelandia App architecture by visiting the [Live Flow Page](https://todoryadkov.github.io/Memelandia_App_React_Live_Flow_Architecture/)
+
+![Architecture from dependency-cruiser](/client/dependency-graph-main.svg)
+![Memelandia_App_React_client_high-level-dependencies](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b5f29627-783a-4522-b2fe-96131c37c853)
 
 For a detailed analysis of dependencies, you can run dependency-cruiser in your project. To get started, visit the [dependency-cruiser on NPM](https://www.npmjs.com/package/dependency-cruiser)
 
 ## Screenshots
 
 ### Desktop
+
 #### Home Page
+
 ![Home Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/9671b565-b2f8-4f60-851c-69719e3b5850)
 
 #### Memeboard Page
+
 ![Memeboard Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8ea4e942-8282-47a8-94ec-e2a74c83160a)
 
 #### Login Page - Shows the highest rated meme
+
 ![Login Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/f70872aa-e273-4fa6-86f6-eac5547551a6)
 
 #### Register Page - Shows the second highest rated meme
+
 ![Register Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/55c05f9e-0193-4a7c-8219-5ded0615cb82)
 
 #### About Page
+
 ![About Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/66dc0888-1766-4c3a-a0cd-f37d7a995d84)
 
 #### Create Page
+
 ![Create Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/12f74d18-484c-418c-9fc4-51b053b98cc7)
 
 #### Profile Page
+
 ![Profile Page](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/61b9ed7f-725c-4f15-bfbf-83fd197de12d)
 
-
 ### Mobile
+
 #### Home Page
+
 ![Home Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/8e34e952-35e6-4188-b395-49d9b1427af8)
 
 #### Memeboard Page
+
 ![Memeboard Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/e96a3d4c-cc9c-4fcb-99ed-6cfee8a073b4)
 
 #### Login Page - Shows the highest rated meme
+
 ![Login Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/4b305d89-00cb-410f-85f1-7c3043a1009c)
 
 #### Register Page - Shows the second highest rated meme
+
 ![Register Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/6e19e81d-2e9b-4139-9a40-c167200da652)
 
 #### About Page
+
 ![About Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b2aabdec-e4f5-42f7-bac0-df7b825a7b94)
 
 #### Create Page
+
 ![Create Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b81f8ddf-1a4b-4a29-b641-e1012b8027a5)
 
 #### Profile Page
+
 ![Profile Page - Mobile](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/7383d464-ba2d-46e3-8f70-31fb9c813037)
 
 # License
+
 This project is licensed under the MIT License
