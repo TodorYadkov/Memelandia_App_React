@@ -28,7 +28,7 @@ Memelandia enables users to:
 
 ## Demo
 
-Check out the live demo of MemeLandia at [https://memelandia.vercel.app/](https://memelandia.vercel.app/)
+Check out the live demo of MemeLandia at [https://memelandia.vercel.app](https://memelandia.vercel.app/)
 
 For a quick exploration, you can use the following demo accounts:
 
