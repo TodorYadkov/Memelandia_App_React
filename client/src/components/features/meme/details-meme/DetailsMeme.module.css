@@ -7,3 +7,38 @@
 .details-comments {
     margin-top: -4em;
 }
+
+.details-comments-no-login,
+.details-comments-no-login a,
+.details-comments-no-login a i {
+    color: var(--color-text);
+}
+
+.details-comments-no-login {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-primary);
+    box-shadow: 0 6px 12px 4px rgb(0, 0, 0, 0.3);
+    border-radius: 0.5em;
+}
+
+.details-comments-no-login a {
+    display: block;
+    text-decoration: none;
+}
+
+.details-comments-no-login a:hover {
+    color: var(--color-hover);
+}
+
+.details-comments-no-login i {
+    transition: all 0.8s ease-in-out;
+}
+
+.details-comments-no-login i:hover {
+    color: var(--color-hover);
+    transform: scale(1.3);
+}
