@@ -13,10 +13,10 @@
     "test:watch": "vitest",
     "depcruise": "npx depcruise src --include-only \"^src\" --output-type dot | dot -T svg > dependency-graph.svg",
     "depcruise:archi": "depcruise --version && depcruise --config depcruise-config.cjs --output-type archi src | dot -T svg | depcruise-wrap-stream-in-html > high-level-dependencies.html"
-
   },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@testing-library/user-event": "^14.5.1",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
