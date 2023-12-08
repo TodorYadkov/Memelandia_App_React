@@ -13,6 +13,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     css: true,
-    setupFiles: ['./jest-setup.js'],
+    setupFiles: ['./test-setup.js'],
   },
 });
