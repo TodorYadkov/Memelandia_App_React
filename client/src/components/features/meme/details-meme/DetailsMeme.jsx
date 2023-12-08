@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import styles from './DetailsMeme.module.css';
 import { useApi } from '../../../core/hooks/useApi';
@@ -51,12 +51,21 @@ export default function DetailsMeme() {
 
                     </div>
                     {
-                        isLoggedIn && (
-                            <div className={styles['details-comments']}>
-                                {currentMeme?._id && <ListComments memeInfo={currentMeme} allComments={allComments} setAllComments={setAllComments} />}
+                        isLoggedIn
+                            ? (
+                                <div className={styles['details-comments']}>
+                                    {currentMeme?._id && <ListComments memeInfo={currentMeme} allComments={allComments} setAllComments={setAllComments} />}
 
-                            </div>
-                        )
+                                </div>
+                            )
+                            : (
+                                <div className={styles['details-comments']}>
+                                    <h3 className={styles['details-comments-no-login']}>
+                                        Please log in to view comments.
+                                        <Link to="/login">Log in here <i className="fa-regular fa-face-grin"></i></Link>
+                                    </h3>
+                                </div>
+                            )
                     }
                 </>
             }
