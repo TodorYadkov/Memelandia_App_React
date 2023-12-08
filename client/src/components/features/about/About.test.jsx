@@ -1,5 +1,5 @@
 import { screen, render } from '@testing-library/react';
-import { vi } from 'vitest';
+import { vi, describe, expect } from 'vitest';
 
 import About from './About';
 
@@ -11,7 +11,7 @@ beforeEach(() => {                                                              
     window.scrollTo = vi.fn();
 });
 
-describe('About Component', () => {
+describe('Test About Component', () => {
     it('sets the document title to "About page"', () => {
         render(<About />);                                                                              // Arrange
 
