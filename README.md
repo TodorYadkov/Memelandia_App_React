@@ -94,7 +94,7 @@ The following application architecture diagram is generated using [dependency-cr
 Explore the live flow of the Memelandia App architecture by visiting the [Live Flow Page](https://todoryadkov.github.io/Memelandia_App_React_Live_Flow_Architecture/)
 
 ![Architecture from dependency-cruiser](/client/dependency-graph-main.svg)
-![Memelandia_App_React_client_high-level-dependencies](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/b5f29627-783a-4522-b2fe-96131c37c853)
+![Memelandia_App_React_client_high-level-dependencies](https://github.com/TodorYadkov/Memelandia_App_React/assets/4013980/c947ad9c-9ab0-4edb-a845-d1e4475a384c)
 
 For a detailed analysis of dependencies, you can run dependency-cruiser in your project. To get started, visit the [dependency-cruiser on NPM](https://www.npmjs.com/package/dependency-cruiser)
 
