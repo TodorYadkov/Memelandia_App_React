@@ -14,7 +14,7 @@ import AddCommentModal from '../add-comment/AddCommentModal';
 import EditCommentModal from '../edit-comment/EditCommentModal';
 import DeleteCommentModal from '../delete-comment/DeleteCommentModal';
 
-export default function ListComments({ memeInfo, allComments, setAllComments }) {           
+export default function ListComments({ memeInfo, allComments, setAllComments }) {
     const [commentDetails, setCommentDetails] = useState({});                                           // Use to show details for one comment              
     const [userDetails, setUserDetails] = useState({});                                                 // Use of customer details to access various functionalities
     const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +124,8 @@ export default function ListComments({ memeInfo, allComments, setAllComments }) 
                     ))
                 )
                 : <p className={styles['no-comments']}> No comments yet.
-                    {(userDetails?._id !== memeInfo.author._id) &&
+                    {
+                        (userDetails?._id !== memeInfo.author._id) &&
                         (
                             <button onClick={setIsShownAddCommentModal}
                                 className={styles['btn-add-new-comment']}>
