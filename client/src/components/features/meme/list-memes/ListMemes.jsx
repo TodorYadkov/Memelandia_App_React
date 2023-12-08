@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSearchParams } from 'react-router-dom';
 
 import styles from './ListMemes.module.css';
-import { scrollToTop } from '../../../utils/scrollToTop';
+import { useDebounce } from '../../../core/hooks/useDebounce';
 import { endpoint } from '../../../core/environments/constants';
 import { MEME_CATEGORY, MEME_FIELD } from '../memeFieldConstants';
 
@@ -24,15 +24,8 @@ export default function ListMemes() {
         return endpoint.getAllMemes;                                                                    // Return endpoint to get all memes   
     });
 
-    // Use react-hook-form https://react-hook-form.com/docs/useform/register
-    const { register, handleSubmit, reset, formState: { errors, isValid, touchedFields }, setValue } = useForm({
-        mode: 'onBlur',
-        reValidateMode: 'onBlur'
-    });
-
     useEffect(() => {
         document.title = 'Memeboard';                                                                   // Add page title
-        scrollToTop();                                                                                  // Scroll to the top of the page
 
         if (searchParams.get('name') || searchParams.get('category')) {                                 // If the meme list is invoked with query parameters
             const query = {                                                                             // Create an object with query parameters and select the desired category
@@ -48,6 +41,27 @@ export default function ListMemes() {
         }
 
     }, [searchParams]);
+
+    // Use react-hook-form https://react-hook-form.com/docs/useform/register
+    const { register, handleSubmit, reset, formState: { errors, isValid, touchedFields }, setValue, watch } = useForm({
+        mode: 'onBlur',
+        reValidateMode: 'onBlur'
+    });
+
+    const searchWithDebounce = {                                                                        // When user types, get values and send request with wait
+        name: watch(MEME_FIELD.name),                                                                   // Watch the search input selection
+        category: watch(MEME_FIELD.category)                                                            // Watch the category selection
+    };
+
+    const [debouncedSearch, resetDebouncedSearch] = useDebounce(searchWithDebounce, 800);               // Debounce the search input (custom hook)
+
+    useEffect(() => {                                                                                   // Use to track changes as the user types and to implement debounce
+        const query = debouncedSearch;                                                                  // get values with delay to be set like a query in address bar
+        if (query.name || query.category) {                                                             // Check for values, only when there is, send request                                                          
+            submitHandler(query);                                                                       // Execute request
+        }
+
+    }, [debouncedSearch]);
 
     const submitHandler = (searchCriteria) => {                                                         // Get data from the search form
         const memeName = searchCriteria.name.trim();                                                    // Trim user input
@@ -68,6 +82,7 @@ export default function ListMemes() {
         reset();                                                                                        // Reset from react-hook-library
         setEndpointMemes(endpoint.getAllMemes);                                                         // Get all memes from the server with an empty query string
         setSearchParams({});                                                                            // Reset address bar state
+        resetDebouncedSearch();                                                                         // Reset values in custom hook
     };
 
     return (
