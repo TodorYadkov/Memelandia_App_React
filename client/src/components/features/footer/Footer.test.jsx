@@ -11,7 +11,7 @@ beforeEach(() => {                                                              
     window.scrollTo = vi.fn();
 });
 
-describe('Footer Component', () => {
+describe('Test Footer Component', () => {
     it('renders the "Used Material" section', () => {
         render(<Footer />);
 
