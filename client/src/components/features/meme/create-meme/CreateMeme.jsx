@@ -33,8 +33,8 @@ export default function CreateMeme() {
             setIsLoading(true);
             const { name, category } = formValues;                                                      // Get only needed values from formValues
             const serverData = {                                                                        // Create object with data to the server
-                name,
-                category,
+                name: name.trim(),
+                category: category.trim(),
                 imageData: newMemeDataUrl                                                               // Add a current screenshot to be sent to the server from where it is uploaded to the cloud
             };
 
