@@ -5,6 +5,10 @@
     gap: 1em;
 }
 
+.heading-delete {
+    color: var(--color-text);
+}
+
 .btn-delete {
     all: unset;
     cursor: pointer;
